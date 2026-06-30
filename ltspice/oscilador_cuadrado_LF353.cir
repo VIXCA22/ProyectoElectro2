@@ -1,0 +1,31 @@
+* IE0413 Electronica II - Oscilador astable de onda cuadrada con LF353
+* f0 = (X + Y/10 + Z/100) kHz
+
+.include "lf353.mod"
+
+.param X=1
+.param Y=2
+.param Z=3
+.param f0={1k*(X+Y/10+Z/100)}
+.param beta=0.5
+.param Cosc=10n
+* Ktrim compensa el retardo/saturacion del macromodelo LF353 no ideal.
+.param Ktrim=1.0462
+.param Rosc={Ktrim/(2*f0*Cosc*ln((1+beta)/(1-beta)))}
+
+VCC Vp 0 15
+VEE Vm 0 -15
+
+Rsch1 sq nsch 100k
+Rsch2 nsch 0 100k
+Rosc1 sq ncap {Rosc}
+Cosc1 ncap 0 {Cosc} ic=0.1
+XOSC nsch ncap Vp Vm sq LF353/NS
+
+.options plotwinsize=0 reltol=0.001 abstol=1n
+.save V(sq) V(ncap)
+.tran 0 {25/f0} 0 {1/(500*f0)} uic
+.meas tran T_square TRIG V(sq) VAL=0 RISE=12 TARG V(sq) VAL=0 RISE=13
+.meas tran f_square PARAM 1/T_square
+
+.end

@@ -1,0 +1,11 @@
+# LTspice generated files
+*.raw
+*.op.raw
+*.log
+*.db
+*.net
+*.backanno
+
+# OS/editor noise
+Thumbs.db
+.DS_Store

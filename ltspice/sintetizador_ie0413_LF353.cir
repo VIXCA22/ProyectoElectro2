@@ -1,0 +1,73 @@
+* IE0413 Electronica II - Captura transitoria de las cuatro formas de onda
+*
+* Este archivo es estable para graficar V(sq), V(saw), V(tri), V(sine) juntas.
+* Las fuentes Vsq, Vsaw y Vtri representan las salidas de las etapas disenadas
+* en los archivos individuales. El filtro de orden 5 si esta implementado con LF353.
+
+.include "lf353.mod"
+
+.param X=1
+.param Y=2
+.param Z=3
+.param f0={1k*(X+Y/10+Z/100)}
+.param ftri={f0/2}
+.param tr={1/(500*f0)}
+.param VsawPk=5
+.param VtriPk=2
+
+* Filtro pasabajas de orden 5. Z=1..3 Bessel, Z=4..6 Butterworth, Z=7..9 Chebyshev 0.5 dB.
+.param fc={1.25*ftri}
+.param resp={if(Z<4,1,if(Z<7,2,3))}
+.param Cf=10n
+.param p1mul={if(resp==1,1.5023162714,if(resp==2,1,0.3623196242))}
+.param s1mul={if(resp==1,1.5563471223,if(resp==2,1,0.6904831735))}
+.param q1={if(resp==1,0.5635356209,if(resp==2,0.6180339887,1.1778055654))}
+.param s2mul={if(resp==1,1.7553777766,if(resp==2,1,1.0177347431))}
+.param q2={if(resp==1,0.9164773739,if(resp==2,1.6180339887,4.5449633297))}
+.param k1={3-1/q1}
+.param k2={3-1/q2}
+.param Rlp1={1/(2*pi*fc*p1mul*Cf)}
+.param Rsk1={1/(2*pi*fc*s1mul*Cf)}
+.param Rsk2={1/(2*pi*fc*s2mul*Cf)}
+.param RattBot=100k
+.param RattTop={RattBot*(k1*k2-1)}
+
+VCC Vp 0 15
+VEE Vm 0 -15
+
+* Formas equivalentes para captura conjunta.
+Vsq sq 0 PULSE(-5 5 0 {tr} {tr} {1/(2*f0)-tr} {1/f0})
+Vsaw saw 0 PULSE(0 {VsawPk} 0 {0.96/(2*f0)} {0.02/(2*f0)} {0.01/(2*f0)} {1/(2*f0)})
+Vtri tri 0 PULSE({-VtriPk} {VtriPk} 0 {1/f0} {1/f0} 1n {2/f0})
+
+* Filtro de la onda triangular hacia senoide.
+Ratt1 tri filt_in {RattTop}
+Ratt2 filt_in 0 {RattBot}
+Rfo filt_in nfo {Rlp1}
+Cfo nfo 0 {Cf}
+XFOBUF nfo fo Vp Vm fo LF353/NS
+XSK1 fo sk1 Vp Vm SKLP PARAMS: RVAL={Rsk1} CVAL={Cf} KVAL={k1}
+XSK2 sk1 sine Vp Vm SKLP PARAMS: RVAL={Rsk2} CVAL={Cf} KVAL={k2}
+
+.subckt SKLP IN OUT VP VM PARAMS: RVAL=10k CVAL=10n KVAL=1.586 RGAIN=10k
+R1 IN n1 {RVAL}
+R2 n1 n2 {RVAL}
+C1 n1 OUT {CVAL}
+C2 n2 0 {CVAL}
+Rg ninv 0 {RGAIN}
+Rf OUT ninv {(KVAL-1)*RGAIN}
+XU n2 ninv VP VM OUT LF353/NS
+.ends SKLP
+
+.options plotwinsize=0 reltol=0.001 abstol=1n
+.save V(sq) V(saw) V(tri) V(sine)
+.tran 0 {8/ftri} 0 {1/(500*f0)}
+
+.meas tran T_square TRIG V(sq) VAL=0 RISE=3 TARG V(sq) VAL=0 RISE=4
+.meas tran f_square PARAM 1/T_square
+.meas tran T_saw TRIG V(saw) VAL={VsawPk/2} RISE=5 TARG V(saw) VAL={VsawPk/2} RISE=6
+.meas tran f_saw PARAM 1/T_saw
+.meas tran T_tri TRIG V(tri) VAL=0 RISE=3 TARG V(tri) VAL=0 RISE=4
+.meas tran f_tri PARAM 1/T_tri
+
+.end

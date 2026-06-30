@@ -4,6 +4,8 @@ Esta guia esta pensada para apoyar la memoria de calculo, no para pegarla como t
 
 Nota importante: el PDF `Plantilla_ProgramaCursos_EIE _IE0435.pdf` corresponde a otro curso. Para este trabajo se usa el enunciado `Proyecto - IE0413-2.pdf`, de Electronica II.
 
+Realimentacion nueva: se pueden presentar calculos en LaTeX, siempre que esten desarrollados paso a paso. Para eso se agrego `memoria_calculo_detallada.tex`, con despejes y sustituciones numericas.
+
 Todas las etapas con amplificador operacional usan el macromodelo no ideal `LF353/NS`, incluido localmente en `ltspice/lf353.mod`. No se usa el simbolo ideal `opamp2` como amplificador operacional.
 
 ## Parametros base
@@ -143,6 +145,7 @@ R_SK2       = 1/(2 pi fn2 C)
 - `ltspice/filtro5_bode_LF353.cir`: AC/Bode del filtro de orden 5.
 - `ltspice/sintetizador_ie0413_LF353.cir`: simulacion transitoria estable para capturar las cuatro senales juntas; usa fuentes equivalentes para las senales ya generadas y LF353 no ideal en el filtro.
 - `ltspice/lf353.mod`: modelo SPICE local del LF353 usado por todos los archivos.
+- `memoria_calculo_detallada.tex`: base en LaTeX con los calculos desarrollados paso a paso.
 
 En LTspice, abra el `.cir`, cambie `X`, `Y`, `Z`, ejecute la simulacion y grafique:
 

@@ -48,24 +48,25 @@ class Svg:
     def save(self, path: Path) -> None:
         style = """
   .page { fill:#ffffff; }
-  .title { font:700 30px Arial, sans-serif; fill:#111827; }
-  .subtitle { font:16px Arial, sans-serif; fill:#374151; }
-  .section-title { font:700 18px Arial, sans-serif; fill:#111827; }
-  .text { font:14px Arial, sans-serif; fill:#111827; }
-  .small { font:12px Arial, sans-serif; fill:#374151; }
-  .tiny { font:11px Arial, sans-serif; fill:#4b5563; }
-  .value { font:12px Arial, sans-serif; fill:#0f766e; }
-  .wire { stroke:#111827; stroke-width:2.1; fill:none; stroke-linecap:round; stroke-linejoin:round; }
-  .bus { stroke:#2563eb; stroke-width:2.8; fill:none; stroke-linecap:round; stroke-linejoin:round; }
-  .symbol { stroke:#111827; stroke-width:2.1; fill:none; stroke-linecap:round; stroke-linejoin:round; }
-  .opamp { stroke:#111827; stroke-width:2.1; fill:#f8fafc; stroke-linejoin:round; }
-  .block { stroke:#475569; stroke-width:1.6; fill:#f8fafc; }
-  .stage { stroke:#cbd5e1; stroke-width:1.4; fill:#f8fafc; }
+  .title { font:700 42px Arial, sans-serif; fill:#111827; }
+  .subtitle { font:22px Arial, sans-serif; fill:#374151; }
+  .section-title { font:700 24px Arial, sans-serif; fill:#111827; }
+  .text { font:20px Arial, sans-serif; fill:#111827; }
+  .small { font:17px Arial, sans-serif; fill:#374151; }
+  .tiny { font:14px Arial, sans-serif; fill:#4b5563; }
+  .value { font:17px Arial, sans-serif; fill:#0f766e; }
+  .wire { stroke:#111827; stroke-width:3.0; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+  .bus { stroke:#2563eb; stroke-width:4.8; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+  .symbol { stroke:#111827; stroke-width:3.0; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+  .opamp { stroke:#111827; stroke-width:3.0; fill:#ffffff; stroke-linejoin:round; }
+  .block { stroke:#475569; stroke-width:2.1; fill:#ffffff; }
+  .stage { stroke:#cbd5e1; stroke-width:2.0; fill:#f8fafc; }
   .node { fill:#111827; stroke:none; }
-  .ground { stroke:#111827; stroke-width:2; fill:none; stroke-linecap:round; }
-  .railp { stroke:#dc2626; stroke-width:2.2; fill:none; }
-  .railn { stroke:#7c3aed; stroke-width:2.2; fill:none; }
-  .labelbox { stroke:#94a3b8; stroke-width:1.2; fill:#ffffff; }
+  .ground { stroke:#111827; stroke-width:2.8; fill:none; stroke-linecap:round; }
+  .railp { stroke:#dc2626; stroke-width:3.0; fill:none; }
+  .railn { stroke:#7c3aed; stroke-width:3.0; fill:none; }
+  .labelbox { stroke:#94a3b8; stroke-width:1.8; fill:#ffffff; }
+  .netbox { stroke:#2563eb; stroke-width:1.6; fill:#ffffff; }
 """
         body = "\n".join(self.items)
         path.parent.mkdir(exist_ok=True)
@@ -230,160 +231,183 @@ def block(svg: Svg, x: int, y: int, w: int, h: int, title: str, lines: list[str]
         svg.text(x + 16, y + 56 + 22 * i, line, "small")
 
 
+def net_label(svg: Svg, x: int, y: int, label: str, anchor: str = "middle") -> None:
+    width = max(72, 13 * len(label) + 24)
+    left = x - width / 2 if anchor == "middle" else x
+    svg.rect(left, y - 24, width, 34, "netbox", 7)
+    svg.text(x if anchor == "middle" else x + 12, y, label, "small", anchor)
+
+
 def main() -> None:
-    svg = Svg(2800, 1820)
+    svg = Svg(3600, 2550)
 
-    svg.text(70, 56, "Sintetizador analogico IE0413 - Esquematico completo", "title")
-    svg.text(70, 86, "Grupo: Daniel Madriz C24478 / Fabricio Torres C27803 / Kenneth Vizcaino C09331", "subtitle")
-    svg.text(70, 112, "X=2, Y=2, Z=9  |  f0=2.29 kHz  |  filtro Chebyshev tipo I de 0.5 dB  |  opamps LF353/NS", "subtitle")
+    svg.text(90, 70, "Sintetizador analogico IE0413 - Esquematico completo", "title")
+    svg.text(90, 110, "Grupo: Daniel Madriz C24478 / Fabricio Torres C27803 / Kenneth Vizcaino C09331", "subtitle")
+    svg.text(90, 146, "X=2, Y=2, Z=9  |  f0=2.29 kHz  |  Chebyshev tipo I de 0.5 dB  |  LF353/NS no ideal", "subtitle")
 
-    svg.rect(64, 142, 2680, 90, "labelbox", 12)
-    svg.text(88, 178, "Nota de simulacion", "section-title")
-    svg.text(88, 204, "El dibujo muestra el circuito completo conectado por etapas. El archivo LTspice .asc usa fuentes equivalentes para las tres formas ya generadas y LF353 reales en el filtro activo.", "small")
+    svg.rect(90, 178, 3200, 92, "labelbox", 12)
+    svg.text(118, 215, "Lectura del dibujo", "section-title")
+    svg.text(118, 246, "Los buses azules conectan las etapas sin cruzar los componentes. Las etiquetas V(sq), V(saw), V(tri) y V(sine) son los nodos para graficar.", "small")
 
-    y0 = 330
-    block(svg, 70, y0 - 80, 540, 430, "1) Oscilador Schmitt LF353", ["R1=R2=100 kOhm -> beta=0.5", "Rosc=20.3 kOhm, Cosc=10 nF", "Salida: V(sq), f0=2.29 kHz"])
-    u1 = opamp(svg, 330, y0 + 42, "U1", "LF353")
-    svg.line(240, y0 + 74, u1["minus"][0], u1["minus"][1])
-    svg.line(240, y0 + 74, 240, y0 + 164)
-    resistor(svg, 240, y0 + 164, 430, y0 + 164, "Rosc", "20.3 k")
-    svg.line(430, y0 + 164, 462, y0 + 164)
-    svg.line(462, y0 + 164, 462, u1["out"][1])
-    svg.line(u1["out"][0], u1["out"][1], 575, u1["out"][1], "bus")
-    svg.text(580, u1["out"][1] + 5, "sq", "text")
-    capacitor(svg, 240, y0 + 74, 240, y0 + 228, "Cosc", "10 nF")
-    ground(svg, 240, y0 + 228)
-    svg.line(575, u1["out"][1], 575, y0 - 18)
-    resistor(svg, 575, y0 - 18, 410, y0 - 18, "Rsch1", "100 k")
-    svg.line(410, y0 - 18, 410, u1["plus"][1])
-    svg.line(410, u1["plus"][1], u1["plus"][0], u1["plus"][1])
-    resistor(svg, 410, u1["plus"][1], 410, y0 + 234, "Rsch2", "100 k")
-    ground(svg, 410, y0 + 234)
+    y0 = 360
+    block(svg, 90, y0 - 80, 780, 560, "1) Oscilador Schmitt LF353", ["R1=R2=100 kOhm, beta=0.5", "Rosc=20.3 kOhm, Cosc=10 nF", "V(sq)=cuadrada, f0=2.29 kHz"])
+    u1 = opamp(svg, 390, y0 + 90, "U1", "LF353")
+    svg.line(270, y0 + 122, u1["minus"][0], u1["minus"][1])
+    svg.line(270, y0 + 122, 270, y0 + 255)
+    capacitor(svg, 270, y0 + 122, 270, y0 + 390, "Cosc", "10 nF")
+    ground(svg, 270, y0 + 390)
+    resistor(svg, 270, y0 + 255, 530, y0 + 255, "Rosc", "20.3 k")
+    svg.poly([(530, y0 + 255), (555, y0 + 255), (555, u1["out"][1]), (u1["out"][0], u1["out"][1])])
+    svg.line(u1["out"][0], u1["out"][1], 740, u1["out"][1], "bus")
+    net_label(svg, 786, u1["out"][1] - 10, "V(sq)", "middle")
+    svg.poly([(740, u1["out"][1]), (740, y0 + 20)])
+    resistor(svg, 740, y0 + 20, 505, y0 + 20, "Rsch1", "100 k")
+    svg.poly([(505, y0 + 20), (505, u1["plus"][1]), (u1["plus"][0], u1["plus"][1])])
+    resistor(svg, 505, u1["plus"][1], 505, y0 + 398, "Rsch2", "100 k")
+    ground(svg, 505, y0 + 398)
 
-    block(svg, 700, y0 - 80, 850, 430, "2) Diente de sierra positivo", ["Reset en ambos flancos de V(sq)", "Csaw=10 nF, Isaw=229 uA", "Salida: V(saw), fsaw=4.58 kHz"])
-    svg.line(610, u1["out"][1], 720, u1["out"][1], "bus", 'marker-end="url(#arrow)"')
-    svg.text(650, u1["out"][1] - 12, "V(sq)", "small", "middle")
-    u2 = opamp(svg, 792, y0 + 18, "U2", "LF353 inv")
-    resistor(svg, 720, u1["out"][1], u2["minus"][0], u2["minus"][1], "Rin", "10 k")
-    svg.line(u2["plus"][0] - 35, u2["plus"][1], u2["plus"][0], u2["plus"][1])
-    ground(svg, u2["plus"][0] - 35, u2["plus"][1])
-    resistor(svg, u2["minus"][0], u2["minus"][1] - 58, u2["out"][0], u2["minus"][1] - 58, "Rf", "10 k")
-    svg.line(u2["minus"][0], u2["minus"][1], u2["minus"][0], u2["minus"][1] - 58)
-    svg.line(u2["out"][0], u2["minus"][1] - 58, u2["out"][0], u2["out"][1])
-    svg.text(u2["out"][0] + 10, u2["out"][1] + 4, "sq_inv", "small")
-    capacitor(svg, 1020, y0 + 42, 1120, y0 + 42, "Cedge1", "220 pF")
-    svg.poly([(575, u1["out"][1]), (575, y0 - 92), (1000, y0 - 92), (1000, y0 + 42), (1020, y0 + 42)], "bus")
-    resistor(svg, 1120, y0 + 42, 1120, y0 + 140, "Redge1", "10 k")
-    ground(svg, 1120, y0 + 140)
-    diode(svg, 1120, y0 + 42, 1230, y0 + 42, "D1")
-    capacitor(svg, 1020, y0 + 126, 1120, y0 + 126, "Cedge2", "220 pF")
-    svg.line(u2["out"][0], u2["out"][1], 1020, y0 + 126, "bus")
-    resistor(svg, 1120, y0 + 126, 1120, y0 + 224, "Redge2", "10 k")
-    ground(svg, 1120, y0 + 224)
-    diode(svg, 1120, y0 + 126, 1230, y0 + 126, "D2")
-    svg.line(1230, y0 + 42, 1270, y0 + 42)
-    svg.line(1230, y0 + 126, 1270, y0 + 126)
-    svg.line(1270, y0 + 42, 1270, y0 + 126)
-    resistor(svg, 1270, y0 + 126, 1270, y0 + 232, "Rreset", "4.7 k")
-    ground(svg, 1270, y0 + 232)
-    resistor(svg, 1270, y0 + 86, 1348, y0 + 86, "Rb", "3.3 k")
-    transistor_npn(svg, 1435, y0 + 86, "Q1 2N3904")
-    svg.line(1348, y0 + 86, 1371, y0 + 86)
-    resistor(svg, 1370, y0 + 86, 1370, y0 + 214, "Rbe", "47 k")
-    ground(svg, 1370, y0 + 214)
-    svg.line(1461, y0 + 4, 1461, y0 - 40)
-    svg.line(1461, y0 - 40, 1320, y0 - 40, "bus")
-    svg.text(1324, y0 - 48, "saw", "text")
-    current_source(svg, 1320, y0 - 40, "Isaw", "229 uA")
-    ground(svg, 1320, y0 + 52)
-    capacitor(svg, 1320, y0 - 40, 1320, y0 + 112, "Csaw", "10 nF")
-    ground(svg, 1320, y0 + 112)
-    ground(svg, 1463, y0 + 172)
+    block(svg, 1000, y0 - 80, 1240, 560, "2) Diente de sierra positivo", ["Entrada desde V(sq)", "Reset por ambos flancos con D1/D2 y Q1", "Csaw=10 nF, Isaw=229 uA, fsaw=4.58 kHz"])
+    sq_y = u1["out"][1]
+    svg.poly([(740, sq_y), (910, sq_y), (910, y0 + 170), (1015, y0 + 170)], "bus", 'marker-end="url(#arrow)"')
+    net_label(svg, 955, y0 + 148, "V(sq)", "middle")
+    u2 = opamp(svg, 1160, y0 + 128, "U2", "LF353 inv")
+    resistor(svg, 1015, y0 + 160, u2["minus"][0], u2["minus"][1], "Rin", "10 k")
+    svg.line(u2["plus"][0] - 46, u2["plus"][1], u2["plus"][0], u2["plus"][1])
+    ground(svg, u2["plus"][0] - 46, u2["plus"][1])
+    resistor(svg, u2["minus"][0], u2["minus"][1] - 76, u2["out"][0], u2["minus"][1] - 76, "Rf", "10 k")
+    svg.poly([(u2["minus"][0], u2["minus"][1]), (u2["minus"][0], u2["minus"][1] - 76)])
+    svg.poly([(u2["out"][0], u2["minus"][1] - 76), (u2["out"][0], u2["out"][1])])
+    net_label(svg, u2["out"][0] + 54, u2["out"][1] + 6, "sq_inv", "middle")
 
-    y1 = 850
-    block(svg, 70, y1 - 80, 1320, 450, "3) Triangular con cambiador de nivel", ["Divisor por 2: f0 -> f0/2", "Cambiador: 0-2 V a +/-1 V", "Integrador LF353: Rtri=10.9 k, Ctri=10 nF"])
-    svg.poly([(575, u1["out"][1]), (575, 238), (42, 238), (42, y1 - 10), (110, y1 - 10)], "bus", 'marker-end="url(#arrow)"')
-    svg.rect(110, y1 - 55, 170, 90, "block", 8)
-    svg.text(195, y1 - 18, "Divisor /2", "section-title", "middle")
-    svg.text(195, y1 + 8, "0-2 V", "small", "middle")
-    svg.line(280, y1 - 10, 350, y1 - 10, "bus", 'marker-end="url(#arrow)"')
-    voltage_source(svg, 338, y1 + 80, "Vref", "1 V", "Referencia")
-    u3 = opamp(svg, 420, y1 - 60, "U3", "LF353 nivel")
-    resistor(svg, 350, y1 - 10, u3["plus"][0], u3["plus"][1], "R", "10 k")
-    resistor(svg, 338, y1 + 80, u3["minus"][0], u3["minus"][1], "R", "10 k")
-    resistor(svg, u3["out"][0], u3["out"][1] - 70, u3["minus"][0], u3["out"][1] - 70, "Rfb", "10 k")
-    svg.line(u3["minus"][0], u3["minus"][1], u3["minus"][0], u3["out"][1] - 70)
-    svg.line(u3["out"][0], u3["out"][1], u3["out"][0], u3["out"][1] - 70)
-    svg.text(u3["out"][0] + 8, u3["out"][1] + 4, "tri_drive", "small")
+    capacitor(svg, 1460, y0 + 110, 1600, y0 + 110, "Cedge1", "220 pF")
+    svg.poly([(910, y0 + 170), (910, y0 + 60), (1460, y0 + 60), (1460, y0 + 110)], "bus")
+    resistor(svg, 1600, y0 + 110, 1600, y0 + 245, "Redge1", "10 k")
+    ground(svg, 1600, y0 + 245)
+    diode(svg, 1600, y0 + 110, 1740, y0 + 110, "D1")
 
-    u4 = opamp(svg, 860, y1 - 60, "U4", "LF353 int")
-    resistor(svg, u3["out"][0] + 40, u3["out"][1], u4["minus"][0], u4["minus"][1], "Rtri", "10.9 k")
-    svg.line(u4["plus"][0] - 30, u4["plus"][1], u4["plus"][0], u4["plus"][1])
-    ground(svg, u4["plus"][0] - 30, u4["plus"][1])
-    capacitor(svg, u4["minus"][0], u4["minus"][1] - 68, u4["out"][0], u4["minus"][1] - 68, "Ctri", "10 nF")
-    svg.line(u4["minus"][0], u4["minus"][1], u4["minus"][0], u4["minus"][1] - 68)
-    svg.line(u4["out"][0], u4["out"][1], u4["out"][0], u4["minus"][1] - 68)
-    resistor(svg, u4["minus"][0], u4["minus"][1] - 110, u4["out"][0], u4["minus"][1] - 110, "Rleak", "100 M")
-    svg.line(u4["minus"][0], u4["minus"][1] - 68, u4["minus"][0], u4["minus"][1] - 110)
-    svg.line(u4["out"][0], u4["minus"][1] - 68, u4["out"][0], u4["minus"][1] - 110)
-    u5 = opamp(svg, 1110, y1 - 60, "U5", "LF353 buf")
+    capacitor(svg, 1460, y0 + 250, 1600, y0 + 250, "Cedge2", "220 pF")
+    svg.poly([(u2["out"][0], u2["out"][1]), (1360, u2["out"][1]), (1360, y0 + 250), (1460, y0 + 250)], "bus")
+    resistor(svg, 1600, y0 + 250, 1600, y0 + 390, "Redge2", "10 k")
+    ground(svg, 1600, y0 + 390)
+    diode(svg, 1600, y0 + 250, 1740, y0 + 250, "D2")
+    svg.poly([(1740, y0 + 110), (1790, y0 + 110), (1790, y0 + 250), (1740, y0 + 250)])
+    resistor(svg, 1790, y0 + 250, 1790, y0 + 410, "Rreset", "4.7 k")
+    ground(svg, 1790, y0 + 410)
+
+    transistor_npn(svg, 2085, y0 + 255, "Q1 2N3904")
+    resistor(svg, 1790, y0 + 255, 2021, y0 + 255, "Rb", "3.3 k")
+    resistor(svg, 1985, y0 + 255, 1985, y0 + 420, "Rbe", "47 k")
+    ground(svg, 1985, y0 + 420)
+    saw_node = (2111, y0 + 173)
+    svg.poly([(saw_node[0], saw_node[1]), (1960, saw_node[1]), (1960, y0 + 80), (1830, y0 + 80)], "bus")
+    current_source(svg, 1830, y0 + 80, "Isaw", "229 uA")
+    ground(svg, 1830, y0 + 172)
+    capacitor(svg, 1960, saw_node[1], 1960, y0 + 420, "Csaw", "10 nF")
+    ground(svg, 1960, y0 + 420)
+    ground(svg, 2113, y0 + 341)
+    svg.line(saw_node[0], saw_node[1], 2185, saw_node[1], "bus", 'marker-end="url(#arrow)"')
+    net_label(svg, 2188, saw_node[1] - 10, "V(saw)", "middle")
+
+    block(svg, 2400, y0 - 80, 880, 560, "Fuentes", ["Alimentacion para LF353", "Referencias locales mostradas en cada etapa", "No se usan amplificadores ideales"])
+    voltage_source(svg, 2580, y0 + 70, "VCC", "+15 V", "Riel positivo")
+    ground(svg, 2580, y0 + 162)
+    voltage_source(svg, 2580, y0 + 260, "VEE", "-15 V", "Riel negativo")
+    ground(svg, 2580, y0 + 352)
+    svg.rect(2790, y0 + 54, 360, 190, "labelbox", 8)
+    svg.text(2814, y0 + 92, "Salidas principales", "section-title")
+    svg.text(2814, y0 + 126, "V(sq): cuadrada 2.29 kHz", "small")
+    svg.text(2814, y0 + 158, "V(saw): sierra 4.58 kHz", "small")
+    svg.text(2814, y0 + 190, "V(tri): triangular 1.145 kHz", "small")
+    svg.text(2814, y0 + 222, "V(sine): senoidal filtrada", "small")
+
+    y1 = 1040
+    block(svg, 90, y1 - 80, 2150, 610, "3) Triangular con divisor, cambiador de nivel e integrador", ["Entrada desde V(sq), divisor por 2 -> f0/2", "Cambiador 0-2 V a +/-1 V con LF353", "Integrador: Rtri=10.9 kOhm, Ctri=10 nF"])
+    tri_in_y = y1 + 190
+    svg.poly([(910, sq_y), (910, 900), (60, 900), (60, tri_in_y), (170, tri_in_y)], "bus", 'marker-end="url(#arrow)"')
+    net_label(svg, 128, tri_in_y - 24, "V(sq)", "middle")
+    svg.rect(170, y1 + 120, 260, 125, "block", 9)
+    svg.text(300, y1 + 162, "Divisor /2", "section-title", "middle")
+    svg.text(300, y1 + 198, "0-2 V", "small", "middle")
+    svg.line(430, tri_in_y, 540, tri_in_y, "bus", 'marker-end="url(#arrow)"')
+    u3 = opamp(svg, 650, y1 + 110, "U3", "LF353 nivel")
+    resistor(svg, 540, u3["plus"][1], u3["plus"][0], u3["plus"][1], "R", "10 k")
+    net_label(svg, 530, u3["minus"][1] - 18, "Vref=1 V", "middle")
+    resistor(svg, 530, u3["minus"][1], u3["minus"][0], u3["minus"][1], "R", "10 k")
+    fb3_y = u3["minus"][1] - 90
+    resistor(svg, u3["out"][0], fb3_y, u3["minus"][0], fb3_y, "Rfb", "10 k")
+    svg.poly([(u3["minus"][0], u3["minus"][1]), (u3["minus"][0], fb3_y)])
+    svg.poly([(u3["out"][0], u3["out"][1]), (u3["out"][0], fb3_y)])
+    net_label(svg, u3["out"][0] + 70, u3["out"][1] + 8, "tri_drive", "middle")
+
+    u4 = opamp(svg, 1120, u3["out"][1] - 32, "U4", "LF353 int")
+    resistor(svg, u3["out"][0] + 130, u3["out"][1], u4["minus"][0], u4["minus"][1], "Rtri", "10.9 k")
+    svg.line(u4["plus"][0] - 54, u4["plus"][1], u4["plus"][0], u4["plus"][1])
+    ground(svg, u4["plus"][0] - 54, u4["plus"][1])
+    capacitor(svg, u4["minus"][0], u4["minus"][1] - 86, u4["out"][0], u4["minus"][1] - 86, "Ctri", "10 nF")
+    resistor(svg, u4["minus"][0], u4["minus"][1] - 136, u4["out"][0], u4["minus"][1] - 136, "Rleak", "100 M")
+    svg.poly([(u4["minus"][0], u4["minus"][1]), (u4["minus"][0], u4["minus"][1] - 136)])
+    svg.poly([(u4["out"][0], u4["out"][1]), (u4["out"][0], u4["minus"][1] - 136)])
+
+    u5 = opamp(svg, 1580, u4["out"][1] - 80, "U5", "LF353 buf")
     svg.line(u4["out"][0], u4["out"][1], u5["plus"][0], u5["plus"][1], "bus")
     svg.line(u5["out"][0], u5["out"][1], u5["minus"][0], u5["minus"][1])
-    svg.line(u5["out"][0], u5["out"][1], 1315, u5["out"][1], "bus")
-    svg.text(1320, u5["out"][1] + 5, "tri", "text")
+    tri_out = (1785, u5["out"][1])
+    svg.line(u5["out"][0], u5["out"][1], tri_out[0], tri_out[1], "bus", 'marker-end="url(#arrow)"')
+    net_label(svg, tri_out[0] + 50, tri_out[1] - 10, "V(tri)", "middle")
 
-    y2 = 1370
-    block(svg, 70, y2 - 90, 2540, 420, "4) Filtro pasabajas activo de orden 5 - Chebyshev 0.5 dB", ["Entrada: V(tri) -> atenuador, RC activo y dos Sallen-Key LF353"])
-    svg.poly([(1315, u5["out"][1]), (1395, u5["out"][1]), (1395, 1245), (42, 1245), (42, y2), (130, y2)], "bus", 'marker-end="url(#arrow)"')
-    resistor(svg, 130, y2, 330, y2, "Rtop", "498 k")
-    resistor(svg, 330, y2, 330, y2 + 130, "Rbot", "100 k")
-    ground(svg, 330, y2 + 130)
-    resistor(svg, 330, y2, 520, y2, "Rp1", "30.7 k")
-    capacitor(svg, 520, y2, 520, y2 + 130, "Cf", "10 nF")
-    ground(svg, 520, y2 + 130)
-    u6 = opamp(svg, 610, y2 - 56, "U6", "LF353 buf")
-    svg.line(520, y2, u6["plus"][0], u6["plus"][1])
+    y2 = 1810
+    block(svg, 90, y2 - 80, 3200, 640, "4) Filtro pasabajas activo de orden 5 - Chebyshev 0.5 dB", ["Entrada desde V(tri)", "Atenuador + RC activo + dos secciones Sallen-Key con LF353", "fc=1.431 kHz"])
+    svg.poly([(tri_out[0], tri_out[1]), (2310, tri_out[1]), (2310, y2 - 135), (60, y2 - 135), (60, y2 + 115), (150, y2 + 115)], "bus", 'marker-end="url(#arrow)"')
+    net_label(svg, 205, y2 + 90, "V(tri)", "middle")
+    resistor(svg, 150, y2 + 115, 420, y2 + 115, "Rtop", "498 k")
+    resistor(svg, 420, y2 + 115, 420, y2 + 320, "Rbot", "100 k")
+    ground(svg, 420, y2 + 320)
+    resistor(svg, 420, y2 + 115, 710, y2 + 115, "Rp1", "30.7 k")
+    capacitor(svg, 710, y2 + 115, 710, y2 + 320, "Cf", "10 nF")
+    ground(svg, 710, y2 + 320)
+    u6 = opamp(svg, 820, y2 + 35, "U6", "LF353 buf")
+    svg.line(710, y2 + 115, u6["plus"][0], u6["plus"][1])
     svg.line(u6["out"][0], u6["out"][1], u6["minus"][0], u6["minus"][1])
-    svg.line(u6["out"][0], u6["out"][1], 815, u6["out"][1], "bus")
+    svg.line(u6["out"][0], u6["out"][1], 1110, u6["out"][1], "bus")
 
-    u7 = opamp(svg, 1120, y2 - 56, "U7", "SK1 LF353")
-    resistor(svg, 815, u6["out"][1], 945, u6["out"][1], "R1", "16.1 k")
-    resistor(svg, 945, u6["out"][1], u7["plus"][0], u7["plus"][1], "R2", "16.1 k")
-    capacitor(svg, 945, u6["out"][1], 945, y2 + 125, "C1", "10 nF")
-    svg.line(945, y2 + 125, u7["out"][0], y2 + 125)
-    svg.line(u7["out"][0], y2 + 125, u7["out"][0], u7["out"][1])
-    capacitor(svg, u7["plus"][0], u7["plus"][1], u7["plus"][0], y2 + 125, "C2", "10 nF")
-    ground(svg, u7["plus"][0], y2 + 125)
-    resistor(svg, u7["minus"][0], u7["minus"][1], u7["minus"][0], y2 + 125, "Rg1", "10 k")
-    ground(svg, u7["minus"][0], y2 + 125)
-    resistor(svg, u7["out"][0], u7["minus"][1] - 80, u7["minus"][0], u7["minus"][1] - 80, "Rf1", "11.5 k")
-    svg.line(u7["out"][0], u7["out"][1], u7["out"][0], u7["minus"][1] - 80)
-    svg.line(u7["minus"][0], u7["minus"][1], u7["minus"][0], u7["minus"][1] - 80)
-    svg.line(u7["out"][0], u7["out"][1], 1370, u7["out"][1], "bus")
-    svg.text(1320, u7["out"][1] - 12, "sk1", "small")
+    u7 = opamp(svg, 1480, y2 + 15, "U7", "SK1 LF353")
+    sk1_y = u6["out"][1]
+    resistor(svg, 1110, sk1_y, 1260, sk1_y, "R1", "16.1 k")
+    resistor(svg, 1260, sk1_y, u7["plus"][0], u7["plus"][1], "R2", "16.1 k")
+    capacitor(svg, 1260, sk1_y, 1260, y2 + 380, "C1", "10 nF")
+    svg.poly([(1260, y2 + 380), (u7["out"][0], y2 + 380), (u7["out"][0], u7["out"][1])])
+    capacitor(svg, u7["plus"][0], u7["plus"][1], u7["plus"][0], y2 + 380, "C2", "10 nF")
+    ground(svg, u7["plus"][0], y2 + 380)
+    resistor(svg, u7["minus"][0], u7["minus"][1], u7["minus"][0], y2 + 380, "Rg1", "10 k")
+    ground(svg, u7["minus"][0], y2 + 380)
+    resistor(svg, u7["out"][0], u7["minus"][1] - 95, u7["minus"][0], u7["minus"][1] - 95, "Rf1", "11.5 k")
+    svg.poly([(u7["out"][0], u7["out"][1]), (u7["out"][0], u7["minus"][1] - 95)])
+    svg.poly([(u7["minus"][0], u7["minus"][1]), (u7["minus"][0], u7["minus"][1] - 95)])
+    svg.line(u7["out"][0], u7["out"][1], 1800, u7["out"][1], "bus")
+    net_label(svg, 1752, u7["out"][1] - 12, "SK1", "middle")
 
-    u8 = opamp(svg, 1680, y2 - 56, "U8", "SK2 LF353")
-    resistor(svg, 1370, u7["out"][1], 1500, u7["out"][1], "R1", "10.9 k")
-    resistor(svg, 1500, u7["out"][1], u8["plus"][0], u8["plus"][1], "R2", "10.9 k")
-    capacitor(svg, 1500, u7["out"][1], 1500, y2 + 125, "C1", "10 nF")
-    svg.line(1500, y2 + 125, u8["out"][0], y2 + 125)
-    svg.line(u8["out"][0], y2 + 125, u8["out"][0], u8["out"][1])
-    capacitor(svg, u8["plus"][0], u8["plus"][1], u8["plus"][0], y2 + 125, "C2", "10 nF")
-    ground(svg, u8["plus"][0], y2 + 125)
-    resistor(svg, u8["minus"][0], u8["minus"][1], u8["minus"][0], y2 + 125, "Rg2", "10 k")
-    ground(svg, u8["minus"][0], y2 + 125)
-    resistor(svg, u8["out"][0], u8["minus"][1] - 80, u8["minus"][0], u8["minus"][1] - 80, "Rf2", "17.8 k")
-    svg.line(u8["out"][0], u8["out"][1], u8["out"][0], u8["minus"][1] - 80)
-    svg.line(u8["minus"][0], u8["minus"][1], u8["minus"][0], u8["minus"][1] - 80)
-    svg.line(u8["out"][0], u8["out"][1], 1940, u8["out"][1], "bus", 'marker-end="url(#arrow)"')
-    svg.text(1950, u8["out"][1] + 5, "sine", "text")
+    u8 = opamp(svg, 2250, y2 + 15, "U8", "SK2 LF353")
+    sk2_y = u7["out"][1]
+    resistor(svg, 1800, sk2_y, 1980, sk2_y, "R1", "10.9 k")
+    resistor(svg, 1980, sk2_y, u8["plus"][0], u8["plus"][1], "R2", "10.9 k")
+    capacitor(svg, 1980, sk2_y, 1980, y2 + 380, "C1", "10 nF")
+    svg.poly([(1980, y2 + 380), (u8["out"][0], y2 + 380), (u8["out"][0], u8["out"][1])])
+    capacitor(svg, u8["plus"][0], u8["plus"][1], u8["plus"][0], y2 + 380, "C2", "10 nF")
+    ground(svg, u8["plus"][0], y2 + 380)
+    resistor(svg, u8["minus"][0], u8["minus"][1], u8["minus"][0], y2 + 380, "Rg2", "10 k")
+    ground(svg, u8["minus"][0], y2 + 380)
+    resistor(svg, u8["out"][0], u8["minus"][1] - 95, u8["minus"][0], u8["minus"][1] - 95, "Rf2", "17.8 k")
+    svg.poly([(u8["out"][0], u8["out"][1]), (u8["out"][0], u8["minus"][1] - 95)])
+    svg.poly([(u8["minus"][0], u8["minus"][1]), (u8["minus"][0], u8["minus"][1] - 95)])
+    svg.line(u8["out"][0], u8["out"][1], 2660, u8["out"][1], "bus", 'marker-end="url(#arrow)"')
+    net_label(svg, 2728, u8["out"][1] - 10, "V(sine)", "middle")
 
-    svg.rect(2060, y2 - 20, 430, 170, "labelbox", 10)
-    svg.text(2084, y2 + 14, "Resumen de salidas", "section-title")
-    svg.text(2084, y2 + 44, "V(sq)   = cuadrada, 2.29 kHz", "small")
-    svg.text(2084, y2 + 70, "V(saw)  = diente de sierra, 4.58 kHz", "small")
-    svg.text(2084, y2 + 96, "V(tri)  = triangular, 1.145 kHz", "small")
-    svg.text(2084, y2 + 122, "V(sine) = senoidal por filtro activo", "small")
+    svg.rect(2820, y2 + 22, 370, 190, "labelbox", 10)
+    svg.text(2848, y2 + 60, "Filtro", "section-title")
+    svg.text(2848, y2 + 94, "Tipo: Chebyshev I", "small")
+    svg.text(2848, y2 + 126, "Ripple: 0.5 dB", "small")
+    svg.text(2848, y2 + 158, "Orden: 5", "small")
+    svg.text(2848, y2 + 190, "Entrada recomendada: V(tri)", "small")
 
     OUT.parent.mkdir(exist_ok=True)
     svg.save(OUT)

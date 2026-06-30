@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg xmlns="http://www.w3.org/2000/svg"
      xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-     width="2800" height="1820" viewBox="0 0 2800 1820"
+     width="3600" height="2550" viewBox="0 0 3600 2550"
      version="1.1" inkscape:version="1.3">
 <defs>
   <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
@@ -9,448 +9,503 @@
   </marker>
   <style><![CDATA[
   .page { fill:#ffffff; }
-  .title { font:700 30px Arial, sans-serif; fill:#111827; }
-  .subtitle { font:16px Arial, sans-serif; fill:#374151; }
-  .section-title { font:700 18px Arial, sans-serif; fill:#111827; }
-  .text { font:14px Arial, sans-serif; fill:#111827; }
-  .small { font:12px Arial, sans-serif; fill:#374151; }
-  .tiny { font:11px Arial, sans-serif; fill:#4b5563; }
-  .value { font:12px Arial, sans-serif; fill:#0f766e; }
-  .wire { stroke:#111827; stroke-width:2.1; fill:none; stroke-linecap:round; stroke-linejoin:round; }
-  .bus { stroke:#2563eb; stroke-width:2.8; fill:none; stroke-linecap:round; stroke-linejoin:round; }
-  .symbol { stroke:#111827; stroke-width:2.1; fill:none; stroke-linecap:round; stroke-linejoin:round; }
-  .opamp { stroke:#111827; stroke-width:2.1; fill:#f8fafc; stroke-linejoin:round; }
-  .block { stroke:#475569; stroke-width:1.6; fill:#f8fafc; }
-  .stage { stroke:#cbd5e1; stroke-width:1.4; fill:#f8fafc; }
+  .title { font:700 42px Arial, sans-serif; fill:#111827; }
+  .subtitle { font:22px Arial, sans-serif; fill:#374151; }
+  .section-title { font:700 24px Arial, sans-serif; fill:#111827; }
+  .text { font:20px Arial, sans-serif; fill:#111827; }
+  .small { font:17px Arial, sans-serif; fill:#374151; }
+  .tiny { font:14px Arial, sans-serif; fill:#4b5563; }
+  .value { font:17px Arial, sans-serif; fill:#0f766e; }
+  .wire { stroke:#111827; stroke-width:3.0; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+  .bus { stroke:#2563eb; stroke-width:4.8; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+  .symbol { stroke:#111827; stroke-width:3.0; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+  .opamp { stroke:#111827; stroke-width:3.0; fill:#ffffff; stroke-linejoin:round; }
+  .block { stroke:#475569; stroke-width:2.1; fill:#ffffff; }
+  .stage { stroke:#cbd5e1; stroke-width:2.0; fill:#f8fafc; }
   .node { fill:#111827; stroke:none; }
-  .ground { stroke:#111827; stroke-width:2; fill:none; stroke-linecap:round; }
-  .railp { stroke:#dc2626; stroke-width:2.2; fill:none; }
-  .railn { stroke:#7c3aed; stroke-width:2.2; fill:none; }
-  .labelbox { stroke:#94a3b8; stroke-width:1.2; fill:#ffffff; }
+  .ground { stroke:#111827; stroke-width:2.8; fill:none; stroke-linecap:round; }
+  .railp { stroke:#dc2626; stroke-width:3.0; fill:none; }
+  .railn { stroke:#7c3aed; stroke-width:3.0; fill:none; }
+  .labelbox { stroke:#94a3b8; stroke-width:1.8; fill:#ffffff; }
+  .netbox { stroke:#2563eb; stroke-width:1.6; fill:#ffffff; }
 ]]></style>
 </defs>
-<rect class="page" x="0" y="0" width="2800" height="1820"/>
-<text class="title" x="70" y="56" text-anchor="start">Sintetizador analogico IE0413 - Esquematico completo</text>
-<text class="subtitle" x="70" y="86" text-anchor="start">Grupo: Daniel Madriz C24478 / Fabricio Torres C27803 / Kenneth Vizcaino C09331</text>
-<text class="subtitle" x="70" y="112" text-anchor="start">X=2, Y=2, Z=9  |  f0=2.29 kHz  |  filtro Chebyshev tipo I de 0.5 dB  |  opamps LF353/NS</text>
-<rect class="labelbox" x="64" y="142" width="2680" height="90" rx="12"/>
-<text class="section-title" x="88" y="178" text-anchor="start">Nota de simulacion</text>
-<text class="small" x="88" y="204" text-anchor="start">El dibujo muestra el circuito completo conectado por etapas. El archivo LTspice .asc usa fuentes equivalentes para las tres formas ya generadas y LF353 reales en el filtro activo.</text>
-<rect class="stage" x="70" y="250" width="540" height="430" rx="12"/>
-<text class="section-title" x="86" y="278" text-anchor="start">1) Oscilador Schmitt LF353</text>
-<text class="small" x="86" y="306" text-anchor="start">R1=R2=100 kOhm -&gt; beta=0.5</text>
-<text class="small" x="86" y="328" text-anchor="start">Rosc=20.3 kOhm, Cosc=10 nF</text>
-<text class="small" x="86" y="350" text-anchor="start">Salida: V(sq), f0=2.29 kHz</text>
-<polygon class="opamp" points="330,372 330,484 462,428" />
-<text class="text" x="346" y="458" text-anchor="start">+</text>
-<text class="text" x="346" y="410" text-anchor="start">-</text>
-<text class="section-title" x="394" y="424" text-anchor="middle">U1</text>
-<text class="tiny" x="394" y="444" text-anchor="middle">LF353</text>
-<line class="wire" x1="388" y1="390" x2="388" y2="366" />
-<line class="wire" x1="388" y1="466" x2="388" y2="490" />
-<text class="tiny" x="396" y="370" text-anchor="start">+15 V</text>
-<text class="tiny" x="396" y="498" text-anchor="start">-15 V</text>
-<line class="wire" x1="240" y1="404" x2="330" y2="404" />
-<line class="wire" x1="240" y1="404" x2="240" y2="494" />
-<line class="wire" x1="240" y1="494" x2="258" y2="494" />
-<polyline class="symbol" points="258,494 283.6666666666667,483 309.3333333333333,505 335.0,483 360.6666666666667,505 386.33333333333337,483 412,494" />
-<line class="wire" x1="412" y1="494" x2="430" y2="494" />
-<text class="small" x="335.0" y="476" text-anchor="middle">Rosc</text>
-<text class="value" x="335.0" y="528" text-anchor="middle">20.3 k</text>
-<line class="wire" x1="430" y1="494" x2="462" y2="494" />
-<line class="wire" x1="462" y1="494" x2="462" y2="428" />
-<line class="bus" x1="462" y1="428" x2="575" y2="428" />
-<text class="text" x="580" y="433" text-anchor="start">sq</text>
-<line class="wire" x1="240" y1="404" x2="240" y2="471.0" />
-<line class="wire" x1="240" y1="491.0" x2="240" y2="558" />
-<line class="wire" x1="218" y1="471.0" x2="262" y2="471.0" />
-<line class="wire" x1="218" y1="491.0" x2="262" y2="491.0" />
-<text class="small" x="268" y="473.0" text-anchor="start">Cosc</text>
-<text class="value" x="268" y="493.0" text-anchor="start">10 nF</text>
-<line class="wire" x1="240" y1="558" x2="240" y2="574" />
-<line class="ground" x1="224" y1="574" x2="256" y2="574" />
-<line class="ground" x1="230" y1="581" x2="250" y2="581" />
-<line class="ground" x1="235" y1="588" x2="245" y2="588" />
-<line class="wire" x1="575" y1="428" x2="575" y2="312" />
-<line class="wire" x1="410" y1="312" x2="428" y2="312" />
-<polyline class="symbol" points="428,312 449.5,301 471.0,323 492.5,301 514.0,323 535.5,301 557,312" />
-<line class="wire" x1="557" y1="312" x2="575" y2="312" />
-<text class="small" x="492.5" y="294" text-anchor="middle">Rsch1</text>
-<text class="value" x="492.5" y="346" text-anchor="middle">100 k</text>
-<line class="wire" x1="410" y1="312" x2="410" y2="452" />
-<line class="wire" x1="410" y1="452" x2="330" y2="452" />
-<line class="wire" x1="410" y1="452" x2="410" y2="470" />
-<polyline class="symbol" points="410,470 421,482.6666666666667 399,495.3333333333333 421,508.0 399,520.6666666666666 421,533.3333333333334 410,546" />
-<line class="wire" x1="410" y1="546" x2="410" y2="564" />
-<text class="small" x="428" y="500.0" text-anchor="start">Rsch2</text>
-<text class="value" x="428" y="518.0" text-anchor="start">100 k</text>
-<line class="wire" x1="410" y1="564" x2="410" y2="580" />
-<line class="ground" x1="394" y1="580" x2="426" y2="580" />
-<line class="ground" x1="400" y1="587" x2="420" y2="587" />
-<line class="ground" x1="405" y1="594" x2="415" y2="594" />
-<rect class="stage" x="700" y="250" width="850" height="430" rx="12"/>
-<text class="section-title" x="716" y="278" text-anchor="start">2) Diente de sierra positivo</text>
-<text class="small" x="716" y="306" text-anchor="start">Reset en ambos flancos de V(sq)</text>
-<text class="small" x="716" y="328" text-anchor="start">Csaw=10 nF, Isaw=229 uA</text>
-<text class="small" x="716" y="350" text-anchor="start">Salida: V(saw), fsaw=4.58 kHz</text>
-<line class="bus" x1="610" y1="428" x2="720" y2="428" marker-end="url(#arrow)"/>
-<text class="small" x="650" y="416" text-anchor="middle">V(sq)</text>
-<polygon class="opamp" points="792,348 792,460 924,404" />
-<text class="text" x="808" y="434" text-anchor="start">+</text>
-<text class="text" x="808" y="386" text-anchor="start">-</text>
-<text class="section-title" x="856" y="400" text-anchor="middle">U2</text>
-<text class="tiny" x="856" y="420" text-anchor="middle">LF353 inv</text>
-<line class="wire" x1="850" y1="366" x2="850" y2="342" />
-<line class="wire" x1="850" y1="442" x2="850" y2="466" />
-<text class="tiny" x="858" y="346" text-anchor="start">+15 V</text>
-<text class="tiny" x="858" y="474" text-anchor="start">-15 V</text>
-<line class="wire" x1="757" y1="428" x2="792" y2="428" />
-<line class="wire" x1="757" y1="428" x2="757" y2="444" />
-<line class="ground" x1="741" y1="444" x2="773" y2="444" />
-<line class="ground" x1="747" y1="451" x2="767" y2="451" />
-<line class="ground" x1="752" y1="458" x2="762" y2="458" />
-<line class="wire" x1="792" y1="322" x2="810" y2="322" />
-<polyline class="symbol" points="810,322 826.0,311 842.0,333 858.0,311 874.0,333 890.0,311 906,322" />
-<line class="wire" x1="906" y1="322" x2="924" y2="322" />
-<text class="small" x="858.0" y="304" text-anchor="middle">Rf</text>
-<text class="value" x="858.0" y="356" text-anchor="middle">10 k</text>
-<line class="wire" x1="792" y1="380" x2="792" y2="322" />
-<line class="wire" x1="924" y1="322" x2="924" y2="404" />
-<text class="small" x="934" y="408" text-anchor="start">sq_inv</text>
-<line class="wire" x1="1020" y1="372" x2="1060.0" y2="372" />
-<line class="wire" x1="1080.0" y1="372" x2="1120" y2="372" />
-<line class="wire" x1="1060.0" y1="350" x2="1060.0" y2="394" />
-<line class="wire" x1="1080.0" y1="350" x2="1080.0" y2="394" />
-<text class="small" x="1070.0" y="342" text-anchor="middle">Cedge1</text>
-<text class="value" x="1070.0" y="414" text-anchor="middle">220 pF</text>
-<polyline class="bus" points="575,428 575,238 1000,238 1000,372 1020,372" />
-<line class="wire" x1="1120" y1="372" x2="1120" y2="390" />
-<polyline class="symbol" points="1120,390 1131,400.3333333333333 1109,410.6666666666667 1131,421.0 1109,431.3333333333333 1131,441.6666666666667 1120,452" />
-<line class="wire" x1="1120" y1="452" x2="1120" y2="470" />
-<text class="small" x="1138" y="413.0" text-anchor="start">Redge1</text>
-<text class="value" x="1138" y="431.0" text-anchor="start">10 k</text>
-<line class="wire" x1="1120" y1="470" x2="1120" y2="486" />
-<line class="ground" x1="1104" y1="486" x2="1136" y2="486" />
-<line class="ground" x1="1110" y1="493" x2="1130" y2="493" />
-<line class="ground" x1="1115" y1="500" x2="1125" y2="500" />
-<line class="wire" x1="1120" y1="372" x2="1140" y2="372" />
-<polygon class="symbol" points="1140,354 1140,390 1174,372" />
-<line class="wire" x1="1178" y1="352" x2="1178" y2="392" />
-<line class="wire" x1="1178" y1="372" x2="1230" y2="372" />
-<text class="small" x="1175.0" y="344" text-anchor="middle">D1</text>
-<line class="wire" x1="1020" y1="456" x2="1060.0" y2="456" />
-<line class="wire" x1="1080.0" y1="456" x2="1120" y2="456" />
-<line class="wire" x1="1060.0" y1="434" x2="1060.0" y2="478" />
-<line class="wire" x1="1080.0" y1="434" x2="1080.0" y2="478" />
-<text class="small" x="1070.0" y="426" text-anchor="middle">Cedge2</text>
-<text class="value" x="1070.0" y="498" text-anchor="middle">220 pF</text>
-<line class="bus" x1="924" y1="404" x2="1020" y2="456" />
-<line class="wire" x1="1120" y1="456" x2="1120" y2="474" />
-<polyline class="symbol" points="1120,474 1131,484.3333333333333 1109,494.6666666666667 1131,505.0 1109,515.3333333333334 1131,525.6666666666666 1120,536" />
-<line class="wire" x1="1120" y1="536" x2="1120" y2="554" />
-<text class="small" x="1138" y="497.0" text-anchor="start">Redge2</text>
-<text class="value" x="1138" y="515.0" text-anchor="start">10 k</text>
-<line class="wire" x1="1120" y1="554" x2="1120" y2="570" />
-<line class="ground" x1="1104" y1="570" x2="1136" y2="570" />
-<line class="ground" x1="1110" y1="577" x2="1130" y2="577" />
-<line class="ground" x1="1115" y1="584" x2="1125" y2="584" />
-<line class="wire" x1="1120" y1="456" x2="1140" y2="456" />
-<polygon class="symbol" points="1140,438 1140,474 1174,456" />
-<line class="wire" x1="1178" y1="436" x2="1178" y2="476" />
-<line class="wire" x1="1178" y1="456" x2="1230" y2="456" />
-<text class="small" x="1175.0" y="428" text-anchor="middle">D2</text>
-<line class="wire" x1="1230" y1="372" x2="1270" y2="372" />
-<line class="wire" x1="1230" y1="456" x2="1270" y2="456" />
-<line class="wire" x1="1270" y1="372" x2="1270" y2="456" />
-<line class="wire" x1="1270" y1="456" x2="1270" y2="474" />
-<polyline class="symbol" points="1270,474 1281,485.6666666666667 1259,497.3333333333333 1281,509.0 1259,520.6666666666666 1281,532.3333333333334 1270,544" />
-<line class="wire" x1="1270" y1="544" x2="1270" y2="562" />
-<text class="small" x="1288" y="501.0" text-anchor="start">Rreset</text>
-<text class="value" x="1288" y="519.0" text-anchor="start">4.7 k</text>
-<line class="wire" x1="1270" y1="562" x2="1270" y2="578" />
-<line class="ground" x1="1254" y1="578" x2="1286" y2="578" />
-<line class="ground" x1="1260" y1="585" x2="1280" y2="585" />
-<line class="ground" x1="1265" y1="592" x2="1275" y2="592" />
-<line class="wire" x1="1270" y1="416" x2="1288" y2="416" />
-<polyline class="symbol" points="1288,416 1295.0,405 1302.0,427 1309.0,405 1316.0,427 1323.0,405 1330,416" />
-<line class="wire" x1="1330" y1="416" x2="1348" y2="416" />
-<text class="small" x="1309.0" y="398" text-anchor="middle">Rb</text>
-<text class="value" x="1309.0" y="450" text-anchor="middle">3.3 k</text>
-<circle class="symbol" cx="1435" cy="416" r="42"/>
-<line class="wire" x1="1371" y1="416" x2="1417" y2="416" />
-<line class="wire" x1="1417" y1="390" x2="1417" y2="442" />
-<line class="wire" x1="1417" y1="400" x2="1461" y2="364" />
-<line class="wire" x1="1417" y1="432" x2="1463" y2="470" />
-<line class="wire" x1="1461" y1="364" x2="1461" y2="334" />
-<line class="wire" x1="1463" y1="470" x2="1463" y2="502" />
-<path class="symbol" d="M1447,456 L1464,471 L1443,475" />
-<text class="small" x="1435" y="358" text-anchor="middle">Q1 2N3904</text>
-<text class="tiny" x="1357" y="408" text-anchor="start">B</text>
-<text class="tiny" x="1469" y="344" text-anchor="start">C</text>
-<text class="tiny" x="1469" y="498" text-anchor="start">E</text>
-<line class="wire" x1="1348" y1="416" x2="1371" y2="416" />
-<line class="wire" x1="1370" y1="416" x2="1370" y2="434" />
-<polyline class="symbol" points="1370,434 1381,449.3333333333333 1359,464.6666666666667 1381,480.0 1359,495.3333333333333 1381,510.6666666666667 1370,526" />
-<line class="wire" x1="1370" y1="526" x2="1370" y2="544" />
-<text class="small" x="1388" y="472.0" text-anchor="start">Rbe</text>
-<text class="value" x="1388" y="490.0" text-anchor="start">47 k</text>
-<line class="wire" x1="1370" y1="544" x2="1370" y2="560" />
-<line class="ground" x1="1354" y1="560" x2="1386" y2="560" />
-<line class="ground" x1="1360" y1="567" x2="1380" y2="567" />
-<line class="ground" x1="1365" y1="574" x2="1375" y2="574" />
-<line class="wire" x1="1461" y1="334" x2="1461" y2="290" />
-<line class="bus" x1="1461" y1="290" x2="1320" y2="290" />
-<text class="text" x="1324" y="282" text-anchor="start">saw</text>
-<circle class="symbol" cx="1320" cy="328" r="28"/>
-<line class="wire" x1="1320" y1="382" x2="1320" y2="356" />
-<line class="wire" x1="1320" y1="290" x2="1320" y2="300" />
-<line class="symbol" x1="1320" y1="345" x2="1320" y2="312" marker-end="url(#arrow)"/>
-<text class="small" x="1362" y="324" text-anchor="start">Isaw</text>
-<text class="value" x="1362" y="342" text-anchor="start">229 uA</text>
-<line class="wire" x1="1320" y1="382" x2="1320" y2="398" />
-<line class="ground" x1="1304" y1="398" x2="1336" y2="398" />
-<line class="ground" x1="1310" y1="405" x2="1330" y2="405" />
-<line class="ground" x1="1315" y1="412" x2="1325" y2="412" />
-<line class="wire" x1="1320" y1="290" x2="1320" y2="356.0" />
-<line class="wire" x1="1320" y1="376.0" x2="1320" y2="442" />
-<line class="wire" x1="1298" y1="356.0" x2="1342" y2="356.0" />
-<line class="wire" x1="1298" y1="376.0" x2="1342" y2="376.0" />
-<text class="small" x="1348" y="358.0" text-anchor="start">Csaw</text>
-<text class="value" x="1348" y="378.0" text-anchor="start">10 nF</text>
-<line class="wire" x1="1320" y1="442" x2="1320" y2="458" />
-<line class="ground" x1="1304" y1="458" x2="1336" y2="458" />
-<line class="ground" x1="1310" y1="465" x2="1330" y2="465" />
-<line class="ground" x1="1315" y1="472" x2="1325" y2="472" />
-<line class="wire" x1="1463" y1="502" x2="1463" y2="518" />
-<line class="ground" x1="1447" y1="518" x2="1479" y2="518" />
-<line class="ground" x1="1453" y1="525" x2="1473" y2="525" />
-<line class="ground" x1="1458" y1="532" x2="1468" y2="532" />
-<rect class="stage" x="70" y="770" width="1320" height="450" rx="12"/>
-<text class="section-title" x="86" y="798" text-anchor="start">3) Triangular con cambiador de nivel</text>
-<text class="small" x="86" y="826" text-anchor="start">Divisor por 2: f0 -&gt; f0/2</text>
-<text class="small" x="86" y="848" text-anchor="start">Cambiador: 0-2 V a +/-1 V</text>
-<text class="small" x="86" y="870" text-anchor="start">Integrador LF353: Rtri=10.9 k, Ctri=10 nF</text>
-<polyline class="bus" points="575,428 575,238 42,238 42,840 110,840" marker-end="url(#arrow)"/>
-<rect class="block" x="110" y="795" width="170" height="90" rx="8"/>
-<text class="section-title" x="195" y="832" text-anchor="middle">Divisor /2</text>
-<text class="small" x="195" y="858" text-anchor="middle">0-2 V</text>
-<line class="bus" x1="280" y1="840" x2="350" y2="840" marker-end="url(#arrow)"/>
-<circle class="symbol" cx="338" cy="968" r="28"/>
-<line class="wire" x1="338" y1="930" x2="338" y2="940" />
-<line class="wire" x1="338" y1="996" x2="338" y2="1022" />
-<text class="small" x="338" y="962" text-anchor="middle">+</text>
-<text class="small" x="338" y="982" text-anchor="middle">-</text>
-<text class="text" x="338" y="916" text-anchor="middle">Referencia</text>
-<text class="small" x="380" y="965" text-anchor="start">Vref</text>
-<text class="value" x="380" y="983" text-anchor="start">1 V</text>
-<polygon class="opamp" points="420,790 420,902 552,846" />
-<text class="text" x="436" y="876" text-anchor="start">+</text>
-<text class="text" x="436" y="828" text-anchor="start">-</text>
-<text class="section-title" x="484" y="842" text-anchor="middle">U3</text>
-<text class="tiny" x="484" y="862" text-anchor="middle">LF353 nivel</text>
-<line class="wire" x1="478" y1="808" x2="478" y2="784" />
-<line class="wire" x1="478" y1="884" x2="478" y2="908" />
-<text class="tiny" x="486" y="788" text-anchor="start">+15 V</text>
-<text class="tiny" x="486" y="916" text-anchor="start">-15 V</text>
-<line class="wire" x1="420" y1="776" x2="438" y2="776" />
-<polyline class="symbol" points="438,776 454.0,765 470.0,787 486.0,765 502.0,787 518.0,765 534,776" />
-<line class="wire" x1="534" y1="776" x2="552" y2="776" />
-<text class="small" x="486.0" y="758" text-anchor="middle">Rfb</text>
-<text class="value" x="486.0" y="810" text-anchor="middle">10 k</text>
-<line class="wire" x1="420" y1="822" x2="420" y2="776" />
-<line class="wire" x1="552" y1="846" x2="552" y2="776" />
-<text class="small" x="560" y="850" text-anchor="start">tri_drive</text>
-<polygon class="opamp" points="860,790 860,902 992,846" />
-<text class="text" x="876" y="876" text-anchor="start">+</text>
-<text class="text" x="876" y="828" text-anchor="start">-</text>
-<text class="section-title" x="924" y="842" text-anchor="middle">U4</text>
-<text class="tiny" x="924" y="862" text-anchor="middle">LF353 int</text>
-<line class="wire" x1="918" y1="808" x2="918" y2="784" />
-<line class="wire" x1="918" y1="884" x2="918" y2="908" />
-<text class="tiny" x="926" y="788" text-anchor="start">+15 V</text>
-<text class="tiny" x="926" y="916" text-anchor="start">-15 V</text>
-<line class="wire" x1="830" y1="870" x2="860" y2="870" />
-<line class="wire" x1="830" y1="870" x2="830" y2="886" />
-<line class="ground" x1="814" y1="886" x2="846" y2="886" />
-<line class="ground" x1="820" y1="893" x2="840" y2="893" />
-<line class="ground" x1="825" y1="900" x2="835" y2="900" />
-<line class="wire" x1="860" y1="754" x2="916.0" y2="754" />
-<line class="wire" x1="936.0" y1="754" x2="992" y2="754" />
-<line class="wire" x1="916.0" y1="732" x2="916.0" y2="776" />
-<line class="wire" x1="936.0" y1="732" x2="936.0" y2="776" />
-<text class="small" x="926.0" y="724" text-anchor="middle">Ctri</text>
-<text class="value" x="926.0" y="796" text-anchor="middle">10 nF</text>
-<line class="wire" x1="860" y1="822" x2="860" y2="754" />
-<line class="wire" x1="992" y1="846" x2="992" y2="754" />
-<line class="wire" x1="860" y1="712" x2="878" y2="712" />
-<polyline class="symbol" points="878,712 894.0,701 910.0,723 926.0,701 942.0,723 958.0,701 974,712" />
-<line class="wire" x1="974" y1="712" x2="992" y2="712" />
-<text class="small" x="926.0" y="694" text-anchor="middle">Rleak</text>
-<text class="value" x="926.0" y="746" text-anchor="middle">100 M</text>
-<line class="wire" x1="860" y1="754" x2="860" y2="712" />
-<line class="wire" x1="992" y1="754" x2="992" y2="712" />
-<polygon class="opamp" points="1110,790 1110,902 1242,846" />
-<text class="text" x="1126" y="876" text-anchor="start">+</text>
-<text class="text" x="1126" y="828" text-anchor="start">-</text>
-<text class="section-title" x="1174" y="842" text-anchor="middle">U5</text>
-<text class="tiny" x="1174" y="862" text-anchor="middle">LF353 buf</text>
-<line class="wire" x1="1168" y1="808" x2="1168" y2="784" />
-<line class="wire" x1="1168" y1="884" x2="1168" y2="908" />
-<text class="tiny" x="1176" y="788" text-anchor="start">+15 V</text>
-<text class="tiny" x="1176" y="916" text-anchor="start">-15 V</text>
-<line class="bus" x1="992" y1="846" x2="1110" y2="870" />
-<line class="wire" x1="1242" y1="846" x2="1110" y2="822" />
-<line class="bus" x1="1242" y1="846" x2="1315" y2="846" />
-<text class="text" x="1320" y="851" text-anchor="start">tri</text>
-<rect class="stage" x="70" y="1280" width="2540" height="420" rx="12"/>
-<text class="section-title" x="86" y="1308" text-anchor="start">4) Filtro pasabajas activo de orden 5 - Chebyshev 0.5 dB</text>
-<text class="small" x="86" y="1336" text-anchor="start">Entrada: V(tri) -&gt; atenuador, RC activo y dos Sallen-Key LF353</text>
-<polyline class="bus" points="1315,846 1395,846 1395,1245 42,1245 42,1370 130,1370" marker-end="url(#arrow)"/>
-<line class="wire" x1="130" y1="1370" x2="148" y2="1370" />
-<polyline class="symbol" points="148,1370 175.33333333333334,1359 202.66666666666666,1381 230.0,1359 257.3333333333333,1381 284.66666666666663,1359 312,1370" />
-<line class="wire" x1="312" y1="1370" x2="330" y2="1370" />
-<text class="small" x="230.0" y="1352" text-anchor="middle">Rtop</text>
-<text class="value" x="230.0" y="1404" text-anchor="middle">498 k</text>
-<line class="wire" x1="330" y1="1370" x2="330" y2="1388" />
-<polyline class="symbol" points="330,1388 341,1403.6666666666667 319,1419.3333333333333 341,1435.0 319,1450.6666666666667 341,1466.3333333333333 330,1482" />
-<line class="wire" x1="330" y1="1482" x2="330" y2="1500" />
-<text class="small" x="348" y="1427.0" text-anchor="start">Rbot</text>
-<text class="value" x="348" y="1445.0" text-anchor="start">100 k</text>
-<line class="wire" x1="330" y1="1500" x2="330" y2="1516" />
-<line class="ground" x1="314" y1="1516" x2="346" y2="1516" />
-<line class="ground" x1="320" y1="1523" x2="340" y2="1523" />
-<line class="ground" x1="325" y1="1530" x2="335" y2="1530" />
-<line class="wire" x1="330" y1="1370" x2="348" y2="1370" />
-<polyline class="symbol" points="348,1370 373.6666666666667,1359 399.3333333333333,1381 425.0,1359 450.6666666666667,1381 476.33333333333337,1359 502,1370" />
-<line class="wire" x1="502" y1="1370" x2="520" y2="1370" />
-<text class="small" x="425.0" y="1352" text-anchor="middle">Rp1</text>
-<text class="value" x="425.0" y="1404" text-anchor="middle">30.7 k</text>
-<line class="wire" x1="520" y1="1370" x2="520" y2="1425.0" />
-<line class="wire" x1="520" y1="1445.0" x2="520" y2="1500" />
-<line class="wire" x1="498" y1="1425.0" x2="542" y2="1425.0" />
-<line class="wire" x1="498" y1="1445.0" x2="542" y2="1445.0" />
-<text class="small" x="548" y="1427.0" text-anchor="start">Cf</text>
-<text class="value" x="548" y="1447.0" text-anchor="start">10 nF</text>
-<line class="wire" x1="520" y1="1500" x2="520" y2="1516" />
-<line class="ground" x1="504" y1="1516" x2="536" y2="1516" />
-<line class="ground" x1="510" y1="1523" x2="530" y2="1523" />
-<line class="ground" x1="515" y1="1530" x2="525" y2="1530" />
-<polygon class="opamp" points="610,1314 610,1426 742,1370" />
-<text class="text" x="626" y="1400" text-anchor="start">+</text>
-<text class="text" x="626" y="1352" text-anchor="start">-</text>
-<text class="section-title" x="674" y="1366" text-anchor="middle">U6</text>
-<text class="tiny" x="674" y="1386" text-anchor="middle">LF353 buf</text>
-<line class="wire" x1="668" y1="1332" x2="668" y2="1308" />
-<line class="wire" x1="668" y1="1408" x2="668" y2="1432" />
-<text class="tiny" x="676" y="1312" text-anchor="start">+15 V</text>
-<text class="tiny" x="676" y="1440" text-anchor="start">-15 V</text>
-<line class="wire" x1="520" y1="1370" x2="610" y2="1394" />
-<line class="wire" x1="742" y1="1370" x2="610" y2="1346" />
-<line class="bus" x1="742" y1="1370" x2="815" y2="1370" />
-<polygon class="opamp" points="1120,1314 1120,1426 1252,1370" />
-<text class="text" x="1136" y="1400" text-anchor="start">+</text>
-<text class="text" x="1136" y="1352" text-anchor="start">-</text>
-<text class="section-title" x="1184" y="1366" text-anchor="middle">U7</text>
-<text class="tiny" x="1184" y="1386" text-anchor="middle">SK1 LF353</text>
-<line class="wire" x1="1178" y1="1332" x2="1178" y2="1308" />
-<line class="wire" x1="1178" y1="1408" x2="1178" y2="1432" />
-<text class="tiny" x="1186" y="1312" text-anchor="start">+15 V</text>
-<text class="tiny" x="1186" y="1440" text-anchor="start">-15 V</text>
-<line class="wire" x1="815" y1="1370" x2="833" y2="1370" />
-<polyline class="symbol" points="833,1370 848.6666666666666,1359 864.3333333333334,1381 880.0,1359 895.6666666666666,1381 911.3333333333334,1359 927,1370" />
-<line class="wire" x1="927" y1="1370" x2="945" y2="1370" />
-<text class="small" x="880.0" y="1352" text-anchor="middle">R1</text>
-<text class="value" x="880.0" y="1404" text-anchor="middle">16.1 k</text>
-<line class="wire" x1="945" y1="1370" x2="945" y2="1422.5" />
-<line class="wire" x1="945" y1="1442.5" x2="945" y2="1495" />
-<line class="wire" x1="923" y1="1422.5" x2="967" y2="1422.5" />
-<line class="wire" x1="923" y1="1442.5" x2="967" y2="1442.5" />
-<text class="small" x="973" y="1424.5" text-anchor="start">C1</text>
-<text class="value" x="973" y="1444.5" text-anchor="start">10 nF</text>
-<line class="wire" x1="945" y1="1495" x2="1252" y2="1495" />
-<line class="wire" x1="1252" y1="1495" x2="1252" y2="1370" />
-<line class="wire" x1="1120" y1="1394" x2="1120" y2="1434.5" />
-<line class="wire" x1="1120" y1="1454.5" x2="1120" y2="1495" />
-<line class="wire" x1="1098" y1="1434.5" x2="1142" y2="1434.5" />
-<line class="wire" x1="1098" y1="1454.5" x2="1142" y2="1454.5" />
-<text class="small" x="1148" y="1436.5" text-anchor="start">C2</text>
-<text class="value" x="1148" y="1456.5" text-anchor="start">10 nF</text>
-<line class="wire" x1="1120" y1="1495" x2="1120" y2="1511" />
-<line class="ground" x1="1104" y1="1511" x2="1136" y2="1511" />
-<line class="ground" x1="1110" y1="1518" x2="1130" y2="1518" />
-<line class="ground" x1="1115" y1="1525" x2="1125" y2="1525" />
-<line class="wire" x1="1120" y1="1346" x2="1120" y2="1364" />
-<polyline class="symbol" points="1120,1364 1131,1382.8333333333333 1109,1401.6666666666667 1131,1420.5 1109,1439.3333333333333 1131,1458.1666666666667 1120,1477" />
-<line class="wire" x1="1120" y1="1477" x2="1120" y2="1495" />
-<text class="small" x="1138" y="1412.5" text-anchor="start">Rg1</text>
-<text class="value" x="1138" y="1430.5" text-anchor="start">10 k</text>
-<line class="wire" x1="1120" y1="1495" x2="1120" y2="1511" />
-<line class="ground" x1="1104" y1="1511" x2="1136" y2="1511" />
-<line class="ground" x1="1110" y1="1518" x2="1130" y2="1518" />
-<line class="ground" x1="1115" y1="1525" x2="1125" y2="1525" />
-<line class="wire" x1="1120" y1="1266" x2="1138" y2="1266" />
-<polyline class="symbol" points="1138,1266 1154.0,1255 1170.0,1277 1186.0,1255 1202.0,1277 1218.0,1255 1234,1266" />
-<line class="wire" x1="1234" y1="1266" x2="1252" y2="1266" />
-<text class="small" x="1186.0" y="1248" text-anchor="middle">Rf1</text>
-<text class="value" x="1186.0" y="1300" text-anchor="middle">11.5 k</text>
-<line class="wire" x1="1252" y1="1370" x2="1252" y2="1266" />
-<line class="wire" x1="1120" y1="1346" x2="1120" y2="1266" />
-<line class="bus" x1="1252" y1="1370" x2="1370" y2="1370" />
-<text class="small" x="1320" y="1358" text-anchor="start">sk1</text>
-<polygon class="opamp" points="1680,1314 1680,1426 1812,1370" />
-<text class="text" x="1696" y="1400" text-anchor="start">+</text>
-<text class="text" x="1696" y="1352" text-anchor="start">-</text>
-<text class="section-title" x="1744" y="1366" text-anchor="middle">U8</text>
-<text class="tiny" x="1744" y="1386" text-anchor="middle">SK2 LF353</text>
-<line class="wire" x1="1738" y1="1332" x2="1738" y2="1308" />
-<line class="wire" x1="1738" y1="1408" x2="1738" y2="1432" />
-<text class="tiny" x="1746" y="1312" text-anchor="start">+15 V</text>
-<text class="tiny" x="1746" y="1440" text-anchor="start">-15 V</text>
-<line class="wire" x1="1370" y1="1370" x2="1388" y2="1370" />
-<polyline class="symbol" points="1388,1370 1403.6666666666667,1359 1419.3333333333333,1381 1435.0,1359 1450.6666666666667,1381 1466.3333333333333,1359 1482,1370" />
-<line class="wire" x1="1482" y1="1370" x2="1500" y2="1370" />
-<text class="small" x="1435.0" y="1352" text-anchor="middle">R1</text>
-<text class="value" x="1435.0" y="1404" text-anchor="middle">10.9 k</text>
-<line class="wire" x1="1500" y1="1370" x2="1500" y2="1422.5" />
-<line class="wire" x1="1500" y1="1442.5" x2="1500" y2="1495" />
-<line class="wire" x1="1478" y1="1422.5" x2="1522" y2="1422.5" />
-<line class="wire" x1="1478" y1="1442.5" x2="1522" y2="1442.5" />
-<text class="small" x="1528" y="1424.5" text-anchor="start">C1</text>
-<text class="value" x="1528" y="1444.5" text-anchor="start">10 nF</text>
-<line class="wire" x1="1500" y1="1495" x2="1812" y2="1495" />
-<line class="wire" x1="1812" y1="1495" x2="1812" y2="1370" />
-<line class="wire" x1="1680" y1="1394" x2="1680" y2="1434.5" />
-<line class="wire" x1="1680" y1="1454.5" x2="1680" y2="1495" />
-<line class="wire" x1="1658" y1="1434.5" x2="1702" y2="1434.5" />
-<line class="wire" x1="1658" y1="1454.5" x2="1702" y2="1454.5" />
-<text class="small" x="1708" y="1436.5" text-anchor="start">C2</text>
-<text class="value" x="1708" y="1456.5" text-anchor="start">10 nF</text>
-<line class="wire" x1="1680" y1="1495" x2="1680" y2="1511" />
-<line class="ground" x1="1664" y1="1511" x2="1696" y2="1511" />
-<line class="ground" x1="1670" y1="1518" x2="1690" y2="1518" />
-<line class="ground" x1="1675" y1="1525" x2="1685" y2="1525" />
-<line class="wire" x1="1680" y1="1346" x2="1680" y2="1364" />
-<polyline class="symbol" points="1680,1364 1691,1382.8333333333333 1669,1401.6666666666667 1691,1420.5 1669,1439.3333333333333 1691,1458.1666666666667 1680,1477" />
-<line class="wire" x1="1680" y1="1477" x2="1680" y2="1495" />
-<text class="small" x="1698" y="1412.5" text-anchor="start">Rg2</text>
-<text class="value" x="1698" y="1430.5" text-anchor="start">10 k</text>
-<line class="wire" x1="1680" y1="1495" x2="1680" y2="1511" />
-<line class="ground" x1="1664" y1="1511" x2="1696" y2="1511" />
-<line class="ground" x1="1670" y1="1518" x2="1690" y2="1518" />
-<line class="ground" x1="1675" y1="1525" x2="1685" y2="1525" />
-<line class="wire" x1="1680" y1="1266" x2="1698" y2="1266" />
-<polyline class="symbol" points="1698,1266 1714.0,1255 1730.0,1277 1746.0,1255 1762.0,1277 1778.0,1255 1794,1266" />
-<line class="wire" x1="1794" y1="1266" x2="1812" y2="1266" />
-<text class="small" x="1746.0" y="1248" text-anchor="middle">Rf2</text>
-<text class="value" x="1746.0" y="1300" text-anchor="middle">17.8 k</text>
-<line class="wire" x1="1812" y1="1370" x2="1812" y2="1266" />
-<line class="wire" x1="1680" y1="1346" x2="1680" y2="1266" />
-<line class="bus" x1="1812" y1="1370" x2="1940" y2="1370" marker-end="url(#arrow)"/>
-<text class="text" x="1950" y="1375" text-anchor="start">sine</text>
-<rect class="labelbox" x="2060" y="1350" width="430" height="170" rx="10"/>
-<text class="section-title" x="2084" y="1384" text-anchor="start">Resumen de salidas</text>
-<text class="small" x="2084" y="1414" text-anchor="start">V(sq)   = cuadrada, 2.29 kHz</text>
-<text class="small" x="2084" y="1440" text-anchor="start">V(saw)  = diente de sierra, 4.58 kHz</text>
-<text class="small" x="2084" y="1466" text-anchor="start">V(tri)  = triangular, 1.145 kHz</text>
-<text class="small" x="2084" y="1492" text-anchor="start">V(sine) = senoidal por filtro activo</text>
+<rect class="page" x="0" y="0" width="3600" height="2550"/>
+<text class="title" x="90" y="70" text-anchor="start">Sintetizador analogico IE0413 - Esquematico completo</text>
+<text class="subtitle" x="90" y="110" text-anchor="start">Grupo: Daniel Madriz C24478 / Fabricio Torres C27803 / Kenneth Vizcaino C09331</text>
+<text class="subtitle" x="90" y="146" text-anchor="start">X=2, Y=2, Z=9  |  f0=2.29 kHz  |  Chebyshev tipo I de 0.5 dB  |  LF353/NS no ideal</text>
+<rect class="labelbox" x="90" y="178" width="3200" height="92" rx="12"/>
+<text class="section-title" x="118" y="215" text-anchor="start">Lectura del dibujo</text>
+<text class="small" x="118" y="246" text-anchor="start">Los buses azules conectan las etapas sin cruzar los componentes. Las etiquetas V(sq), V(saw), V(tri) y V(sine) son los nodos para graficar.</text>
+<rect class="stage" x="90" y="280" width="780" height="560" rx="12"/>
+<text class="section-title" x="106" y="308" text-anchor="start">1) Oscilador Schmitt LF353</text>
+<text class="small" x="106" y="336" text-anchor="start">R1=R2=100 kOhm, beta=0.5</text>
+<text class="small" x="106" y="358" text-anchor="start">Rosc=20.3 kOhm, Cosc=10 nF</text>
+<text class="small" x="106" y="380" text-anchor="start">V(sq)=cuadrada, f0=2.29 kHz</text>
+<polygon class="opamp" points="390,450 390,562 522,506" />
+<text class="text" x="406" y="536" text-anchor="start">+</text>
+<text class="text" x="406" y="488" text-anchor="start">-</text>
+<text class="section-title" x="454" y="502" text-anchor="middle">U1</text>
+<text class="tiny" x="454" y="522" text-anchor="middle">LF353</text>
+<line class="wire" x1="448" y1="468" x2="448" y2="444" />
+<line class="wire" x1="448" y1="544" x2="448" y2="568" />
+<text class="tiny" x="456" y="448" text-anchor="start">+15 V</text>
+<text class="tiny" x="456" y="576" text-anchor="start">-15 V</text>
+<line class="wire" x1="270" y1="482" x2="390" y2="482" />
+<line class="wire" x1="270" y1="482" x2="270" y2="615" />
+<line class="wire" x1="270" y1="482" x2="270" y2="606.0" />
+<line class="wire" x1="270" y1="626.0" x2="270" y2="750" />
+<line class="wire" x1="248" y1="606.0" x2="292" y2="606.0" />
+<line class="wire" x1="248" y1="626.0" x2="292" y2="626.0" />
+<text class="small" x="298" y="608.0" text-anchor="start">Cosc</text>
+<text class="value" x="298" y="628.0" text-anchor="start">10 nF</text>
+<line class="wire" x1="270" y1="750" x2="270" y2="766" />
+<line class="ground" x1="254" y1="766" x2="286" y2="766" />
+<line class="ground" x1="260" y1="773" x2="280" y2="773" />
+<line class="ground" x1="265" y1="780" x2="275" y2="780" />
+<line class="wire" x1="270" y1="615" x2="288" y2="615" />
+<polyline class="symbol" points="288,615 325.3333333333333,604 362.6666666666667,626 400.0,604 437.33333333333337,626 474.6666666666667,604 512,615" />
+<line class="wire" x1="512" y1="615" x2="530" y2="615" />
+<text class="small" x="400.0" y="597" text-anchor="middle">Rosc</text>
+<text class="value" x="400.0" y="649" text-anchor="middle">20.3 k</text>
+<polyline class="symbol" points="530,615 555,615 555,506 522,506" />
+<line class="bus" x1="522" y1="506" x2="740" y2="506" />
+<rect class="netbox" x="741.5" y="472" width="89" height="34" rx="7"/>
+<text class="small" x="786" y="496" text-anchor="middle">V(sq)</text>
+<polyline class="symbol" points="740,506 740,380" />
+<line class="wire" x1="505" y1="380" x2="523" y2="380" />
+<polyline class="symbol" points="523,380 556.1666666666666,369 589.3333333333334,391 622.5,369 655.6666666666666,391 688.8333333333333,369 722,380" />
+<line class="wire" x1="722" y1="380" x2="740" y2="380" />
+<text class="small" x="622.5" y="362" text-anchor="middle">Rsch1</text>
+<text class="value" x="622.5" y="414" text-anchor="middle">100 k</text>
+<polyline class="symbol" points="505,380 505,530 390,530" />
+<line class="wire" x1="505" y1="530" x2="505" y2="548" />
+<polyline class="symbol" points="505,548 516,580.0 494,612.0 516,644.0 494,676.0 516,708.0 505,740" />
+<line class="wire" x1="505" y1="740" x2="505" y2="758" />
+<text class="small" x="523" y="636.0" text-anchor="start">Rsch2</text>
+<text class="value" x="523" y="654.0" text-anchor="start">100 k</text>
+<line class="wire" x1="505" y1="758" x2="505" y2="774" />
+<line class="ground" x1="489" y1="774" x2="521" y2="774" />
+<line class="ground" x1="495" y1="781" x2="515" y2="781" />
+<line class="ground" x1="500" y1="788" x2="510" y2="788" />
+<rect class="stage" x="1000" y="280" width="1240" height="560" rx="12"/>
+<text class="section-title" x="1016" y="308" text-anchor="start">2) Diente de sierra positivo</text>
+<text class="small" x="1016" y="336" text-anchor="start">Entrada desde V(sq)</text>
+<text class="small" x="1016" y="358" text-anchor="start">Reset por ambos flancos con D1/D2 y Q1</text>
+<text class="small" x="1016" y="380" text-anchor="start">Csaw=10 nF, Isaw=229 uA, fsaw=4.58 kHz</text>
+<polyline class="bus" points="740,506 910,506 910,530 1015,530" marker-end="url(#arrow)"/>
+<rect class="netbox" x="910.5" y="484" width="89" height="34" rx="7"/>
+<text class="small" x="955" y="508" text-anchor="middle">V(sq)</text>
+<polygon class="opamp" points="1160,488 1160,600 1292,544" />
+<text class="text" x="1176" y="574" text-anchor="start">+</text>
+<text class="text" x="1176" y="526" text-anchor="start">-</text>
+<text class="section-title" x="1224" y="540" text-anchor="middle">U2</text>
+<text class="tiny" x="1224" y="560" text-anchor="middle">LF353 inv</text>
+<line class="wire" x1="1218" y1="506" x2="1218" y2="482" />
+<line class="wire" x1="1218" y1="582" x2="1218" y2="606" />
+<text class="tiny" x="1226" y="486" text-anchor="start">+15 V</text>
+<text class="tiny" x="1226" y="614" text-anchor="start">-15 V</text>
+<line class="wire" x1="1015" y1="520" x2="1033" y2="520" />
+<polyline class="symbol" points="1033,520 1051.1666666666667,509 1069.3333333333333,531 1087.5,509 1105.6666666666667,531 1123.8333333333333,509 1142,520" />
+<line class="wire" x1="1142" y1="520" x2="1160" y2="520" />
+<text class="small" x="1087.5" y="502" text-anchor="middle">Rin</text>
+<text class="value" x="1087.5" y="554" text-anchor="middle">10 k</text>
+<line class="wire" x1="1114" y1="568" x2="1160" y2="568" />
+<line class="wire" x1="1114" y1="568" x2="1114" y2="584" />
+<line class="ground" x1="1098" y1="584" x2="1130" y2="584" />
+<line class="ground" x1="1104" y1="591" x2="1124" y2="591" />
+<line class="ground" x1="1109" y1="598" x2="1119" y2="598" />
+<line class="wire" x1="1160" y1="444" x2="1178" y2="444" />
+<polyline class="symbol" points="1178,444 1194.0,433 1210.0,455 1226.0,433 1242.0,455 1258.0,433 1274,444" />
+<line class="wire" x1="1274" y1="444" x2="1292" y2="444" />
+<text class="small" x="1226.0" y="426" text-anchor="middle">Rf</text>
+<text class="value" x="1226.0" y="478" text-anchor="middle">10 k</text>
+<polyline class="symbol" points="1160,520 1160,444" />
+<polyline class="symbol" points="1292,444 1292,544" />
+<rect class="netbox" x="1295.0" y="526" width="102" height="34" rx="7"/>
+<text class="small" x="1346" y="550" text-anchor="middle">sq_inv</text>
+<line class="wire" x1="1460" y1="470" x2="1520.0" y2="470" />
+<line class="wire" x1="1540.0" y1="470" x2="1600" y2="470" />
+<line class="wire" x1="1520.0" y1="448" x2="1520.0" y2="492" />
+<line class="wire" x1="1540.0" y1="448" x2="1540.0" y2="492" />
+<text class="small" x="1530.0" y="440" text-anchor="middle">Cedge1</text>
+<text class="value" x="1530.0" y="512" text-anchor="middle">220 pF</text>
+<polyline class="bus" points="910,530 910,420 1460,420 1460,470" />
+<line class="wire" x1="1600" y1="470" x2="1600" y2="488" />
+<polyline class="symbol" points="1600,488 1611,504.5 1589,521.0 1611,537.5 1589,554.0 1611,570.5 1600,587" />
+<line class="wire" x1="1600" y1="587" x2="1600" y2="605" />
+<text class="small" x="1618" y="529.5" text-anchor="start">Redge1</text>
+<text class="value" x="1618" y="547.5" text-anchor="start">10 k</text>
+<line class="wire" x1="1600" y1="605" x2="1600" y2="621" />
+<line class="ground" x1="1584" y1="621" x2="1616" y2="621" />
+<line class="ground" x1="1590" y1="628" x2="1610" y2="628" />
+<line class="ground" x1="1595" y1="635" x2="1605" y2="635" />
+<line class="wire" x1="1600" y1="470" x2="1620" y2="470" />
+<polygon class="symbol" points="1620,452 1620,488 1654,470" />
+<line class="wire" x1="1658" y1="450" x2="1658" y2="490" />
+<line class="wire" x1="1658" y1="470" x2="1740" y2="470" />
+<text class="small" x="1670.0" y="442" text-anchor="middle">D1</text>
+<line class="wire" x1="1460" y1="610" x2="1520.0" y2="610" />
+<line class="wire" x1="1540.0" y1="610" x2="1600" y2="610" />
+<line class="wire" x1="1520.0" y1="588" x2="1520.0" y2="632" />
+<line class="wire" x1="1540.0" y1="588" x2="1540.0" y2="632" />
+<text class="small" x="1530.0" y="580" text-anchor="middle">Cedge2</text>
+<text class="value" x="1530.0" y="652" text-anchor="middle">220 pF</text>
+<polyline class="bus" points="1292,544 1360,544 1360,610 1460,610" />
+<line class="wire" x1="1600" y1="610" x2="1600" y2="628" />
+<polyline class="symbol" points="1600,628 1611,645.3333333333334 1589,662.6666666666666 1611,680.0 1589,697.3333333333334 1611,714.6666666666666 1600,732" />
+<line class="wire" x1="1600" y1="732" x2="1600" y2="750" />
+<text class="small" x="1618" y="672.0" text-anchor="start">Redge2</text>
+<text class="value" x="1618" y="690.0" text-anchor="start">10 k</text>
+<line class="wire" x1="1600" y1="750" x2="1600" y2="766" />
+<line class="ground" x1="1584" y1="766" x2="1616" y2="766" />
+<line class="ground" x1="1590" y1="773" x2="1610" y2="773" />
+<line class="ground" x1="1595" y1="780" x2="1605" y2="780" />
+<line class="wire" x1="1600" y1="610" x2="1620" y2="610" />
+<polygon class="symbol" points="1620,592 1620,628 1654,610" />
+<line class="wire" x1="1658" y1="590" x2="1658" y2="630" />
+<line class="wire" x1="1658" y1="610" x2="1740" y2="610" />
+<text class="small" x="1670.0" y="582" text-anchor="middle">D2</text>
+<polyline class="symbol" points="1740,470 1790,470 1790,610 1740,610" />
+<line class="wire" x1="1790" y1="610" x2="1790" y2="628" />
+<polyline class="symbol" points="1790,628 1801,648.6666666666666 1779,669.3333333333334 1801,690.0 1779,710.6666666666666 1801,731.3333333333334 1790,752" />
+<line class="wire" x1="1790" y1="752" x2="1790" y2="770" />
+<text class="small" x="1808" y="682.0" text-anchor="start">Rreset</text>
+<text class="value" x="1808" y="700.0" text-anchor="start">4.7 k</text>
+<line class="wire" x1="1790" y1="770" x2="1790" y2="786" />
+<line class="ground" x1="1774" y1="786" x2="1806" y2="786" />
+<line class="ground" x1="1780" y1="793" x2="1800" y2="793" />
+<line class="ground" x1="1785" y1="800" x2="1795" y2="800" />
+<circle class="symbol" cx="2085" cy="615" r="42"/>
+<line class="wire" x1="2021" y1="615" x2="2067" y2="615" />
+<line class="wire" x1="2067" y1="589" x2="2067" y2="641" />
+<line class="wire" x1="2067" y1="599" x2="2111" y2="563" />
+<line class="wire" x1="2067" y1="631" x2="2113" y2="669" />
+<line class="wire" x1="2111" y1="563" x2="2111" y2="533" />
+<line class="wire" x1="2113" y1="669" x2="2113" y2="701" />
+<path class="symbol" d="M2097,655 L2114,670 L2093,674" />
+<text class="small" x="2085" y="557" text-anchor="middle">Q1 2N3904</text>
+<text class="tiny" x="2007" y="607" text-anchor="start">B</text>
+<text class="tiny" x="2119" y="543" text-anchor="start">C</text>
+<text class="tiny" x="2119" y="697" text-anchor="start">E</text>
+<line class="wire" x1="1790" y1="615" x2="1808" y2="615" />
+<polyline class="symbol" points="1808,615 1840.5,604 1873.0,626 1905.5,604 1938.0,626 1970.5,604 2003,615" />
+<line class="wire" x1="2003" y1="615" x2="2021" y2="615" />
+<text class="small" x="1905.5" y="597" text-anchor="middle">Rb</text>
+<text class="value" x="1905.5" y="649" text-anchor="middle">3.3 k</text>
+<line class="wire" x1="1985" y1="615" x2="1985" y2="633" />
+<polyline class="symbol" points="1985,633 1996,654.5 1974,676.0 1996,697.5 1974,719.0 1996,740.5 1985,762" />
+<line class="wire" x1="1985" y1="762" x2="1985" y2="780" />
+<text class="small" x="2003" y="689.5" text-anchor="start">Rbe</text>
+<text class="value" x="2003" y="707.5" text-anchor="start">47 k</text>
+<line class="wire" x1="1985" y1="780" x2="1985" y2="796" />
+<line class="ground" x1="1969" y1="796" x2="2001" y2="796" />
+<line class="ground" x1="1975" y1="803" x2="1995" y2="803" />
+<line class="ground" x1="1980" y1="810" x2="1990" y2="810" />
+<polyline class="bus" points="2111,533 1960,533 1960,440 1830,440" />
+<circle class="symbol" cx="1830" cy="478" r="28"/>
+<line class="wire" x1="1830" y1="532" x2="1830" y2="506" />
+<line class="wire" x1="1830" y1="440" x2="1830" y2="450" />
+<line class="symbol" x1="1830" y1="495" x2="1830" y2="462" marker-end="url(#arrow)"/>
+<text class="small" x="1872" y="474" text-anchor="start">Isaw</text>
+<text class="value" x="1872" y="492" text-anchor="start">229 uA</text>
+<line class="wire" x1="1830" y1="532" x2="1830" y2="548" />
+<line class="ground" x1="1814" y1="548" x2="1846" y2="548" />
+<line class="ground" x1="1820" y1="555" x2="1840" y2="555" />
+<line class="ground" x1="1825" y1="562" x2="1835" y2="562" />
+<line class="wire" x1="1960" y1="533" x2="1960" y2="646.5" />
+<line class="wire" x1="1960" y1="666.5" x2="1960" y2="780" />
+<line class="wire" x1="1938" y1="646.5" x2="1982" y2="646.5" />
+<line class="wire" x1="1938" y1="666.5" x2="1982" y2="666.5" />
+<text class="small" x="1988" y="648.5" text-anchor="start">Csaw</text>
+<text class="value" x="1988" y="668.5" text-anchor="start">10 nF</text>
+<line class="wire" x1="1960" y1="780" x2="1960" y2="796" />
+<line class="ground" x1="1944" y1="796" x2="1976" y2="796" />
+<line class="ground" x1="1950" y1="803" x2="1970" y2="803" />
+<line class="ground" x1="1955" y1="810" x2="1965" y2="810" />
+<line class="wire" x1="2113" y1="701" x2="2113" y2="717" />
+<line class="ground" x1="2097" y1="717" x2="2129" y2="717" />
+<line class="ground" x1="2103" y1="724" x2="2123" y2="724" />
+<line class="ground" x1="2108" y1="731" x2="2118" y2="731" />
+<line class="bus" x1="2111" y1="533" x2="2185" y2="533" marker-end="url(#arrow)"/>
+<rect class="netbox" x="2137.0" y="499" width="102" height="34" rx="7"/>
+<text class="small" x="2188" y="523" text-anchor="middle">V(saw)</text>
+<rect class="stage" x="2400" y="280" width="880" height="560" rx="12"/>
+<text class="section-title" x="2416" y="308" text-anchor="start">Fuentes</text>
+<text class="small" x="2416" y="336" text-anchor="start">Alimentacion para LF353</text>
+<text class="small" x="2416" y="358" text-anchor="start">Referencias locales mostradas en cada etapa</text>
+<text class="small" x="2416" y="380" text-anchor="start">No se usan amplificadores ideales</text>
+<circle class="symbol" cx="2580" cy="468" r="28"/>
+<line class="wire" x1="2580" y1="430" x2="2580" y2="440" />
+<line class="wire" x1="2580" y1="496" x2="2580" y2="522" />
+<text class="small" x="2580" y="462" text-anchor="middle">+</text>
+<text class="small" x="2580" y="482" text-anchor="middle">-</text>
+<text class="text" x="2580" y="416" text-anchor="middle">Riel positivo</text>
+<text class="small" x="2622" y="465" text-anchor="start">VCC</text>
+<text class="value" x="2622" y="483" text-anchor="start">+15 V</text>
+<line class="wire" x1="2580" y1="522" x2="2580" y2="538" />
+<line class="ground" x1="2564" y1="538" x2="2596" y2="538" />
+<line class="ground" x1="2570" y1="545" x2="2590" y2="545" />
+<line class="ground" x1="2575" y1="552" x2="2585" y2="552" />
+<circle class="symbol" cx="2580" cy="658" r="28"/>
+<line class="wire" x1="2580" y1="620" x2="2580" y2="630" />
+<line class="wire" x1="2580" y1="686" x2="2580" y2="712" />
+<text class="small" x="2580" y="652" text-anchor="middle">+</text>
+<text class="small" x="2580" y="672" text-anchor="middle">-</text>
+<text class="text" x="2580" y="606" text-anchor="middle">Riel negativo</text>
+<text class="small" x="2622" y="655" text-anchor="start">VEE</text>
+<text class="value" x="2622" y="673" text-anchor="start">-15 V</text>
+<line class="wire" x1="2580" y1="712" x2="2580" y2="728" />
+<line class="ground" x1="2564" y1="728" x2="2596" y2="728" />
+<line class="ground" x1="2570" y1="735" x2="2590" y2="735" />
+<line class="ground" x1="2575" y1="742" x2="2585" y2="742" />
+<rect class="labelbox" x="2790" y="414" width="360" height="190" rx="8"/>
+<text class="section-title" x="2814" y="452" text-anchor="start">Salidas principales</text>
+<text class="small" x="2814" y="486" text-anchor="start">V(sq): cuadrada 2.29 kHz</text>
+<text class="small" x="2814" y="518" text-anchor="start">V(saw): sierra 4.58 kHz</text>
+<text class="small" x="2814" y="550" text-anchor="start">V(tri): triangular 1.145 kHz</text>
+<text class="small" x="2814" y="582" text-anchor="start">V(sine): senoidal filtrada</text>
+<rect class="stage" x="90" y="960" width="2150" height="610" rx="12"/>
+<text class="section-title" x="106" y="988" text-anchor="start">3) Triangular con divisor, cambiador de nivel e integrador</text>
+<text class="small" x="106" y="1016" text-anchor="start">Entrada desde V(sq), divisor por 2 -&gt; f0/2</text>
+<text class="small" x="106" y="1038" text-anchor="start">Cambiador 0-2 V a +/-1 V con LF353</text>
+<text class="small" x="106" y="1060" text-anchor="start">Integrador: Rtri=10.9 kOhm, Ctri=10 nF</text>
+<polyline class="bus" points="910,506 910,900 60,900 60,1230 170,1230" marker-end="url(#arrow)"/>
+<rect class="netbox" x="83.5" y="1182" width="89" height="34" rx="7"/>
+<text class="small" x="128" y="1206" text-anchor="middle">V(sq)</text>
+<rect class="block" x="170" y="1160" width="260" height="125" rx="9"/>
+<text class="section-title" x="300" y="1202" text-anchor="middle">Divisor /2</text>
+<text class="small" x="300" y="1238" text-anchor="middle">0-2 V</text>
+<line class="bus" x1="430" y1="1230" x2="540" y2="1230" marker-end="url(#arrow)"/>
+<polygon class="opamp" points="650,1150 650,1262 782,1206" />
+<text class="text" x="666" y="1236" text-anchor="start">+</text>
+<text class="text" x="666" y="1188" text-anchor="start">-</text>
+<text class="section-title" x="714" y="1202" text-anchor="middle">U3</text>
+<text class="tiny" x="714" y="1222" text-anchor="middle">LF353 nivel</text>
+<line class="wire" x1="708" y1="1168" x2="708" y2="1144" />
+<line class="wire" x1="708" y1="1244" x2="708" y2="1268" />
+<text class="tiny" x="716" y="1148" text-anchor="start">+15 V</text>
+<text class="tiny" x="716" y="1276" text-anchor="start">-15 V</text>
+<line class="wire" x1="540" y1="1230" x2="558" y2="1230" />
+<polyline class="symbol" points="558,1230 570.3333333333334,1219 582.6666666666666,1241 595.0,1219 607.3333333333334,1241 619.6666666666666,1219 632,1230" />
+<line class="wire" x1="632" y1="1230" x2="650" y2="1230" />
+<text class="small" x="595.0" y="1212" text-anchor="middle">R</text>
+<text class="value" x="595.0" y="1264" text-anchor="middle">10 k</text>
+<rect class="netbox" x="466.0" y="1140" width="128" height="34" rx="7"/>
+<text class="small" x="530" y="1164" text-anchor="middle">Vref=1 V</text>
+<line class="wire" x1="530" y1="1182" x2="548" y2="1182" />
+<polyline class="symbol" points="548,1182 562.0,1171 576.0,1193 590.0,1171 604.0,1193 618.0,1171 632,1182" />
+<line class="wire" x1="632" y1="1182" x2="650" y2="1182" />
+<text class="small" x="590.0" y="1164" text-anchor="middle">R</text>
+<text class="value" x="590.0" y="1216" text-anchor="middle">10 k</text>
+<line class="wire" x1="650" y1="1092" x2="668" y2="1092" />
+<polyline class="symbol" points="668,1092 684.0,1081 700.0,1103 716.0,1081 732.0,1103 748.0,1081 764,1092" />
+<line class="wire" x1="764" y1="1092" x2="782" y2="1092" />
+<text class="small" x="716.0" y="1074" text-anchor="middle">Rfb</text>
+<text class="value" x="716.0" y="1126" text-anchor="middle">10 k</text>
+<polyline class="symbol" points="650,1182 650,1092" />
+<polyline class="symbol" points="782,1206 782,1092" />
+<rect class="netbox" x="781.5" y="1190" width="141" height="34" rx="7"/>
+<text class="small" x="852" y="1214" text-anchor="middle">tri_drive</text>
+<polygon class="opamp" points="1120,1174 1120,1286 1252,1230" />
+<text class="text" x="1136" y="1260" text-anchor="start">+</text>
+<text class="text" x="1136" y="1212" text-anchor="start">-</text>
+<text class="section-title" x="1184" y="1226" text-anchor="middle">U4</text>
+<text class="tiny" x="1184" y="1246" text-anchor="middle">LF353 int</text>
+<line class="wire" x1="1178" y1="1192" x2="1178" y2="1168" />
+<line class="wire" x1="1178" y1="1268" x2="1178" y2="1292" />
+<text class="tiny" x="1186" y="1172" text-anchor="start">+15 V</text>
+<text class="tiny" x="1186" y="1300" text-anchor="start">-15 V</text>
+<line class="wire" x1="912" y1="1206" x2="930" y2="1206" />
+<polyline class="symbol" points="930,1206 958.6666666666666,1195 987.3333333333334,1217 1016.0,1195 1044.6666666666667,1217 1073.3333333333333,1195 1102,1206" />
+<line class="wire" x1="1102" y1="1206" x2="1120" y2="1206" />
+<text class="small" x="1016.0" y="1188" text-anchor="middle">Rtri</text>
+<text class="value" x="1016.0" y="1240" text-anchor="middle">10.9 k</text>
+<line class="wire" x1="1066" y1="1254" x2="1120" y2="1254" />
+<line class="wire" x1="1066" y1="1254" x2="1066" y2="1270" />
+<line class="ground" x1="1050" y1="1270" x2="1082" y2="1270" />
+<line class="ground" x1="1056" y1="1277" x2="1076" y2="1277" />
+<line class="ground" x1="1061" y1="1284" x2="1071" y2="1284" />
+<line class="wire" x1="1120" y1="1120" x2="1176.0" y2="1120" />
+<line class="wire" x1="1196.0" y1="1120" x2="1252" y2="1120" />
+<line class="wire" x1="1176.0" y1="1098" x2="1176.0" y2="1142" />
+<line class="wire" x1="1196.0" y1="1098" x2="1196.0" y2="1142" />
+<text class="small" x="1186.0" y="1090" text-anchor="middle">Ctri</text>
+<text class="value" x="1186.0" y="1162" text-anchor="middle">10 nF</text>
+<line class="wire" x1="1120" y1="1070" x2="1138" y2="1070" />
+<polyline class="symbol" points="1138,1070 1154.0,1059 1170.0,1081 1186.0,1059 1202.0,1081 1218.0,1059 1234,1070" />
+<line class="wire" x1="1234" y1="1070" x2="1252" y2="1070" />
+<text class="small" x="1186.0" y="1052" text-anchor="middle">Rleak</text>
+<text class="value" x="1186.0" y="1104" text-anchor="middle">100 M</text>
+<polyline class="symbol" points="1120,1206 1120,1070" />
+<polyline class="symbol" points="1252,1230 1252,1070" />
+<polygon class="opamp" points="1580,1150 1580,1262 1712,1206" />
+<text class="text" x="1596" y="1236" text-anchor="start">+</text>
+<text class="text" x="1596" y="1188" text-anchor="start">-</text>
+<text class="section-title" x="1644" y="1202" text-anchor="middle">U5</text>
+<text class="tiny" x="1644" y="1222" text-anchor="middle">LF353 buf</text>
+<line class="wire" x1="1638" y1="1168" x2="1638" y2="1144" />
+<line class="wire" x1="1638" y1="1244" x2="1638" y2="1268" />
+<text class="tiny" x="1646" y="1148" text-anchor="start">+15 V</text>
+<text class="tiny" x="1646" y="1276" text-anchor="start">-15 V</text>
+<line class="bus" x1="1252" y1="1230" x2="1580" y2="1230" />
+<line class="wire" x1="1712" y1="1206" x2="1580" y2="1182" />
+<line class="bus" x1="1712" y1="1206" x2="1785" y2="1206" marker-end="url(#arrow)"/>
+<rect class="netbox" x="1784.0" y="1172" width="102" height="34" rx="7"/>
+<text class="small" x="1835" y="1196" text-anchor="middle">V(tri)</text>
+<rect class="stage" x="90" y="1730" width="3200" height="640" rx="12"/>
+<text class="section-title" x="106" y="1758" text-anchor="start">4) Filtro pasabajas activo de orden 5 - Chebyshev 0.5 dB</text>
+<text class="small" x="106" y="1786" text-anchor="start">Entrada desde V(tri)</text>
+<text class="small" x="106" y="1808" text-anchor="start">Atenuador + RC activo + dos secciones Sallen-Key con LF353</text>
+<text class="small" x="106" y="1830" text-anchor="start">fc=1.431 kHz</text>
+<polyline class="bus" points="1785,1206 2310,1206 2310,1675 60,1675 60,1925 150,1925" marker-end="url(#arrow)"/>
+<rect class="netbox" x="154.0" y="1876" width="102" height="34" rx="7"/>
+<text class="small" x="205" y="1900" text-anchor="middle">V(tri)</text>
+<line class="wire" x1="150" y1="1925" x2="168" y2="1925" />
+<polyline class="symbol" points="168,1925 207.0,1914 246.0,1936 285.0,1914 324.0,1936 363.0,1914 402,1925" />
+<line class="wire" x1="402" y1="1925" x2="420" y2="1925" />
+<text class="small" x="285.0" y="1907" text-anchor="middle">Rtop</text>
+<text class="value" x="285.0" y="1959" text-anchor="middle">498 k</text>
+<line class="wire" x1="420" y1="1925" x2="420" y2="1943" />
+<polyline class="symbol" points="420,1943 431,1971.1666666666667 409,1999.3333333333333 431,2027.5 409,2055.6666666666665 431,2083.8333333333335 420,2112" />
+<line class="wire" x1="420" y1="2112" x2="420" y2="2130" />
+<text class="small" x="438" y="2019.5" text-anchor="start">Rbot</text>
+<text class="value" x="438" y="2037.5" text-anchor="start">100 k</text>
+<line class="wire" x1="420" y1="2130" x2="420" y2="2146" />
+<line class="ground" x1="404" y1="2146" x2="436" y2="2146" />
+<line class="ground" x1="410" y1="2153" x2="430" y2="2153" />
+<line class="ground" x1="415" y1="2160" x2="425" y2="2160" />
+<line class="wire" x1="420" y1="1925" x2="438" y2="1925" />
+<polyline class="symbol" points="438,1925 480.3333333333333,1914 522.6666666666666,1936 565.0,1914 607.3333333333334,1936 649.6666666666667,1914 692,1925" />
+<line class="wire" x1="692" y1="1925" x2="710" y2="1925" />
+<text class="small" x="565.0" y="1907" text-anchor="middle">Rp1</text>
+<text class="value" x="565.0" y="1959" text-anchor="middle">30.7 k</text>
+<line class="wire" x1="710" y1="1925" x2="710" y2="2017.5" />
+<line class="wire" x1="710" y1="2037.5" x2="710" y2="2130" />
+<line class="wire" x1="688" y1="2017.5" x2="732" y2="2017.5" />
+<line class="wire" x1="688" y1="2037.5" x2="732" y2="2037.5" />
+<text class="small" x="738" y="2019.5" text-anchor="start">Cf</text>
+<text class="value" x="738" y="2039.5" text-anchor="start">10 nF</text>
+<line class="wire" x1="710" y1="2130" x2="710" y2="2146" />
+<line class="ground" x1="694" y1="2146" x2="726" y2="2146" />
+<line class="ground" x1="700" y1="2153" x2="720" y2="2153" />
+<line class="ground" x1="705" y1="2160" x2="715" y2="2160" />
+<polygon class="opamp" points="820,1845 820,1957 952,1901" />
+<text class="text" x="836" y="1931" text-anchor="start">+</text>
+<text class="text" x="836" y="1883" text-anchor="start">-</text>
+<text class="section-title" x="884" y="1897" text-anchor="middle">U6</text>
+<text class="tiny" x="884" y="1917" text-anchor="middle">LF353 buf</text>
+<line class="wire" x1="878" y1="1863" x2="878" y2="1839" />
+<line class="wire" x1="878" y1="1939" x2="878" y2="1963" />
+<text class="tiny" x="886" y="1843" text-anchor="start">+15 V</text>
+<text class="tiny" x="886" y="1971" text-anchor="start">-15 V</text>
+<line class="wire" x1="710" y1="1925" x2="820" y2="1925" />
+<line class="wire" x1="952" y1="1901" x2="820" y2="1877" />
+<line class="bus" x1="952" y1="1901" x2="1110" y2="1901" />
+<polygon class="opamp" points="1480,1825 1480,1937 1612,1881" />
+<text class="text" x="1496" y="1911" text-anchor="start">+</text>
+<text class="text" x="1496" y="1863" text-anchor="start">-</text>
+<text class="section-title" x="1544" y="1877" text-anchor="middle">U7</text>
+<text class="tiny" x="1544" y="1897" text-anchor="middle">SK1 LF353</text>
+<line class="wire" x1="1538" y1="1843" x2="1538" y2="1819" />
+<line class="wire" x1="1538" y1="1919" x2="1538" y2="1943" />
+<text class="tiny" x="1546" y="1823" text-anchor="start">+15 V</text>
+<text class="tiny" x="1546" y="1951" text-anchor="start">-15 V</text>
+<line class="wire" x1="1110" y1="1901" x2="1128" y2="1901" />
+<polyline class="symbol" points="1128,1901 1147.0,1890 1166.0,1912 1185.0,1890 1204.0,1912 1223.0,1890 1242,1901" />
+<line class="wire" x1="1242" y1="1901" x2="1260" y2="1901" />
+<text class="small" x="1185.0" y="1883" text-anchor="middle">R1</text>
+<text class="value" x="1185.0" y="1935" text-anchor="middle">16.1 k</text>
+<line class="wire" x1="1260" y1="1901" x2="1260" y2="2035.5" />
+<line class="wire" x1="1260" y1="2055.5" x2="1260" y2="2190" />
+<line class="wire" x1="1238" y1="2035.5" x2="1282" y2="2035.5" />
+<line class="wire" x1="1238" y1="2055.5" x2="1282" y2="2055.5" />
+<text class="small" x="1288" y="2037.5" text-anchor="start">C1</text>
+<text class="value" x="1288" y="2057.5" text-anchor="start">10 nF</text>
+<polyline class="symbol" points="1260,2190 1612,2190 1612,1881" />
+<line class="wire" x1="1480" y1="1905" x2="1480" y2="2037.5" />
+<line class="wire" x1="1480" y1="2057.5" x2="1480" y2="2190" />
+<line class="wire" x1="1458" y1="2037.5" x2="1502" y2="2037.5" />
+<line class="wire" x1="1458" y1="2057.5" x2="1502" y2="2057.5" />
+<text class="small" x="1508" y="2039.5" text-anchor="start">C2</text>
+<text class="value" x="1508" y="2059.5" text-anchor="start">10 nF</text>
+<line class="wire" x1="1480" y1="2190" x2="1480" y2="2206" />
+<line class="ground" x1="1464" y1="2206" x2="1496" y2="2206" />
+<line class="ground" x1="1470" y1="2213" x2="1490" y2="2213" />
+<line class="ground" x1="1475" y1="2220" x2="1485" y2="2220" />
+<line class="wire" x1="1480" y1="1857" x2="1480" y2="1875" />
+<polyline class="symbol" points="1480,1875 1491,1924.5 1469,1974.0 1491,2023.5 1469,2073.0 1491,2122.5 1480,2172" />
+<line class="wire" x1="1480" y1="2172" x2="1480" y2="2190" />
+<text class="small" x="1498" y="2015.5" text-anchor="start">Rg1</text>
+<text class="value" x="1498" y="2033.5" text-anchor="start">10 k</text>
+<line class="wire" x1="1480" y1="2190" x2="1480" y2="2206" />
+<line class="ground" x1="1464" y1="2206" x2="1496" y2="2206" />
+<line class="ground" x1="1470" y1="2213" x2="1490" y2="2213" />
+<line class="ground" x1="1475" y1="2220" x2="1485" y2="2220" />
+<line class="wire" x1="1480" y1="1762" x2="1498" y2="1762" />
+<polyline class="symbol" points="1498,1762 1514.0,1751 1530.0,1773 1546.0,1751 1562.0,1773 1578.0,1751 1594,1762" />
+<line class="wire" x1="1594" y1="1762" x2="1612" y2="1762" />
+<text class="small" x="1546.0" y="1744" text-anchor="middle">Rf1</text>
+<text class="value" x="1546.0" y="1796" text-anchor="middle">11.5 k</text>
+<polyline class="symbol" points="1612,1881 1612,1762" />
+<polyline class="symbol" points="1480,1857 1480,1762" />
+<line class="bus" x1="1612" y1="1881" x2="1800" y2="1881" />
+<rect class="netbox" x="1716.0" y="1845" width="72" height="34" rx="7"/>
+<text class="small" x="1752" y="1869" text-anchor="middle">SK1</text>
+<polygon class="opamp" points="2250,1825 2250,1937 2382,1881" />
+<text class="text" x="2266" y="1911" text-anchor="start">+</text>
+<text class="text" x="2266" y="1863" text-anchor="start">-</text>
+<text class="section-title" x="2314" y="1877" text-anchor="middle">U8</text>
+<text class="tiny" x="2314" y="1897" text-anchor="middle">SK2 LF353</text>
+<line class="wire" x1="2308" y1="1843" x2="2308" y2="1819" />
+<line class="wire" x1="2308" y1="1919" x2="2308" y2="1943" />
+<text class="tiny" x="2316" y="1823" text-anchor="start">+15 V</text>
+<text class="tiny" x="2316" y="1951" text-anchor="start">-15 V</text>
+<line class="wire" x1="1800" y1="1881" x2="1818" y2="1881" />
+<polyline class="symbol" points="1818,1881 1842.0,1870 1866.0,1892 1890.0,1870 1914.0,1892 1938.0,1870 1962,1881" />
+<line class="wire" x1="1962" y1="1881" x2="1980" y2="1881" />
+<text class="small" x="1890.0" y="1863" text-anchor="middle">R1</text>
+<text class="value" x="1890.0" y="1915" text-anchor="middle">10.9 k</text>
+<line class="wire" x1="1980" y1="1881" x2="1980" y2="2025.5" />
+<line class="wire" x1="1980" y1="2045.5" x2="1980" y2="2190" />
+<line class="wire" x1="1958" y1="2025.5" x2="2002" y2="2025.5" />
+<line class="wire" x1="1958" y1="2045.5" x2="2002" y2="2045.5" />
+<text class="small" x="2008" y="2027.5" text-anchor="start">C1</text>
+<text class="value" x="2008" y="2047.5" text-anchor="start">10 nF</text>
+<polyline class="symbol" points="1980,2190 2382,2190 2382,1881" />
+<line class="wire" x1="2250" y1="1905" x2="2250" y2="2037.5" />
+<line class="wire" x1="2250" y1="2057.5" x2="2250" y2="2190" />
+<line class="wire" x1="2228" y1="2037.5" x2="2272" y2="2037.5" />
+<line class="wire" x1="2228" y1="2057.5" x2="2272" y2="2057.5" />
+<text class="small" x="2278" y="2039.5" text-anchor="start">C2</text>
+<text class="value" x="2278" y="2059.5" text-anchor="start">10 nF</text>
+<line class="wire" x1="2250" y1="2190" x2="2250" y2="2206" />
+<line class="ground" x1="2234" y1="2206" x2="2266" y2="2206" />
+<line class="ground" x1="2240" y1="2213" x2="2260" y2="2213" />
+<line class="ground" x1="2245" y1="2220" x2="2255" y2="2220" />
+<line class="wire" x1="2250" y1="1857" x2="2250" y2="1875" />
+<polyline class="symbol" points="2250,1875 2261,1924.5 2239,1974.0 2261,2023.5 2239,2073.0 2261,2122.5 2250,2172" />
+<line class="wire" x1="2250" y1="2172" x2="2250" y2="2190" />
+<text class="small" x="2268" y="2015.5" text-anchor="start">Rg2</text>
+<text class="value" x="2268" y="2033.5" text-anchor="start">10 k</text>
+<line class="wire" x1="2250" y1="2190" x2="2250" y2="2206" />
+<line class="ground" x1="2234" y1="2206" x2="2266" y2="2206" />
+<line class="ground" x1="2240" y1="2213" x2="2260" y2="2213" />
+<line class="ground" x1="2245" y1="2220" x2="2255" y2="2220" />
+<line class="wire" x1="2250" y1="1762" x2="2268" y2="1762" />
+<polyline class="symbol" points="2268,1762 2284.0,1751 2300.0,1773 2316.0,1751 2332.0,1773 2348.0,1751 2364,1762" />
+<line class="wire" x1="2364" y1="1762" x2="2382" y2="1762" />
+<text class="small" x="2316.0" y="1744" text-anchor="middle">Rf2</text>
+<text class="value" x="2316.0" y="1796" text-anchor="middle">17.8 k</text>
+<polyline class="symbol" points="2382,1881 2382,1762" />
+<polyline class="symbol" points="2250,1857 2250,1762" />
+<line class="bus" x1="2382" y1="1881" x2="2660" y2="1881" marker-end="url(#arrow)"/>
+<rect class="netbox" x="2670.5" y="1847" width="115" height="34" rx="7"/>
+<text class="small" x="2728" y="1871" text-anchor="middle">V(sine)</text>
+<rect class="labelbox" x="2820" y="1832" width="370" height="190" rx="10"/>
+<text class="section-title" x="2848" y="1870" text-anchor="start">Filtro</text>
+<text class="small" x="2848" y="1904" text-anchor="start">Tipo: Chebyshev I</text>
+<text class="small" x="2848" y="1936" text-anchor="start">Ripple: 0.5 dB</text>
+<text class="small" x="2848" y="1968" text-anchor="start">Orden: 5</text>
+<text class="small" x="2848" y="2000" text-anchor="start">Entrada recomendada: V(tri)</text>
 </svg>

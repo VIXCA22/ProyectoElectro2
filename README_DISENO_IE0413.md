@@ -154,6 +154,8 @@ R_SK2       = 1/(2 pi fn2 C)
 - `memoria_calculo_detallada.tex`: base en LaTeX con los calculos desarrollados paso a paso.
 - `memoria_calculo_detallada.pdf`: version compilada del archivo LaTeX.
 - `scripts/exportar_graficas.py`: exporta las graficas desde los `.raw` de LTspice.
+- `scripts/generar_esquematico_svg.py`: genera el esquematico completo editable en Inkscape.
+- `figuras/esquematico_completo.svg`: dibujo SVG del circuito completo conectado, con fuentes, etapas LF353 y filtro.
 - `figuras/*.svg`: graficas separadas para la memoria.
 - `datos/*.csv`: datos exportados de cada grafica.
 
@@ -175,4 +177,10 @@ Para regenerar las graficas separadas:
 
 ```powershell
 python scripts\exportar_graficas.py
+```
+
+Para regenerar el esquematico SVG editable en Inkscape:
+
+```powershell
+python scripts\generar_esquematico_svg.py
 ```

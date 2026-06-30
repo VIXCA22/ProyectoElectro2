@@ -147,7 +147,8 @@ R_SK2       = 1/(2 pi fn2 C)
 - `ltspice/diente_sierra_2f0_LF353.cir`: etapa de diente de sierra positivo.
 - `ltspice/triangular_f0_2_LF353.cir`: etapa triangular con cambiador de nivel e integrador.
 - `ltspice/filtro5_bode_LF353.cir`: AC/Bode del filtro de orden 5.
-- `ltspice/sintetizador_completo_LF353.cir`: simulacion transitoria estable en un solo archivo para capturar las cuatro senales juntas.
+- `ltspice/sintetizador_completo_LF353.asc`: esquematico LTspice en una sola hoja, con fuentes, filtro activo y salidas para graficar.
+- `ltspice/sintetizador_completo_LF353.cir`: netlist equivalente de respaldo para simulacion transitoria conjunta.
 - `ltspice/sintetizador_ie0413_LF353.cir`: copia equivalente de captura conjunta mantenida por compatibilidad.
 - `ltspice/lf353.mod`: modelo SPICE local del LF353 usado por todos los archivos.
 - `memoria_calculo_detallada.tex`: base en LaTeX con los calculos desarrollados paso a paso.
@@ -156,7 +157,7 @@ R_SK2       = 1/(2 pi fn2 C)
 - `figuras/*.svg`: graficas separadas para la memoria.
 - `datos/*.csv`: datos exportados de cada grafica.
 
-En LTspice, abra `ltspice/sintetizador_completo_LF353.cir`, ejecute la simulacion y grafique:
+En LTspice, abra `ltspice/sintetizador_completo_LF353.asc`, ejecute la simulacion y grafique:
 
 ```text
 V(sq), V(saw), V(tri), V(sine)

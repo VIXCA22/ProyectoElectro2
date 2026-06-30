@@ -9,3 +9,9 @@
 # OS/editor noise
 Thumbs.db
 .DS_Store
+
+# LaTeX generated files
+*.aux
+*.fdb_latexmk
+*.fls
+*.synctex.gz

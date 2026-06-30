@@ -3,9 +3,9 @@
 
 .include "lf353.mod"
 
-.param X=1
+.param X=2
 .param Y=2
-.param Z=3
+.param Z=9
 .param f0={1k*(X+Y/10+Z/100)}
 .param VtriPk=2
 .param Vdrv=1

@@ -10,11 +10,11 @@ Todas las etapas con amplificador operacional usan el macromodelo no ideal `LF35
 
 ## Parametros base
 
-Ordene alfabeticamente los primeros apellidos del grupo y tome:
+Orden alfabetico por primer apellido:
 
-- `X`: primer digito no nulo del carne del integrante 1.
-- `Y`: primer digito no nulo del carne del integrante 2.
-- `Z`: primer digito no nulo del carne del integrante 3.
+- Daniel Gerardo Madriz Chavarria, `C24478`: `X = 2`.
+- Fabricio Torres Jimenez, `C27803`: `Y = 2`.
+- Kenneth Daniel Vizcaino Jimenez, `C09331`: `Z = 9`.
 
 La frecuencia del oscilador es:
 
@@ -22,7 +22,11 @@ La frecuencia del oscilador es:
 f0 = (X + Y/10 + Z/100) kHz
 ```
 
-Los archivos de LTspice usan por defecto `X=1`, `Y=2`, `Z=3`, por lo que el ejemplo queda en `f0 = 1.23 kHz`. Cambie esos tres parametros al inicio de cada `.cir`.
+Los archivos de LTspice ya usan `X=2`, `Y=2`, `Z=9`, por lo que:
+
+```text
+f0 = 2.29 kHz
+```
 
 ## 1. Oscilador central cuadrado
 
@@ -41,13 +45,13 @@ Cosc = 10 nF
 Rosc = 1/(2 f0 Cosc ln(3))
 ```
 
-Para el ejemplo `f0 = 1.23 kHz`, la formula teorica da `Rosc = 37.0 kOhm`. En el archivo `oscilador_cuadrado_LF353.cir` deje `Ktrim = 1.0462` para compensar el retardo del macromodelo LF353 no ideal; por eso LTspice usa:
+Para `f0 = 2.29 kHz`, la formula teorica da `Rosc = 19.9 kOhm`. En el archivo `oscilador_cuadrado_LF353.cir` se usa `Ktrim = 1.02208` para compensar el retardo del macromodelo LF353 no ideal; por eso LTspice usa:
 
 ```text
 Rosc_LTspice = Ktrim/(2 f0 Cosc ln(3))
 ```
 
-Para el ejemplo, `Rosc_LTspice = 38.7 kOhm`. Si cambia `X,Y,Z`, revise `f_square` en el `.log`; si la frecuencia se mueve, ajuste `Ktrim` y anote ese valor como parte del calculo de simulacion.
+Para estos datos, `Rosc_LTspice = 20.3 kOhm`. La simulacion del oscilador mide aproximadamente `2.29 kHz`.
 
 ## 2. Onda diente de sierra positiva
 
@@ -67,7 +71,7 @@ Vsaw_pk = 5 V
 Isaw = Csaw Vsaw_pk 2 f0
 ```
 
-Para el ejemplo, `Isaw = 123 uA`.
+Para estos datos, `Isaw = 229 uA`.
 
 ## 3. Onda triangular
 
@@ -89,7 +93,7 @@ Ctri = 10 nF
 Rtri = Vdrv/(2 VtriPk f0 Ctri)
 ```
 
-Para el ejemplo, `Rtri = 20.3 kOhm`.
+Para estos datos, `Rtri = 10.9 kOhm`.
 
 ## 4. Onda senoidal por filtro pasabajas de orden 5
 
@@ -143,11 +147,16 @@ R_SK2       = 1/(2 pi fn2 C)
 - `ltspice/diente_sierra_2f0_LF353.cir`: etapa de diente de sierra positivo.
 - `ltspice/triangular_f0_2_LF353.cir`: etapa triangular con cambiador de nivel e integrador.
 - `ltspice/filtro5_bode_LF353.cir`: AC/Bode del filtro de orden 5.
-- `ltspice/sintetizador_ie0413_LF353.cir`: simulacion transitoria estable para capturar las cuatro senales juntas; usa fuentes equivalentes para las senales ya generadas y LF353 no ideal en el filtro.
+- `ltspice/sintetizador_completo_LF353.cir`: simulacion transitoria estable en un solo archivo para capturar las cuatro senales juntas.
+- `ltspice/sintetizador_ie0413_LF353.cir`: copia equivalente de captura conjunta mantenida por compatibilidad.
 - `ltspice/lf353.mod`: modelo SPICE local del LF353 usado por todos los archivos.
 - `memoria_calculo_detallada.tex`: base en LaTeX con los calculos desarrollados paso a paso.
+- `memoria_calculo_detallada.pdf`: version compilada del archivo LaTeX.
+- `scripts/exportar_graficas.py`: exporta las graficas desde los `.raw` de LTspice.
+- `figuras/*.svg`: graficas separadas para la memoria.
+- `datos/*.csv`: datos exportados de cada grafica.
 
-En LTspice, abra el `.cir`, cambie `X`, `Y`, `Z`, ejecute la simulacion y grafique:
+En LTspice, abra `ltspice/sintetizador_completo_LF353.cir`, ejecute la simulacion y grafique:
 
 ```text
 V(sq), V(saw), V(tri), V(sine)
@@ -160,3 +169,9 @@ V(out)
 ```
 
 Use las mediciones del archivo `.log` para verificar que las frecuencias coinciden con lo calculado.
+
+Para regenerar las graficas separadas:
+
+```powershell
+python scripts\exportar_graficas.py
+```

@@ -3,14 +3,14 @@
 
 .include "lf353.mod"
 
-.param X=1
+.param X=2
 .param Y=2
-.param Z=3
+.param Z=9
 .param f0={1k*(X+Y/10+Z/100)}
 .param beta=0.5
 .param Cosc=10n
 * Ktrim compensa el retardo/saturacion del macromodelo LF353 no ideal.
-.param Ktrim=1.0462
+.param Ktrim=1.02208
 .param Rosc={Ktrim/(2*f0*Cosc*ln((1+beta)/(1-beta)))}
 
 VCC Vp 0 15

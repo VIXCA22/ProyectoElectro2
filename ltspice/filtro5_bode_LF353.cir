@@ -1,6 +1,7 @@
 * IE0413 Electronica II - Bode del filtro pasabajas de orden 5 con LF353
-* Cambie X, Y, Z por los digitos reales. Z selecciona la respuesta:
-* 1,2,3: Bessel; 4,5,6: Butterworth; 7,8,9: Chebyshev 0.5 dB.
+* Simulacion AC separada del sintetizador transitorio.
+* Para Z=9 se usa respuesta Chebyshev tipo I de 0.5 dB.
+* Vin tiene AC 1 V, por lo que V(out) equivale directamente a H(jw).
 
 .include "lf353.mod"
 
@@ -48,9 +49,10 @@ XU n2 ninv VP VM OUT LF353/NS
 .ends SKLP
 
 .options plotwinsize=0 reltol=0.001 abstol=1n
-.save V(in) V(out)
+.save V(in) V(filt_in) V(fo) V(sk1) V(out)
 .ac dec 300 {ftri/10} {20*f0}
-.meas ac gain_fund_db FIND mag(V(out)) AT={ftri}
-.meas ac gain_3rd_db FIND mag(V(out)) AT={3*ftri}
+.meas ac BODE_GAN_1145 FIND mag(V(out)/V(in)) AT={ftri}
+.meas ac BODE_GAN_3435 FIND mag(V(out)/V(in)) AT={3*ftri}
+* fc = 1431.25 Hz para X=2, Y=2, Z=9.
 
 .end

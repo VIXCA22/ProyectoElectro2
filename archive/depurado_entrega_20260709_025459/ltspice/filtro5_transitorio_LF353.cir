@@ -1,0 +1,58 @@
+* IE0413 Electronica II - Salida senoidal filtrada en regimen permanente
+* Misma red del filtro Bode, excitada con triangular equivalente a f0/2.
+
+.include "lf353.mod"
+
+.param X=2
+.param Y=2
+.param Z=9
+.param f0={1k*(X+Y/10+Z/100)}
+.param ftri={f0/2}
+.param fc={1.25*ftri}
+.param resp={if(Z<4,1,if(Z<7,2,3))}
+.param Cf=10n
+.param VtriPk=2
+.param p1mul={if(resp==1,1.5023162714,if(resp==2,1,0.3623196242))}
+.param s1mul={if(resp==1,1.5563471223,if(resp==2,1,0.6904831735))}
+.param q1={if(resp==1,0.5635356209,if(resp==2,0.6180339887,1.1778055654))}
+.param s2mul={if(resp==1,1.7553777766,if(resp==2,1,1.0177347431))}
+.param q2={if(resp==1,0.9164773739,if(resp==2,1.6180339887,4.5449633297))}
+.param k1={3-1/q1}
+.param k2={3-1/q2}
+.param Rlp1={1/(2*pi*fc*p1mul*Cf)}
+.param Rsk1={1/(2*pi*fc*s1mul*Cf)}
+.param Rsk2={1/(2*pi*fc*s2mul*Cf)}
+.param RattBot=100k
+.param RattTop={RattBot*(k1*k2-1)}
+
+VCC Vp 0 15
+VEE Vm 0 -15
+Btri tri_in 0 V={VtriPk*(2/pi)*asin(sin(2*pi*ftri*time))}
+
+Ratt1 tri_in filt_in {RattTop}
+Ratt2 filt_in 0 {RattBot}
+Rfo filt_in nfo {Rlp1}
+Cfo nfo 0 {Cf}
+XFOBUF nfo fo Vp Vm fo LF353/NS
+XSK1 fo sk1 Vp Vm SKLP PARAMS: RVAL={Rsk1} CVAL={Cf} KVAL={k1}
+XSK2 sk1 sine Vp Vm SKLP PARAMS: RVAL={Rsk2} CVAL={Cf} KVAL={k2}
+
+.subckt SKLP IN OUT VP VM PARAMS: RVAL=10k CVAL=10n KVAL=1.586 RGAIN=10k
+R1 IN n1 {RVAL}
+R2 n1 n2 {RVAL}
+C1 n1 OUT {CVAL}
+C2 n2 0 {CVAL}
+Rg ninv 0 {RGAIN}
+Rf OUT ninv {(KVAL-1)*RGAIN}
+XU n2 ninv VP VM OUT LF353/NS
+.ends SKLP
+
+.options plotwinsize=0 reltol=0.001 abstol=1n
+.save V(tri_in) V(sine)
+.tran 0 {80/ftri} {60/ftri} {1/(1000*ftri)}
+.meas tran Vsine_max MAX V(sine) FROM={12/ftri} TO={18/ftri}
+.meas tran Vsine_min MIN V(sine) FROM={12/ftri} TO={18/ftri}
+.meas tran T_sine TRIG V(sine) VAL=0 RISE=10 TARG V(sine) VAL=0 RISE=11
+.meas tran f_sine PARAM 1/T_sine
+
+.end

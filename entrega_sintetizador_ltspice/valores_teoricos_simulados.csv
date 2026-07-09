@@ -1,0 +1,23 @@
+etapa,senal,parametro,teorico,simulado,error_pct,unidad,nota
+E1,SC,frecuencia,2290,2289.82334338,-0.00771426,Hz,Oscilador NE555
+E1,SC,ciclo_trabajo,50,50.01045568,0.02091136,%,Medido entre flancos de SC
+E1,SC,Vpp,,14.99608623,,V,Amplitud cuadrada
+E1,VC555,Vpp,,5.00598526,,V,Capacitor de temporizacion del NE555
+E2,DS,frecuencia,4580,4579.32518207,-0.01473402,Hz,Diente de sierra a 2*f0
+E2,DS,Vpp,,4.89404960,,V,Amplitud diente de sierra
+E2,RST_DS,Vmax,,14.10750866,,V,Pulso maximo de reset
+E3A,SC_D2,frecuencia,1145,1144.90756279,-0.00807312,Hz,Salida del flip-flop divisor por 2
+E3A,SC_D2,Vpp,,4.97092584,,V,Amplitud salida del flip-flop
+E3B,TRI,frecuencia_directa,1145,1145.97617510,0.08525547,Hz,Medicion directa por cruce de la triangular
+E3B,TRI,frecuencia_referencia,1145,1144.90756279,-0.00807312,Hz,Referencia recomendada desde SC_D2
+E3B,TRI,Vpp,,3.99328434,,V,Amplitud triangular
+E3B,TRI,nivel_medio,,-0.06944079,,V,Promedio de la triangular
+E4,SEN,frecuencia,1145,1144.86978213,-0.01137274,Hz,Salida senoidal filtrada
+E4,SEN,Vpp,,0.87615982,,V,Amplitud senoidal
+E4,SEN,nivel_medio,,-0.03009685,,V,Promedio de la senoidal filtrada
+E4,Filtro,ganancia_vv,,0.21940832,,V/V,Vpp(SEN)/Vpp(TRI)
+Bode,H(jw),ganancia_1145Hz,,-11.11887035,,dB,Respuesta AC del filtro Chebyshev
+Bode,H(jw),fase_1145Hz,,-216.86546816,,deg,Fase continua de H(jw) en 1145 Hz
+Bode,H(jw),ganancia_3435Hz,,-62.28991598,,dB,Tercera armonica de 1145 Hz
+Bode,H(jw),fase_3435Hz,,-426.59952394,,deg,Fase continua de H(jw) en 3435 Hz
+Bode,H(jw),atenuacion_extra_3ra,,51.17104562,,dB,Diferencia entre 1145 Hz y 3435 Hz

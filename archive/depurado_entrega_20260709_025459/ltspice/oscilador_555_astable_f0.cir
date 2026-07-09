@@ -1,0 +1,34 @@
+* IE0413 Electronica II - Oscilador astable simple con NE555
+* Genera la onda cuadrada central sin fuentes PULSE.
+* X=2, Y=2, Z=9 -> f0 = 2.29 kHz.
+
+.include "NE555.sub"
+
+.param X=2
+.param Y=2
+.param Z=9
+.param f0={1k*(X+Y/10+Z/100)}
+.param Cosc=10n
+.param Ktrim555=0.99852
+.param Rosc={Ktrim555/(2*f0*Cosc*ln(2))}
+
+VCC vcc 0 15
+
+* NE555 pin order: GND TRIG OUT RST CV THRS DIS Vcc
+* TRIG y THRS miden el mismo capacitor. La salida carga y descarga Cosc
+* por Rosc, produciendo un ciclo de trabajo cercano al 50%.
+XU555 0 ncap sq vcc ncv ncap ndis vcc NE555
+Rosc1 sq ncap {Rosc}
+Cosc1 ncap 0 {Cosc} ic=0
+Cctrl ncv 0 10n
+Rdis ndis vcc 1Meg
+
+.options plotwinsize=0 reltol=0.001 abstol=1n
+.save V(sq) V(ncap)
+.tran 0 {25/f0} 0 {1/(500*f0)} startup
+.meas tran T_square TRIG V(sq) VAL=7.5 RISE=12 TARG V(sq) VAL=7.5 RISE=13
+.meas tran f_square PARAM 1/T_square
+.meas tran T_high TRIG V(sq) VAL=7.5 RISE=12 TARG V(sq) VAL=7.5 FALL=12
+.meas tran duty_percent PARAM 100*T_high/T_square
+
+.end

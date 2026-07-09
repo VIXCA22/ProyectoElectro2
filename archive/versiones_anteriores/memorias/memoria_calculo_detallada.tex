@@ -1,0 +1,1292 @@
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{booktabs}
+
+\title{Memoria de calculo detallada\\Proyecto IE0413}
+\author{Daniel Gerardo Madriz Chavarr\'ia C24478\\
+Fabricio Torres Jim\'enez C27803\\
+Kenneth Daniel Vizca\'ino Jim\'enez C09331}
+\date{I ciclo 2026}
+
+\begin{document}
+
+\maketitle
+
+\section*{Nota de uso}
+
+La realimentacion recibida indica que los calculos pueden presentarse en
+\LaTeX, siempre que se muestre cada paso. Por eso se escriben las ecuaciones,
+los despejes y las sustituciones numericas. La onda cuadrada se genera con un
+\texttt{NE555}; las etapas con amplificador operacional se simulan en LTspice
+con el macromodelo no ideal \texttt{LF353/NS}.
+
+\section{Datos del grupo}
+
+El enunciado pide ordenar alfabeticamente los primeros apellidos:
+
+\[
+\text{Madriz}, \qquad \text{Torres}, \qquad \text{Vizca\'ino}.
+\]
+
+Por tanto, los integrantes quedan en este orden:
+
+\[
+\begin{array}{c|c|c}
+\text{Orden} & \text{Integrante} & \text{Carne} \\
+\hline
+1 & \text{Daniel Gerardo Madriz Chavarr\'ia} & \text{C24478} \\
+2 & \text{Fabricio Torres Jim\'enez} & \text{C27803} \\
+3 & \text{Kenneth Daniel Vizca\'ino Jim\'enez} & \text{C09331}
+\end{array}
+\]
+
+El primer digito no nulo del primer carne es:
+
+\[
+\text{C24478}\quad \Rightarrow \quad X=2.
+\]
+
+El primer digito no nulo del segundo carne es:
+
+\[
+\text{C27803}\quad \Rightarrow \quad Y=2.
+\]
+
+El primer digito no nulo del tercer carne es:
+
+\[
+\text{C09331}\quad \Rightarrow \quad Z=9.
+\]
+
+La frecuencia del oscilador central es:
+
+\[
+f_0=X,YZ~\text{kHz}.
+\]
+
+En forma decimal:
+
+\[
+f_0=
+\left(
+X+\frac{Y}{10}+\frac{Z}{100}
+\right)1000~\text{Hz}.
+\]
+
+Sustituyendo:
+
+\[
+f_0=
+\left(
+2+\frac{2}{10}+\frac{9}{100}
+\right)1000.
+\]
+
+\[
+f_0=
+\left(
+2+0.2+0.09
+\right)1000.
+\]
+
+\[
+f_0=2.29(1000)=2290~\text{Hz}.
+\]
+
+Por tanto:
+
+\[
+\boxed{f_0=2.29~\text{kHz}}.
+\]
+
+\section{Oscilador central de onda cuadrada}
+
+\subsection{Conexion del NE555}
+
+Se usa un \texttt{NE555} en modo astable tipo Schmitt. Las entradas
+\texttt{TRIG} y \texttt{THRES} se conectan al mismo capacitor. La salida
+\texttt{OUT} carga y descarga ese capacitor por medio de una sola resistencia
+\(R_{osc}\). La entrada \texttt{RESET} se conecta a \(V_{CC}\) y la terminal
+\texttt{CONT} se desacopla con un capacitor pequeno.
+
+El \texttt{NE555} cambia de estado cuando el capacitor cruza los niveles
+internos:
+
+\[
+V_L=\frac{1}{3}V_{CC},
+\qquad
+V_H=\frac{2}{3}V_{CC}.
+\]
+
+Como el mismo resistor se usa para la carga y la descarga, se obtiene un ciclo
+de trabajo cercano al \(50\%\).
+
+\subsection{Tiempo de carga}
+
+Cuando la salida esta en alto, el capacitor se carga hacia \(V_{CC}\). La
+ecuacion de carga es:
+
+\[
+v_C(t)=V_{CC}+\left[v_C(0)-V_{CC}\right]e^{-t/(RC)}.
+\]
+
+Al inicio de la carga:
+
+\[
+v_C(0)=\frac{1}{3}V_{CC}.
+\]
+
+Entonces:
+
+\[
+v_C(t)=V_{CC}+
+\left(\frac{1}{3}V_{CC}-V_{CC}\right)e^{-t/(RC)}.
+\]
+
+\[
+v_C(t)=V_{CC}-\frac{2}{3}V_{CC}e^{-t/(RC)}.
+\]
+
+El cambio ocurre cuando:
+
+\[
+v_C(t_H)=\frac{2}{3}V_{CC}.
+\]
+
+Sustituyendo:
+
+\[
+\frac{2}{3}V_{CC}
+=
+V_{CC}-\frac{2}{3}V_{CC}e^{-t_H/(RC)}.
+\]
+
+Se divide entre \(V_{CC}\):
+
+\[
+\frac{2}{3}
+=
+1-\frac{2}{3}e^{-t_H/(RC)}.
+\]
+
+Se despeja:
+
+\[
+\frac{2}{3}e^{-t_H/(RC)}
+=
+1-\frac{2}{3}
+=
+\frac{1}{3}.
+\]
+
+\[
+e^{-t_H/(RC)}
+=
+\frac{1/3}{2/3}
+=
+\frac{1}{2}.
+\]
+
+Aplicando logaritmo natural:
+
+\[
+-\frac{t_H}{RC}=\ln\left(\frac{1}{2}\right).
+\]
+
+\[
+t_H=RC\ln(2).
+\]
+
+\subsection{Tiempo de descarga}
+
+Cuando la salida esta en bajo, el capacitor se descarga hacia \(0~\text{V}\).
+La ecuacion es:
+
+\[
+v_C(t)=v_C(0)e^{-t/(RC)}.
+\]
+
+Al inicio de la descarga:
+
+\[
+v_C(0)=\frac{2}{3}V_{CC}.
+\]
+
+Por tanto:
+
+\[
+v_C(t)=\frac{2}{3}V_{CC}e^{-t/(RC)}.
+\]
+
+El cambio ocurre cuando:
+
+\[
+v_C(t_L)=\frac{1}{3}V_{CC}.
+\]
+
+Sustituyendo:
+
+\[
+\frac{1}{3}V_{CC}
+=
+\frac{2}{3}V_{CC}e^{-t_L/(RC)}.
+\]
+
+Se divide entre \(V_{CC}\):
+
+\[
+\frac{1}{3}
+=
+\frac{2}{3}e^{-t_L/(RC)}.
+\]
+
+\[
+e^{-t_L/(RC)}
+=
+\frac{1}{2}.
+\]
+
+Entonces:
+
+\[
+t_L=RC\ln(2).
+\]
+
+Como:
+
+\[
+t_H=t_L,
+\]
+
+el ciclo de trabajo ideal es:
+
+\[
+D=\frac{t_H}{t_H+t_L}
+=
+\frac{1}{2}
+=50\%.
+\]
+
+El periodo total es:
+
+\[
+T=t_H+t_L.
+\]
+
+\[
+T=2RC\ln(2).
+\]
+
+Como:
+
+\[
+f_0=\frac{1}{T},
+\]
+
+entonces:
+
+\[
+f_0=\frac{1}{2RC\ln(2)}.
+\]
+
+Se despeja:
+
+\[
+R=\frac{1}{2f_0C\ln(2)}.
+\]
+
+\subsection{Sustitucion numerica}
+
+Se escoge:
+
+\[
+C_{osc}=10~\text{nF}=10\times 10^{-9}~\text{F}.
+\]
+
+Entonces:
+
+\[
+R_{osc,teo}=
+\frac{1}
+{2(2290)(10\times 10^{-9})\ln(2)}.
+\]
+
+Primero:
+
+\[
+2(2290)(10\times 10^{-9})
+=4.58\times 10^{-5}.
+\]
+
+Luego:
+
+\[
+(4.58\times 10^{-5})\ln(2)
+=
+(4.58\times 10^{-5})(0.6931).
+\]
+
+\[
+(4.58\times 10^{-5})(0.6931)
+=3.1746\times 10^{-5}.
+\]
+
+Finalmente:
+
+\[
+R_{osc,teo}
+=
+\frac{1}{3.1746\times 10^{-5}}
+=31499.9~\Omega.
+\]
+
+\[
+R_{osc,teo}\approx 31.5~\text{k}\Omega.
+\]
+
+En la simulacion se usa:
+
+\[
+K_{trim,555}=0.99852.
+\]
+
+Entonces:
+
+\[
+R_{osc,LTspice}=K_{trim,555}R_{osc,teo}.
+\]
+
+\[
+R_{osc,LTspice}=(0.99852)(31499.9~\Omega).
+\]
+
+\[
+R_{osc,LTspice}=31453.3~\Omega.
+\]
+
+\[
+\boxed{R_{osc,LTspice}\approx 31.46~\text{k}\Omega}.
+\]
+
+\section{Onda diente de sierra positiva}
+
+El enunciado pide que la diente de sierra se repita tanto en el semiciclo
+positivo como en el negativo de la onda cuadrada. Por eso:
+
+\[
+f_{saw}=2f_0.
+\]
+
+Sustituyendo:
+
+\[
+f_{saw}=2(2290)=4580~\text{Hz}.
+\]
+
+\[
+\boxed{f_{saw}=4.58~\text{kHz}}.
+\]
+
+El periodo correspondiente es:
+
+\[
+T_{saw}=\frac{1}{f_{saw}}.
+\]
+
+\[
+T_{saw}=\frac{1}{4580}.
+\]
+
+\[
+T_{saw}=2.1834\times 10^{-4}~\text{s}.
+\]
+
+\[
+T_{saw}=0.2183~\text{ms}.
+\]
+
+La etapa propuesta carga un capacitor desde \(+15~\text{V}\) por medio de una
+resistencia \(R_{charge}\). En cada flanco de la onda cuadrada se activa un
+transistor de descarga para regresar rapidamente el capacitor a \(0~\text{V}\).
+
+La ecuacion de carga del capacitor es:
+
+\[
+v_C(t)=V_{CC}\left(1-e^{-t/(RC)}\right).
+\]
+
+Se desea que al final de cada periodo de la diente de sierra:
+
+\[
+v_C(T_{saw})=V_{saw,pk}.
+\]
+
+Sustituyendo:
+
+\[
+V_{saw,pk}
+=
+V_{CC}\left(1-e^{-T_{saw}/(RC)}\right).
+\]
+
+Se divide entre \(V_{CC}\):
+
+\[
+\frac{V_{saw,pk}}{V_{CC}}
+=
+1-e^{-T_{saw}/(RC)}.
+\]
+
+Se despeja el exponencial:
+
+\[
+e^{-T_{saw}/(RC)}
+=
+1-\frac{V_{saw,pk}}{V_{CC}}.
+\]
+
+Aplicando logaritmo natural:
+
+\[
+-\frac{T_{saw}}{RC}
+=
+\ln\left(1-\frac{V_{saw,pk}}{V_{CC}}\right).
+\]
+
+Se despeja \(R\):
+
+\[
+R=
+\frac{-T_{saw}}
+{C\ln\left(1-\frac{V_{saw,pk}}{V_{CC}}\right)}.
+\]
+
+Se escoge:
+
+\[
+V_{CC}=15~\text{V},
+\qquad
+V_{saw,pk}=5~\text{V},
+\qquad
+C_{saw}=10~\text{nF}.
+\]
+
+Entonces:
+
+\[
+R_{charge}
+=
+\frac{-2.1834\times 10^{-4}}
+{(10\times 10^{-9})\ln\left(1-\frac{5}{15}\right)}.
+\]
+
+Primero:
+
+\[
+1-\frac{5}{15}
+=
+1-\frac{1}{3}
+=
+\frac{2}{3}.
+\]
+
+\[
+\ln\left(\frac{2}{3}\right)=-0.4055.
+\]
+
+Luego:
+
+\[
+(10\times 10^{-9})(-0.4055)
+=
+-4.055\times 10^{-9}.
+\]
+
+Finalmente:
+
+\[
+R_{charge}
+=
+\frac{-2.1834\times 10^{-4}}
+{-4.055\times 10^{-9}}.
+\]
+
+\[
+R_{charge}=53849~\Omega.
+\]
+
+\[
+\boxed{R_{charge}\approx 53.8~\text{k}\Omega}.
+\]
+
+En la simulacion se usa:
+
+\[
+\boxed{R_{charge}=53.6~\text{k}\Omega},
+\]
+
+valor practico cercano al calculado. La onda sigue siendo exclusivamente
+positiva porque el transistor de descarga lleva el capacitor hacia tierra, no
+hacia tension negativa.
+
+Si se aproxima la rampa por una pendiente promedio, la corriente media
+equivalente es:
+
+\[
+I_{saw,eq}=C_{saw}\frac{V_{saw,pk}}{T_{saw}}.
+\]
+
+\[
+I_{saw,eq}=
+(10\times 10^{-9})\frac{5}{2.1834\times 10^{-4}}.
+\]
+
+\[
+I_{saw,eq}=229~\mu\text{A}.
+\]
+
+\section{Onda triangular}
+
+La frecuencia de salida triangular debe ser:
+
+\[
+f_{tri}=\frac{f_0}{2}.
+\]
+
+Sustituyendo:
+
+\[
+f_{tri}=\frac{2290}{2}=1145~\text{Hz}.
+\]
+
+\[
+\boxed{f_{tri}=1.145~\text{kHz}}.
+\]
+
+El periodo es:
+
+\[
+T_{tri}=\frac{1}{f_{tri}}=\frac{1}{1145}.
+\]
+
+\[
+T_{tri}=8.7336\times 10^{-4}~\text{s}.
+\]
+
+\[
+T_{tri}=0.8734~\text{ms}.
+\]
+
+El divisor por dos entrega una senal entre \(0~\text{V}\) y \(2~\text{V}\). El
+cambiador de nivel resta \(1~\text{V}\):
+
+\[
+v_{drv}=v_{div}-1~\text{V}.
+\]
+
+Si \(v_{div}=0~\text{V}\):
+
+\[
+v_{drv}=0-1=-1~\text{V}.
+\]
+
+Si \(v_{div}=2~\text{V}\):
+
+\[
+v_{drv}=2-1=+1~\text{V}.
+\]
+
+Entonces:
+
+\[
+V_{drv}=1~\text{V}.
+\]
+
+Para el integrador inversor:
+
+\[
+\left|\frac{dv_o}{dt}\right|=
+\frac{V_{drv}}{R_{tri}C_{tri}}.
+\]
+
+La triangular cambia de \(-V_{tri,pk}\) a \(+V_{tri,pk}\), por lo que:
+
+\[
+\Delta V=2V_{tri,pk}.
+\]
+
+Ese cambio ocurre durante medio periodo triangular:
+
+\[
+\frac{T_{tri}}{2}
+=
+\frac{1}{2f_{tri}}
+=
+\frac{1}{2(f_0/2)}
+=
+\frac{1}{f_0}.
+\]
+
+Entonces la pendiente requerida es:
+
+\[
+\left|\frac{dv_o}{dt}\right|
+=
+\frac{2V_{tri,pk}}{1/f_0}
+=
+2V_{tri,pk}f_0.
+\]
+
+Se igualan ambas pendientes:
+
+\[
+\frac{V_{drv}}{R_{tri}C_{tri}}
+=
+2V_{tri,pk}f_0.
+\]
+
+Se despeja:
+
+\[
+R_{tri}=
+\frac{V_{drv}}
+{2V_{tri,pk}f_0C_{tri}}.
+\]
+
+Se escoge:
+
+\[
+V_{tri,pk}=2~\text{V},
+\qquad
+C_{tri}=10~\text{nF}.
+\]
+
+Sustituyendo:
+
+\[
+R_{tri}=
+\frac{1}
+{2(2)(2290)(10\times 10^{-9})}.
+\]
+
+\[
+2(2)(2290)=9160.
+\]
+
+\[
+9160(10\times 10^{-9})=9.16\times 10^{-5}.
+\]
+
+\[
+R_{tri}=\frac{1}{9.16\times 10^{-5}}
+=10917.0~\Omega.
+\]
+
+\[
+\boxed{R_{tri}\approx 10.9~\text{k}\Omega}.
+\]
+
+\section{Seleccion de la onda para obtener la senoidal}
+
+La onda cuadrada simetrica contiene armonicos impares:
+
+\[
+v_{cuad}(t)=
+\frac{4A}{\pi}
+\left[
+\sin(\omega_0 t)
++\frac{1}{3}\sin(3\omega_0 t)
++\frac{1}{5}\sin(5\omega_0 t)
++\cdots
+\right].
+\]
+
+Sus armonicos decrecen como:
+
+\[
+\frac{1}{n}.
+\]
+
+La onda diente de sierra contiene armonicos pares e impares:
+
+\[
+v_{saw}(t)=
+\frac{2A}{\pi}
+\left[
+\sin(\omega_0 t)
+-\frac{1}{2}\sin(2\omega_0 t)
++\frac{1}{3}\sin(3\omega_0 t)
+-\cdots
+\right].
+\]
+
+Sus armonicos tambien decrecen como:
+
+\[
+\frac{1}{n}.
+\]
+
+La onda triangular simetrica contiene solamente armonicos impares:
+
+\[
+v_{tri}(t)=
+\frac{8A}{\pi^2}
+\left[
+\sin(\omega_0 t)
+-\frac{1}{3^2}\sin(3\omega_0 t)
++\frac{1}{5^2}\sin(5\omega_0 t)
+-\cdots
+\right].
+\]
+
+Sus armonicos decrecen como:
+
+\[
+\frac{1}{n^2}.
+\]
+
+Comparando el tercer armonico:
+
+\[
+\text{cuadrada:}\quad \frac{1}{3}=0.333.
+\]
+
+\[
+\text{triangular:}\quad \frac{1}{3^2}=\frac{1}{9}=0.111.
+\]
+
+La relacion es:
+
+\[
+\frac{1/9}{1/3}=\frac{1}{3}.
+\]
+
+El tercer armonico de la triangular es tres veces menor que el de la cuadrada
+antes de filtrar. Ademas, la triangular no tiene armonicos pares. Por eso se
+escoge la onda triangular como entrada del filtro pasabajas.
+
+\section{Filtro pasabajas de orden 5}
+
+\subsection{Frecuencia de corte}
+
+La fundamental de la triangular es:
+
+\[
+f_{tri}=1145~\text{Hz}.
+\]
+
+Se escoge:
+
+\[
+f_c=1.25f_{tri}.
+\]
+
+\[
+f_c=1.25(1145)=1431.25~\text{Hz}.
+\]
+
+\[
+\boxed{f_c=1.43125~\text{kHz}}.
+\]
+
+El primer armonico no deseado de la triangular es el tercero:
+
+\[
+f_3=3f_{tri}.
+\]
+
+\[
+f_3=3(1145)=3435~\text{Hz}.
+\]
+
+La relacion respecto a \(f_c\) es:
+
+\[
+\frac{f_3}{f_c}
+=
+\frac{3435}{1431.25}
+=2.4.
+\]
+
+Por tanto, el tercer armonico queda en \(2.4f_c\).
+
+\subsection{Tipo de respuesta}
+
+El tipo de respuesta depende de \(Z\):
+
+\[
+\begin{array}{c|c}
+Z & \text{Respuesta} \\
+\hline
+1,2,3 & \text{Bessel}\\
+4,5,6 & \text{Butterworth}\\
+7,8,9 & \text{Chebyshev}
+\end{array}
+\]
+
+Como:
+
+\[
+Z=9,
+\]
+
+se usa:
+
+\[
+\boxed{\text{Chebyshev tipo I de 0.5 dB}}.
+\]
+
+\subsection{Estructura del filtro}
+
+El orden total es:
+
+\[
+5=1+2+2.
+\]
+
+Se implementa con:
+
+\begin{itemize}
+  \item una etapa de primer orden,
+  \item una etapa Sallen-Key de segundo orden,
+  \item una segunda etapa Sallen-Key de segundo orden.
+\end{itemize}
+
+Para la etapa de primer orden:
+
+\[
+f_p=\frac{1}{2\pi RC}.
+\]
+
+Se despeja:
+
+\[
+R=\frac{1}{2\pi f_p C}.
+\]
+
+Para cada Sallen-Key se usa:
+
+\[
+R_1=R_2=R,
+\qquad
+C_1=C_2=C.
+\]
+
+Entonces:
+
+\[
+f_n=\frac{1}{2\pi RC}.
+\]
+
+Se despeja:
+
+\[
+R=\frac{1}{2\pi f_n C}.
+\]
+
+La ganancia no inversora de la etapa es:
+
+\[
+K=1+\frac{R_f}{R_g}.
+\]
+
+Con componentes iguales en Sallen-Key:
+
+\[
+Q=\frac{1}{3-K}.
+\]
+
+Se despeja \(K\):
+
+\[
+Q(3-K)=1.
+\]
+
+\[
+3Q-KQ=1.
+\]
+
+\[
+KQ=3Q-1.
+\]
+
+\[
+K=\frac{3Q-1}{Q}.
+\]
+
+\[
+K=3-\frac{1}{Q}.
+\]
+
+\subsection{Coeficientes Chebyshev}
+
+Para Chebyshev de 0.5 dB se usan:
+
+\[
+\begin{array}{c|c}
+\text{Parametro} & \text{Valor} \\
+\hline
+f_{p1}/f_c & 0.3623\\
+f_{n1}/f_c & 0.6905\\
+Q_1 & 1.1778\\
+f_{n2}/f_c & 1.0177\\
+Q_2 & 4.5450
+\end{array}
+\]
+
+\subsection{Etapa de primer orden}
+
+\[
+f_{p1}=0.3623f_c.
+\]
+
+\[
+f_{p1}=0.3623(1431.25).
+\]
+
+\[
+f_{p1}=518.57~\text{Hz}.
+\]
+
+Se escoge:
+
+\[
+C_f=10~\text{nF}.
+\]
+
+Entonces:
+
+\[
+R_{p1}=
+\frac{1}{2\pi f_{p1}C_f}.
+\]
+
+\[
+R_{p1}=
+\frac{1}
+{2\pi(518.57)(10\times 10^{-9})}.
+\]
+
+\[
+R_{p1}=30691.1~\Omega.
+\]
+
+\[
+\boxed{R_{p1}\approx 30.7~\text{k}\Omega}.
+\]
+
+\subsection{Primera etapa Sallen-Key}
+
+Para la primera seccion Chebyshev:
+
+\[
+Q_1=1.1778.
+\]
+
+La ganancia requerida es:
+
+\[
+K_1=3-\frac{1}{Q_1}.
+\]
+
+\[
+K_1=3-\frac{1}{1.1778}.
+\]
+
+\[
+\frac{1}{1.1778}=0.8490.
+\]
+
+\[
+K_1=3-0.8490=2.1510.
+\]
+
+La frecuencia natural es:
+
+\[
+f_{n1}=0.6905f_c.
+\]
+
+\[
+f_{n1}=0.6905(1431.25).
+\]
+
+\[
+f_{n1}=988.25~\text{Hz}.
+\]
+
+La resistencia es:
+
+\[
+R_{SK1}=
+\frac{1}{2\pi f_{n1}C_f}.
+\]
+
+\[
+R_{SK1}=
+\frac{1}
+{2\pi(988.25)(10\times 10^{-9})}.
+\]
+
+\[
+R_{SK1}=16104.7~\Omega.
+\]
+
+\[
+\boxed{R_{SK1}\approx 16.1~\text{k}\Omega}.
+\]
+
+Para implementar la ganancia:
+
+\[
+K_1=1+\frac{R_{f1}}{R_{g1}}.
+\]
+
+Se escoge:
+
+\[
+R_{g1}=10~\text{k}\Omega.
+\]
+
+Se despeja:
+
+\[
+R_{f1}=(K_1-1)R_{g1}.
+\]
+
+\[
+R_{f1}=(2.1510-1)(10~\text{k}\Omega).
+\]
+
+\[
+R_{f1}=11.51~\text{k}\Omega.
+\]
+
+\subsection{Segunda etapa Sallen-Key}
+
+Para la segunda seccion Chebyshev:
+
+\[
+Q_2=4.5450.
+\]
+
+La ganancia requerida es:
+
+\[
+K_2=3-\frac{1}{Q_2}.
+\]
+
+\[
+K_2=3-\frac{1}{4.5450}.
+\]
+
+\[
+\frac{1}{4.5450}=0.2200.
+\]
+
+\[
+K_2=3-0.2200=2.7800.
+\]
+
+La frecuencia natural es:
+
+\[
+f_{n2}=1.0177f_c.
+\]
+
+\[
+f_{n2}=1.0177(1431.25).
+\]
+
+\[
+f_{n2}=1456.63~\text{Hz}.
+\]
+
+La resistencia es:
+
+\[
+R_{SK2}=
+\frac{1}{2\pi f_{n2}C_f}.
+\]
+
+\[
+R_{SK2}=
+\frac{1}
+{2\pi(1456.63)(10\times 10^{-9})}.
+\]
+
+\[
+R_{SK2}=10926.2~\Omega.
+\]
+
+\[
+\boxed{R_{SK2}\approx 10.9~\text{k}\Omega}.
+\]
+
+Para la ganancia:
+
+\[
+K_2=1+\frac{R_{f2}}{R_{g2}}.
+\]
+
+Se escoge:
+
+\[
+R_{g2}=10~\text{k}\Omega.
+\]
+
+Entonces:
+
+\[
+R_{f2}=(K_2-1)R_{g2}.
+\]
+
+\[
+R_{f2}=(2.7800-1)(10~\text{k}\Omega).
+\]
+
+\[
+R_{f2}=17.80~\text{k}\Omega.
+\]
+
+\subsection{Atenuador de entrada}
+
+La ganancia total de las dos etapas Sallen-Key es:
+
+\[
+K_T=K_1K_2.
+\]
+
+\[
+K_T=(2.1510)(2.7800).
+\]
+
+\[
+K_T=5.9796.
+\]
+
+Para no amplificar excesivamente la triangular, se coloca un divisor de entrada
+con ganancia:
+
+\[
+A=\frac{1}{K_T}.
+\]
+
+El divisor cumple:
+
+\[
+A=\frac{R_{bot}}{R_{top}+R_{bot}}.
+\]
+
+Se despeja \(R_{top}\):
+
+\[
+A(R_{top}+R_{bot})=R_{bot}.
+\]
+
+\[
+AR_{top}+AR_{bot}=R_{bot}.
+\]
+
+\[
+AR_{top}=R_{bot}(1-A).
+\]
+
+\[
+R_{top}=\frac{R_{bot}(1-A)}{A}.
+\]
+
+Como \(A=1/K_T\):
+
+\[
+R_{top}=R_{bot}(K_T-1).
+\]
+
+Se escoge:
+
+\[
+R_{bot}=100~\text{k}\Omega.
+\]
+
+Entonces:
+
+\[
+R_{top}=(100~\text{k}\Omega)(5.9796-1).
+\]
+
+\[
+R_{top}=497.96~\text{k}\Omega.
+\]
+
+\[
+\boxed{R_{top}\approx 498~\text{k}\Omega}.
+\]
+
+\subsection{Verificacion del rechazo del tercer armonico}
+
+En la simulacion AC del filtro se obtiene:
+
+\[
+|H(f_{tri})|=-11.12~\text{dB}.
+\]
+
+\[
+|H(3f_{tri})|=-62.29~\text{dB}.
+\]
+
+Por tanto, el filtro atenua el tercer armonico, respecto a la fundamental, en:
+
+\[
+62.29-11.12=51.17~\text{dB}.
+\]
+
+Ademas, para la onda triangular:
+
+\[
+\frac{A_3}{A_1}=\frac{1}{3^2}=\frac{1}{9}.
+\]
+
+En decibeles:
+
+\[
+20\log_{10}\left(\frac{1}{9}\right)=-19.08~\text{dB}.
+\]
+
+Entonces, a la salida del filtro, el tercer armonico queda aproximadamente:
+
+\[
+51.17+19.08=70.25~\text{dB}
+\]
+
+por debajo de la fundamental. Esto justifica la seleccion de la triangular y
+del filtro pasabajas de orden 5.
+
+\section{Resumen numerico}
+
+\[
+\begin{array}{c|c}
+\text{Parametro} & \text{Valor} \\
+\hline
+X,Y,Z & 2,2,9\\
+f_0 & 2290~\text{Hz}\\
+f_{saw} & 4580~\text{Hz}\\
+f_{tri} & 1145~\text{Hz}\\
+f_c & 1431.25~\text{Hz}\\
+R_{osc,LTspice} & 31.46~\text{k}\Omega\\
+R_{charge} & 53.6~\text{k}\Omega\\
+R_{tri} & 10.9~\text{k}\Omega\\
+R_{p1} & 30.7~\text{k}\Omega\\
+R_{SK1} & 16.1~\text{k}\Omega\\
+R_{f1} & 11.5~\text{k}\Omega\\
+R_{SK2} & 10.9~\text{k}\Omega\\
+R_{f2} & 17.8~\text{k}\Omega\\
+R_{top} & 498~\text{k}\Omega\\
+R_{bot} & 100~\text{k}\Omega
+\end{array}
+\]
+
+\end{document}

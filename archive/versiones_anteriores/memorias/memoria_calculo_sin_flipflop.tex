@@ -1,0 +1,924 @@
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{pdflscape}
+
+\title{Memoria de calculo alternativa\\Proyecto IE0413}
+\author{Daniel Gerardo Madriz Chavarr\'ia C24478\\
+Fabricio Torres Jim\'enez C27803\\
+Kenneth Daniel Vizca\'ino Jim\'enez C09331}
+\date{I ciclo 2026}
+
+\begin{document}
+
+\maketitle
+
+\section*{Nota}
+
+Esta version evita el uso de un flip-flop externo. Para obtener la senal a
+\(f_0/2\), se usa un segundo \texttt{NE555} en modo monoestable como divisor de
+frecuencia. La justificacion del filtro se escribe usando conceptos vistos en
+la materia: diagramas de Bode, frecuencia normalizada, cascada de etapas,
+coeficientes \(a,b\), factor \(Q\), banda de paso y banda de rechazo.
+
+En esta version el \texttt{NE555} se usa para la temporizacion principal:
+oscilador cuadrado y monoestable divisor. Las etapas analogicas posteriores se
+implementan con \texttt{LF353}: inversion o buffer de senales, cambio de nivel,
+integrador y filtro activo. Esto mantiene el circuito dentro de bloques vistos
+en el curso sin introducir un flip-flop externo, una fuente ideal de corriente
+ni herramientas fuera de la materia vista.
+
+\begin{landscape}
+\section*{Esquematico general}
+\begin{center}
+\includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{figuras/esquematico_sin_cables_en_aire_ne555.png}
+\end{center}
+\end{landscape}
+
+\section{Datos del grupo}
+
+Los primeros apellidos se ordenan alfabeticamente:
+
+\[
+\text{Madriz}, \qquad \text{Torres}, \qquad \text{Vizca\'ino}.
+\]
+
+\[
+X=2, \qquad Y=2, \qquad Z=9.
+\]
+
+La frecuencia central pedida es:
+
+\[
+f_0=
+\left(
+X+\frac{Y}{10}+\frac{Z}{100}
+\right)1000~\text{Hz}.
+\]
+
+\[
+f_0=
+\left(
+2+\frac{2}{10}+\frac{9}{100}
+\right)1000.
+\]
+
+\[
+f_0=(2+0.2+0.09)1000.
+\]
+
+\[
+\boxed{f_0=2290~\text{Hz}=2.29~\text{kHz}}.
+\]
+
+Las frecuencias requeridas son:
+
+\[
+f_{saw}=2f_0=4580~\text{Hz}.
+\]
+
+\[
+f_{tri}=\frac{f_0}{2}=1145~\text{Hz}.
+\]
+
+\section{Onda cuadrada con NE555}
+
+El \texttt{NE555} se conecta como astable tipo Schmitt. Las entradas
+\texttt{TRIG} y \texttt{THRES} se conectan al capacitor \(C_{osc}\). La salida
+\texttt{OUT} carga y descarga el capacitor por medio de \(R_{osc}\).
+
+Los niveles internos son:
+
+\[
+V_L=\frac{1}{3}V_{CC},
+\qquad
+V_H=\frac{2}{3}V_{CC}.
+\]
+
+Durante la carga:
+
+\[
+v_C(t)=V_{CC}+
+\left(
+\frac{1}{3}V_{CC}-V_{CC}
+\right)e^{-t/(RC)}.
+\]
+
+\[
+v_C(t)=V_{CC}-\frac{2}{3}V_{CC}e^{-t/(RC)}.
+\]
+
+El cambio ocurre cuando \(v_C=2V_{CC}/3\):
+
+\[
+\frac{2}{3}V_{CC}
+=
+V_{CC}-\frac{2}{3}V_{CC}e^{-t_H/(RC)}.
+\]
+
+\[
+\frac{2}{3}=1-\frac{2}{3}e^{-t_H/(RC)}.
+\]
+
+\[
+e^{-t_H/(RC)}=\frac{1}{2}.
+\]
+
+\[
+t_H=RC\ln(2).
+\]
+
+Por simetria, al descargar entre \(2V_{CC}/3\) y \(V_{CC}/3\):
+
+\[
+t_L=RC\ln(2).
+\]
+
+Entonces:
+
+\[
+T=t_H+t_L=2RC\ln(2).
+\]
+
+\[
+f_0=\frac{1}{2RC\ln(2)}.
+\]
+
+Se despeja:
+
+\[
+R_{osc}=\frac{1}{2f_0C_{osc}\ln(2)}.
+\]
+
+Con:
+
+\[
+C_{osc}=10~\text{nF}.
+\]
+
+\[
+R_{osc}=
+\frac{1}
+{2(2290)(10\times10^{-9})\ln(2)}.
+\]
+
+\[
+R_{osc}=31499.9~\Omega.
+\]
+
+\[
+\boxed{R_{osc}\approx31.5~\text{k}\Omega}.
+\]
+
+En LTspice se usa \(R_{osc}=31.46~\text{k}\Omega\). La simulacion mide:
+
+\[
+f_{square}=2290.02~\text{Hz},
+\qquad
+D=50.00\%.
+\]
+
+\section{Onda diente de sierra positiva}
+
+La diente de sierra se obtiene cargando un capacitor desde \(+15~\text{V}\) y
+descargandolo a tierra en cada flanco de la onda cuadrada. Como se descarga en
+ambos flancos:
+
+Para detectar ambos flancos se usa la senal cuadrada directa y una version
+invertida. La inversion se puede implementar con una etapa \texttt{LF353}; el
+reset final lo realiza un transistor \texttt{2N3904}, por lo que la rampa no
+depende de una fuente ideal de corriente.
+
+\[
+f_{saw}=2f_0=4580~\text{Hz}.
+\]
+
+\[
+T_{saw}=\frac{1}{f_{saw}}
+=
+\frac{1}{4580}.
+\]
+
+\[
+T_{saw}=2.1834\times10^{-4}~\text{s}.
+\]
+
+La carga del capacitor es:
+
+\[
+v_C(t)=V_{CC}\left(1-e^{-t/(RC)}\right).
+\]
+
+Se desea:
+
+\[
+v_C(T_{saw})=V_{saw,pk}.
+\]
+
+Por tanto:
+
+\[
+V_{saw,pk}=V_{CC}\left(1-e^{-T_{saw}/(RC)}\right).
+\]
+
+Se despeja \(R\):
+
+\[
+\frac{V_{saw,pk}}{V_{CC}}
+=
+1-e^{-T_{saw}/(RC)}.
+\]
+
+\[
+e^{-T_{saw}/(RC)}
+=
+1-\frac{V_{saw,pk}}{V_{CC}}.
+\]
+
+\[
+-\frac{T_{saw}}{RC}
+=
+\ln\left(1-\frac{V_{saw,pk}}{V_{CC}}\right).
+\]
+
+\[
+R=
+\frac{-T_{saw}}
+{C\ln\left(1-\frac{V_{saw,pk}}{V_{CC}}\right)}.
+\]
+
+Con:
+
+\[
+V_{CC}=15~\text{V},
+\qquad
+V_{saw,pk}=5~\text{V},
+\qquad
+C_{saw}=10~\text{nF}.
+\]
+
+\[
+R_{charge}
+=
+\frac{-2.1834\times10^{-4}}
+{(10\times10^{-9})\ln\left(1-\frac{5}{15}\right)}.
+\]
+
+\[
+R_{charge}=53849~\Omega.
+\]
+
+\[
+\boxed{R_{charge}\approx53.8~\text{k}\Omega}.
+\]
+
+Se usa:
+
+\[
+\boxed{R_{charge}=53.6~\text{k}\Omega}.
+\]
+
+\section{Onda triangular sin flip-flop externo}
+
+Para no usar un flip-flop externo, se usa un segundo \texttt{NE555} en modo
+monoestable como divisor por 2. El monoestable se dispara con un flanco de la
+cuadrada principal. Mientras esta temporizando, ignora el siguiente disparo.
+Por eso vuelve a activarse cada dos periodos del oscilador.
+
+El periodo del oscilador principal es:
+
+\[
+T_0=\frac{1}{f_0}.
+\]
+
+\[
+T_0=\frac{1}{2290}=436.68~\mu\text{s}.
+\]
+
+Se escoge un tiempo monoestable un poco mayor que \(T_0\):
+
+\[
+t_w=1.05T_0.
+\]
+
+\[
+t_w=1.05(436.68~\mu\text{s}).
+\]
+
+\[
+t_w=458.52~\mu\text{s}.
+\]
+
+Como el segundo disparo llega cuando el monoestable aun esta activo, se ignora.
+El siguiente disparo aceptado ocurre dos periodos despues:
+
+\[
+T_{div}=2T_0.
+\]
+
+\[
+f_{div}=\frac{1}{T_{div}}=\frac{f_0}{2}.
+\]
+
+\[
+\boxed{f_{div}=1145~\text{Hz}}.
+\]
+
+Para el \texttt{NE555} monoestable:
+
+\[
+t_w=1.1R_{div}C_{div}.
+\]
+
+Se despeja:
+
+\[
+R_{div}=\frac{t_w}{1.1C_{div}}.
+\]
+
+Con:
+
+\[
+C_{div}=10~\text{nF}.
+\]
+
+\[
+R_{div}=
+\frac{458.52\times10^{-6}}
+{1.1(10\times10^{-9})}.
+\]
+
+\[
+R_{div}=41684~\Omega.
+\]
+
+\[
+\boxed{R_{div}\approx41.7~\text{k}\Omega}.
+\]
+
+El ciclo alto del divisor es:
+
+\[
+D=\frac{t_w}{2T_0}.
+\]
+
+\[
+D=\frac{1.05T_0}{2T_0}=0.525.
+\]
+
+Como el ciclo no es exactamente \(50\%\), el cambiador de nivel debe producir
+una senal de promedio cero antes del integrador. Se escoge:
+
+\[
+V_{high}=+1.00~\text{V}.
+\]
+
+La condicion de promedio cero es:
+
+\[
+DV_{high}+(1-D)V_{low}=0.
+\]
+
+Se despeja:
+
+\[
+V_{low}=-\frac{D}{1-D}V_{high}.
+\]
+
+\[
+V_{low}=-\frac{0.525}{0.475}(1.00).
+\]
+
+\[
+\boxed{V_{low}=-1.105~\text{V}}.
+\]
+
+Por tanto, el cambiador de nivel convierte:
+
+\[
+0~\text{V}\rightarrow -1.105~\text{V},
+\qquad
+15~\text{V}\rightarrow +1.000~\text{V}.
+\]
+
+Este cambiador de nivel se implementa con \texttt{LF353}. La misma familia de
+amplificador operacional se usa luego para el integrador inversor que genera la
+senal triangular.
+
+Una expresion lineal para este bloque es:
+
+\[
+V_{drive}=kV_{div}-V_{ref}.
+\]
+
+\[
+k=\frac{1.000-(-1.105)}{15}=0.1403.
+\]
+
+\[
+V_{ref}=1.105~\text{V}.
+\]
+
+Para el integrador inversor:
+
+\[
+\Delta V=\frac{V_{high}t_w}{R_{tri}C_{tri}}.
+\]
+
+Se desea que el cambio de minimo a maximo sea:
+
+\[
+\Delta V=2V_{tri,pk}.
+\]
+
+Entonces:
+
+\[
+R_{tri}=
+\frac{V_{high}t_w}
+{2V_{tri,pk}C_{tri}}.
+\]
+
+Con:
+
+\[
+V_{tri,pk}=2~\text{V},
+\qquad
+C_{tri}=10~\text{nF}.
+\]
+
+\[
+R_{tri}=
+\frac{(1.00)(458.52\times10^{-6})}
+{2(2)(10\times10^{-9})}.
+\]
+
+\[
+R_{tri}=11463~\Omega.
+\]
+
+\[
+\boxed{R_{tri}\approx11.5~\text{k}\Omega}.
+\]
+
+La simulacion del divisor con el segundo \texttt{NE555} mide:
+
+\[
+f_{div}=1145.00~\text{Hz}.
+\]
+
+\section{Onda senoidal por filtro pasabajas}
+
+\subsection{Seleccion de la entrada}
+
+El filtro pasabajas debe dejar pasar principalmente la frecuencia de interes y
+atenuar las variaciones mas rapidas. En terminos de Bode, se busca mantener la
+senal en la banda de paso y rechazar con fuerza las componentes ubicadas por
+encima de la frecuencia de corte.
+
+Entre las tres senales previas:
+
+\[
+\begin{array}{c|c}
+\text{Senal} & \text{Caracteristica temporal} \\
+\hline
+\text{Cuadrada} & \text{cambia de nivel bruscamente dos veces por periodo}\\
+\text{Diente de sierra} & \text{sube suavemente, pero regresa con un salto}\\
+\text{Triangular} & \text{no tiene salto de voltaje; solo cambia de pendiente}
+\end{array}
+\]
+
+Una senoide tampoco tiene saltos de voltaje. Por tanto, la triangular es la
+entrada mas conveniente para el pasabajas, porque antes del filtro ya es la
+senal mas continua de las tres.
+
+\subsection{Tipo de respuesta}
+
+Segun el enunciado:
+
+\[
+\begin{array}{c|c}
+Z & \text{Respuesta} \\
+\hline
+1,2,3 & \text{Bessel}\\
+4,5,6 & \text{Butterworth}\\
+7,8,9 & \text{Chebyshev}
+\end{array}
+\]
+
+Como:
+
+\[
+Z=9,
+\]
+
+se usa:
+
+\[
+\boxed{\text{Chebyshev tipo I}}.
+\]
+
+La materia indica que Chebyshev tiene una transicion mas abrupta entre banda de
+paso y banda de rechazo, a cambio de rizado en la banda de paso.
+
+\subsection{Frecuencia de corte}
+
+La frecuencia de la triangular es:
+
+\[
+f_{tri}=1145~\text{Hz}.
+\]
+
+Se escoge:
+
+\[
+f_c=1.25f_{tri}.
+\]
+
+\[
+f_c=1.25(1145).
+\]
+
+\[
+\boxed{f_c=1431.25~\text{Hz}}.
+\]
+
+Asi, \(f_{tri}\) queda dentro de la banda de paso.
+
+\subsection{Estructura del filtro}
+
+La materia de filtros de orden superior usa etapas en cascada. Para un filtro
+de quinto orden:
+
+Las etapas activas del filtro se implementan con \texttt{LF353}. Se usa una
+seccion de primer orden y dos secciones Sallen-Key de segundo orden.
+
+\[
+5=1+2+2.
+\]
+
+Por tanto, se implementa:
+
+\[
+\text{primer orden} + \text{segundo orden} + \text{segundo orden}.
+\]
+
+La frecuencia normalizada es:
+
+\[
+S=\frac{j\omega}{\omega_0}=\frac{jf}{f_0}.
+\]
+
+Para una etapa de segundo orden:
+
+\[
+H(S)=H_0\frac{N(S)}{1+aS+bS^2}.
+\]
+
+Para pasabajas:
+
+\[
+N(S)=1.
+\]
+
+El factor de calidad se calcula como:
+
+\[
+Q=\frac{\sqrt{b}}{a}.
+\]
+
+\subsection{Coeficientes tabulados}
+
+Para Chebyshev tipo I de quinto orden se usan tres etapas:
+
+\[
+\begin{array}{c|c|c|c}
+\text{Etapa} & \text{Orden} & a_i & b_i \\
+\hline
+1 & 1 & 2.7600 & 0\\
+2 & 2 & 1.2296 & 2.0975\\
+3 & 2 & 0.2162 & 0.9655
+\end{array}
+\]
+
+\subsection{Etapa de primer orden}
+
+La primera etapa tiene:
+
+\[
+H_1(S)=H_{01}\frac{1}{1+a_1S}.
+\]
+
+La frecuencia del polo fisico es:
+
+\[
+f_{p1}=\frac{f_c}{a_1}.
+\]
+
+\[
+f_{p1}=\frac{1431.25}{2.7600}.
+\]
+
+\[
+f_{p1}=518.57~\text{Hz}.
+\]
+
+Con:
+
+\[
+C_f=10~\text{nF},
+\]
+
+se obtiene:
+
+\[
+R_{p1}=\frac{1}{2\pi f_{p1}C_f}.
+\]
+
+\[
+R_{p1}=
+\frac{1}{2\pi(518.57)(10\times10^{-9})}.
+\]
+
+\[
+R_{p1}=30.7~\text{k}\Omega.
+\]
+
+\subsection{Primera etapa de segundo orden}
+
+De la tabla:
+
+\[
+a_2=1.2296,
+\qquad
+b_2=2.0975.
+\]
+
+El factor de calidad es:
+
+\[
+Q_2=\frac{\sqrt{b_2}}{a_2}.
+\]
+
+\[
+Q_2=\frac{\sqrt{2.0975}}{1.2296}.
+\]
+
+\[
+Q_2=1.178.
+\]
+
+La frecuencia natural es:
+
+\[
+f_{n2}=\frac{f_c}{\sqrt{b_2}}.
+\]
+
+\[
+f_{n2}=\frac{1431.25}{\sqrt{2.0975}}.
+\]
+
+\[
+f_{n2}=988.25~\text{Hz}.
+\]
+
+La resistencia para Sallen-Key con componentes iguales es:
+
+\[
+R_{SK1}=\frac{1}{2\pi f_{n2}C_f}.
+\]
+
+\[
+R_{SK1}=
+\frac{1}{2\pi(988.25)(10\times10^{-9})}.
+\]
+
+\[
+R_{SK1}=16.1~\text{k}\Omega.
+\]
+
+Para Sallen-Key con \(R_1=R_2\) y \(C_1=C_2\):
+
+\[
+Q=\frac{1}{3-K}.
+\]
+
+Entonces:
+
+\[
+K=3-\frac{1}{Q}.
+\]
+
+\[
+K_1=3-\frac{1}{1.178}.
+\]
+
+\[
+K_1=2.151.
+\]
+
+Con:
+
+\[
+R_g=10~\text{k}\Omega,
+\]
+
+\[
+R_{f1}=(K_1-1)R_g.
+\]
+
+\[
+R_{f1}=(2.151-1)(10~\text{k}\Omega).
+\]
+
+\[
+R_{f1}=11.5~\text{k}\Omega.
+\]
+
+\subsection{Segunda etapa de segundo orden}
+
+De la tabla:
+
+\[
+a_3=0.2162,
+\qquad
+b_3=0.9655.
+\]
+
+\[
+Q_3=\frac{\sqrt{b_3}}{a_3}.
+\]
+
+\[
+Q_3=\frac{\sqrt{0.9655}}{0.2162}.
+\]
+
+\[
+Q_3=4.545.
+\]
+
+\[
+f_{n3}=\frac{f_c}{\sqrt{b_3}}.
+\]
+
+\[
+f_{n3}=\frac{1431.25}{\sqrt{0.9655}}.
+\]
+
+\[
+f_{n3}=1456.63~\text{Hz}.
+\]
+
+\[
+R_{SK2}=\frac{1}{2\pi f_{n3}C_f}.
+\]
+
+\[
+R_{SK2}=
+\frac{1}{2\pi(1456.63)(10\times10^{-9})}.
+\]
+
+\[
+R_{SK2}=10.9~\text{k}\Omega.
+\]
+
+\[
+K_2=3-\frac{1}{Q_3}.
+\]
+
+\[
+K_2=3-\frac{1}{4.545}.
+\]
+
+\[
+K_2=2.780.
+\]
+
+\[
+R_{f2}=(K_2-1)R_g.
+\]
+
+\[
+R_{f2}=(2.780-1)(10~\text{k}\Omega).
+\]
+
+\[
+R_{f2}=17.8~\text{k}\Omega.
+\]
+
+\subsection{Atenuador de entrada}
+
+La ganancia de las dos etapas Sallen-Key es:
+
+\[
+K_T=K_1K_2.
+\]
+
+\[
+K_T=(2.151)(2.780).
+\]
+
+\[
+K_T=5.98.
+\]
+
+Para compensarla:
+
+\[
+A=\frac{1}{K_T}.
+\]
+
+Usando un divisor de entrada:
+
+\[
+A=\frac{R_{bot}}{R_{top}+R_{bot}}.
+\]
+
+Se despeja:
+
+\[
+R_{top}=R_{bot}(K_T-1).
+\]
+
+Con:
+
+\[
+R_{bot}=100~\text{k}\Omega,
+\]
+
+\[
+R_{top}=(100~\text{k}\Omega)(5.98-1).
+\]
+
+\[
+R_{top}=498~\text{k}\Omega.
+\]
+
+\subsection{Valores del filtro}
+
+Con \(C_f=10~\text{nF}\), los valores usados son:
+
+\[
+\begin{array}{c|c}
+\text{Bloque} & \text{Valores} \\
+\hline
+\text{Atenuador de entrada} & R_{top}=498~\text{k}\Omega,\ R_{bot}=100~\text{k}\Omega\\
+\text{Primer orden} & R=30.7~\text{k}\Omega,\ C=10~\text{nF}\\
+\text{Sallen-Key 1} & R_1=R_2=16.1~\text{k}\Omega,\ C_1=C_2=10~\text{nF}\\
+\text{Ganancia SK1} & R_g=10~\text{k}\Omega,\ R_f=11.5~\text{k}\Omega\\
+\text{Sallen-Key 2} & R_1=R_2=10.9~\text{k}\Omega,\ C_1=C_2=10~\text{nF}\\
+\text{Ganancia SK2} & R_g=10~\text{k}\Omega,\ R_f=17.8~\text{k}\Omega
+\end{array}
+\]
+
+\subsection{Verificacion por Bode}
+
+La simulacion AC del filtro da:
+
+\[
+|H(1145~\text{Hz})|=-11.12~\text{dB}.
+\]
+
+\[
+|H(3435~\text{Hz})|=-62.29~\text{dB}.
+\]
+
+La diferencia entre ambas ganancias es:
+
+\[
+62.29-11.12=51.17~\text{dB}.
+\]
+
+Por tanto, el filtro deja pasar mucho mas la frecuencia de interes que una
+frecuencia tres veces mayor. Esto valida el comportamiento pasabajas usando
+diagramas de Bode.
+
+\section{Resumen numerico}
+
+\[
+\begin{array}{c|c}
+\text{Parametro} & \text{Valor} \\
+\hline
+f_0 & 2290~\text{Hz}\\
+f_{saw} & 4580~\text{Hz}\\
+f_{tri} & 1145~\text{Hz}\\
+R_{osc} & 31.46~\text{k}\Omega\\
+R_{charge} & 53.6~\text{k}\Omega\\
+R_{div} & 41.7~\text{k}\Omega\\
+R_{tri} & 11.5~\text{k}\Omega\\
+f_c & 1431.25~\text{Hz}\\
+Opamp usado & \text{LF353}\\
+R_{p1} & 30.7~\text{k}\Omega\\
+R_{SK1} & 16.1~\text{k}\Omega\\
+R_{f1} & 11.5~\text{k}\Omega\\
+R_{SK2} & 10.9~\text{k}\Omega\\
+R_{f2} & 17.8~\text{k}\Omega
+\end{array}
+\]
+
+\end{document}

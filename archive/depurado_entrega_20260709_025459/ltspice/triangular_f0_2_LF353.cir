@@ -1,0 +1,44 @@
+* IE0413 Electronica II - Generador triangular a f0/2 con cambiador de nivel e integrador LF353
+* Vdiv representa una senal cuadrada equivalente 0-2 V a f0/2.
+
+.include "lf353.mod"
+
+.param X=2
+.param Y=2
+.param Z=9
+.param f0={1k*(X+Y/10+Z/100)}
+.param VtriPk=2
+.param Vdrv=1
+.param Ctri=10n
+.param Rtri={Vdrv/(2*VtriPk*f0*Ctri)}
+.param tr={1/(500*f0)}
+.param td={1/(10*f0)}
+
+VCC Vp 0 15
+VEE Vm 0 -15
+Bdiv div_uni 0 V={if(time<td,1,1+tanh(50*sin(pi*f0*(time-td))))}
+Vref1 ref1 0 1
+
+* Cambiador de nivel: tri_drive = div_uni - 1 V
+Rdiff1 ref1 ndiffn 10k
+Rdiff2 tri_drive ndiffn 10k
+Rdiff3 div_uni ndiffp 10k
+Rdiff4 ndiffp 0 10k
+XSHIFT ndiffp ndiffn Vp Vm tri_drive LF353/NS
+
+* Integrador inversor.
+Rint tri_drive nint {Rtri}
+Cint tri_raw nint {Ctri} ic={VtriPk}
+RintLeak tri_raw nint 100Meg
+XINT 0 nint Vp Vm tri_raw LF353/NS
+XTRIBUF tri_raw tri Vp Vm tri LF353/NS
+
+.options plotwinsize=0 reltol=0.001 abstol=1n
+.save V(div_uni) V(tri_drive) V(tri)
+.tran 0 {8/(f0/2)} 0 {1/(1000*f0)}
+.meas tran Vtri_max MAX V(tri) FROM={5/(f0/2)} TO={7/(f0/2)}
+.meas tran Vtri_min MIN V(tri) FROM={5/(f0/2)} TO={7/(f0/2)}
+.meas tran T_drive TRIG V(div_uni) VAL=1 RISE=3 TARG V(div_uni) VAL=1 RISE=4
+.meas tran f_drive PARAM 1/T_drive
+
+.end

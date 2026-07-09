@@ -12,6 +12,7 @@ Thumbs.db
 
 # LaTeX generated files
 *.aux
+*.out
 *.fdb_latexmk
 *.fls
 *.synctex.gz

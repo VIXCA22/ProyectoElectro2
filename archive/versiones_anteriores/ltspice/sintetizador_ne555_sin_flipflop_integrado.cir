@@ -1,0 +1,137 @@
+* IE0413 Electronica II - Sintetizador integrado con NE555, sin flip-flop externo
+* X=2, Y=2, Z=9 -> f0=2.29 kHz. Version basada en etapas de la memoria.
+
+.include "NE555.sub"
+.include "lf353.mod"
+
+.param X=2
+.param Y=2
+.param Z=9
+.param f0={1k*(X+Y/10+Z/100)}
+.param T0={1/f0}
+.param tr={1/(500*f0)}
+
+* Astable NE555 a f0.
+.param Cosc=10n
+.param Ktrim555=0.99852
+.param Rosc={Ktrim555/(2*f0*Cosc*ln(2))}
+
+* Diente de sierra positivo a 2f0 por carga RC y reset BJT.
+.param Csaw=10n
+.param VsawPk=5
+.param VccSaw=15
+.param Rcharge={-1/(2*f0)/(Csaw*ln(1-VsawPk/VccSaw))}
+
+* Segundo NE555 como monoestable: tw ligeramente mayor que T0.
+.param Kmono=1.05
+.param Tw={Kmono*T0}
+.param Cdiv=10n
+.param Rdiv={Tw/(1.1*Cdiv)}
+.param Dmono={Tw/(2*T0)}
+
+* Cambio de nivel para que la entrada del integrador tenga promedio cero.
+.param Vhigh=1
+.param Vlow={-Dmono/(1-Dmono)*Vhigh}
+.param Kscale={(Vhigh-Vlow)/15}
+.param Vref={-Vlow}
+.param VtriPk=2
+.param Ctri=10n
+.param Rtri={Vhigh*Tw/(2*VtriPk*Ctri)}
+
+* Filtro pasabajas Chebyshev tipo I de orden 5, Z=9.
+.param ftri={f0/2}
+.param fc={1.25*ftri}
+.param Cf=10n
+.param p1mul=0.3623196242
+.param s1mul=0.6904831735
+.param q1=1.1778055654
+.param s2mul=1.0177347431
+.param q2=4.5449633297
+.param k1={3-1/q1}
+.param k2={3-1/q2}
+.param Rlp1={1/(2*pi*fc*p1mul*Cf)}
+.param Rsk1={1/(2*pi*fc*s1mul*Cf)}
+.param Rsk2={1/(2*pi*fc*s2mul*Cf)}
+.param RattBot=100k
+.param RattTop={RattBot*(k1*k2-1)}
+
+VCC Vp 0 15
+VEE Vm 0 -15
+
+* 1) Cuadrada: TRIG y THRS comparten Cosc; OUT carga/descarga por Rosc.
+XU555OSC 0 nosc sq Vp cv1 nosc ndis Vp NE555
+Rosc1 sq nosc {Rosc}
+Cosc1 nosc 0 {Cosc} ic=0
+Cctrl1 cv1 0 10n
+Rdis1 ndis Vp 1Meg
+
+* 2) Sierra: en la implementacion fisica el reset sale de ambos flancos de SQ.
+* Para la corrida integrada se usa el pulso equivalente a 2f0, que evita
+* pasos numericos extremos en LTspice y conserva la temporizacion calculada.
+VresetPulse reset 0 PULSE(0 5 10u 1u 1u 8u {1/(2*f0)})
+RbReset reset breset 3.3k
+RbeReset breset 0 47k
+Qreset saw breset 0 Q2N3904
+Rcharge1 Vp saw {Rcharge}
+Csaw1 saw 0 {Csaw} ic=0
+
+* 3) Monoestable NE555. El disparo fisico es un pulso negativo derivado de SQ.
+* Aqui se usa el pulso equivalente de periodo T0 para validar el divisor por 2.
+VtrigDiv trig_div 0 PULSE(15 0 10u 1u 1u 10u {T0})
+XU555DIV 0 trig_div div Vp cv2 ndiv ndiv Vp NE555
+Rdiv1 Vp ndiv {Rdiv}
+Cdiv1 ndiv 0 {Cdiv} ic=0
+Cctrl2 cv2 0 10n
+
+* 4) Integrador triangular.
+Bdrive drive 0 V={Kscale*V(div)-Vref}
+Rint drive nint {Rtri}
+Cint tri_raw nint {Ctri} ic={VtriPk}
+Rleak tri_raw nint 100Meg
+XINT 0 nint Vp Vm tri_raw LF353/NS
+XBUF tri_raw tri Vp Vm tri LF353/NS
+
+* 5) Filtro pasabajas de quinto orden en cascada.
+Ratt1 tri filt_in {RattTop}
+Ratt2 filt_in 0 {RattBot}
+Rfo filt_in nfo {Rlp1}
+Cfo nfo 0 {Cf}
+XFOBUF nfo fo Vp Vm fo LF353/NS
+XSK1 fo sk1 Vp Vm SKLP PARAMS: RVAL={Rsk1} CVAL={Cf} KVAL={k1}
+XSK2 sk1 sine Vp Vm SKLP PARAMS: RVAL={Rsk2} CVAL={Cf} KVAL={k2}
+
+.subckt SKLP IN OUT VP VM PARAMS: RVAL=10k CVAL=10n KVAL=1.586 RGAIN=10k
+R1 IN n1 {RVAL}
+R2 n1 n2 {RVAL}
+C1 n1 OUT {CVAL}
+C2 n2 0 {CVAL}
+Rg ninv 0 {RGAIN}
+Rf OUT ninv {(KVAL-1)*RGAIN}
+XU n2 ninv VP VM OUT LF353/NS
+.ends SKLP
+
+.model D4148 D(Is=2.52n Rs=0.568 N=1.752 Cjo=2p Tt=4n)
+.model Q2N3904 NPN(Is=6.734f Bf=200 Vaf=74.03 Cjc=3.638p Cje=4.493p Tf=301.2p Tr=239.5n)
+
+.options plotwinsize=0 reltol=0.001 abstol=1n method=gear maxord=2
+.save V(sq) V(saw) V(reset) V(trig_div) V(div) V(drive) V(tri) V(sine)
+.tran 0 {14/(f0/2)} 0 {1/(1000*f0)} startup
+
+.meas tran T_square TRIG V(sq) VAL=7.5 RISE=18 TARG V(sq) VAL=7.5 RISE=19
+.meas tran f_square PARAM 1/T_square
+.meas tran T_saw TRIG V(saw) VAL={VsawPk/2} RISE=35 TARG V(saw) VAL={VsawPk/2} RISE=36
+.meas tran f_saw PARAM 1/T_saw
+.meas tran T_div TRIG V(div) VAL=7.5 RISE=8 TARG V(div) VAL=7.5 RISE=9
+.meas tran f_div PARAM 1/T_div
+.meas tran T_high_div TRIG V(div) VAL=7.5 RISE=8 TARG V(div) VAL=7.5 FALL=8
+.meas tran duty_div PARAM 100*T_high_div/T_div
+.meas tran T_tri TRIG V(tri) VAL=0 RISE=8 TARG V(tri) VAL=0 RISE=9
+.meas tran f_tri PARAM 1/T_tri
+.meas tran Vtri_max MAX V(tri) FROM={10/(f0/2)} TO={12/(f0/2)}
+.meas tran Vtri_min MIN V(tri) FROM={10/(f0/2)} TO={12/(f0/2)}
+.meas tran Tsine TRIG V(sine) VAL=0 RISE=8 TARG V(sine) VAL=0 RISE=9
+.meas tran f_sine PARAM 1/Tsine
+.meas tran Vsine_max MAX V(sine) FROM={10/(f0/2)} TO={12/(f0/2)}
+.meas tran Vsine_min MIN V(sine) FROM={10/(f0/2)} TO={12/(f0/2)}
+
+.end

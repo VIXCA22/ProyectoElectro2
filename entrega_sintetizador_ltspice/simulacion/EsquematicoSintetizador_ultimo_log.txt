@@ -1,0 +1,57 @@
+LTspice 26.0.2 for Windows
+Circuit: C:\Users\kenne\Documents\ProyectoElectro2\entrega_sintetizador_ltspice\simulacion\EsquematicoSintetizador.net
+Start Time: Thu Jul  9 09:43:16 2026
+Options:method=gear reltol=0.003 abstol=1n vntol=1u chgtol=1p
+solver = Normal
+Maximum thread count: 16
+tnom = 27
+temp = 27
+method = Gear
+abstol = 1e-09
+reltol = 0.003
+chgtol = 1e-12
+Direct Newton iteration succeeded in finding operating point.
+Warning: Simulation tolerance relaxed to achieve convergence from 2.0871645387371386e-02 to 2.0871645387371487e-02 seconds.
+Warning: Simulation tolerance relaxed to achieve convergence from 5.4498929196008197e-02 to 5.4498929196008294e-02 seconds.
+Warning: Simulation tolerance relaxed to achieve convergence from 6.5416884958295923e-02 to 6.5416884958296020e-02 seconds.
+Warning: Simulation tolerance relaxed to achieve convergence from 6.8910637191892180e-02 to 6.8910637191892277e-02 seconds.
+Warning: Simulation tolerance relaxed to achieve convergence from 7.4151247908652615e-02 to 7.4151247908652712e-02 seconds.
+Total elapsed time: 5.749 seconds.
+
+Files loaded:
+C:\Users\kenne\Documents\ProyectoElectro2\entrega_sintetizador_ltspice\simulacion\EsquematicoSintetizador.net
+C:\Users\kenne\AppData\Local\LTspice\lib\cmp\standard.dio
+C:\Users\kenne\AppData\Local\LTspice\lib\cmp\standard.bjt
+C:\Users\kenne\Documents\LTspiceXVII\lib\sub\UserLibs\LTwiki\LF353.mod
+C:\Users\kenne\Documents\ProyectoElectro2\entrega_sintetizador_ltspice\simulacion\modelos\CD4000.lib
+C:\Users\kenne\Documents\LTspiceXVII\lib\sub\UserLibs\LTwiki\NE555.sub
+
+z11_sc_periodo_s=0.000436714912044 FROM 0.00427631072569 TO 0.00471302563774
+z12_sc_frecuencia_hz: '1/Z11_SC_PERIODO_S'=2289.82334338
+z13_sc_t_alto_s=0.000218403117532 FROM 0.00427631072569 TO 0.00449471384323
+z14_sc_ciclo_trabajo_pct: '100*Z13_SC_T_ALTO_S/Z11_SC_PERIODO_S'=50.0104556791
+z15_sc_error_pct: '100*(Z12_SC_FRECUENCIA_HZ-2290)/2290'=-0.00771426302999
+z16_sc_vpp_v: PP(V(SC) )=14.9960862347 FROM 0.004 TO 0.008
+z17_vc555_vpp_v: PP(V(VC555) )=5.00598526001 FROM 0.004 TO 0.008
+z21_ds_dos_periodos_s=0.00043674557287 FROM 0.00418418306974 TO 0.00462092864261
+z22_ds_frecuencia_hz: '2/Z21_DS_DOS_PERIODOS_S'=4579.32518207
+z23_ds_error_pct: '100*(Z22_DS_FRECUENCIA_HZ-4580)/4580'=-0.0147340159923
+z24_ds_vpp_v: PP(V(DS) )=4.89404959697 FROM 0.004 TO 0.008
+z25_rst_ds_vmax_v: MAX(V(RST_DS) )=14.1075086594 FROM 0.004 TO 0.008
+z31_sc_d2_periodo_s=0.000873432958698 FROM 0.00427645842185 TO 0.00514989138055
+z32_sc_d2_frecuencia_hz: '1/Z31_SC_D2_PERIODO_S'=1144.90756279
+z33_sc_d2_error_pct: '100*(Z32_SC_D2_FRECUENCIA_HZ-1145)/1145'=-0.00807311906202
+z34_sc_d2_vpp_v: PP(V(SC_D2) )=4.97092584334 FROM 0.004 TO 0.008
+z41_tri_nivel_medio_v: AVG(V(TRI) )=-0.0694407914929 FROM 0.05 TO 0.07
+z42_tri_periodo_directo_s=0.000872618490444 FROM 0.0503533179184 TO 0.0512259364088
+z43_tri_frecuencia_directa_hz: '1/Z42_TRI_PERIODO_DIRECTO_S'=1145.9761751
+z44_tri_error_directo_pct: '100*(Z43_TRI_FRECUENCIA_DIRECTA_HZ-1145)/1145'=0.0852554671759
+z45_tri_frecuencia_ref_hz: 'Z32_SC_D2_FRECUENCIA_HZ'=1144.90756279
+z46_tri_error_ref_pct: '100*(Z45_TRI_FRECUENCIA_REF_HZ-1145)/1145'=-0.00807311906202
+z47_tri_vpp_v: PP(V(TRI) )=3.99328434467 FROM 0.05 TO 0.07
+z51_sen_nivel_medio_v: AVG(V(SEN) )=-0.0300968475008 FROM 0.1 TO 0.12
+z52_sen_diez_periodos_s=0.00873461781952 FROM 0.100223284765 TO 0.108957902585
+z53_sen_frecuencia_hz: '10/Z52_SEN_DIEZ_PERIODOS_S'=1144.86978213
+z54_sen_error_pct: '100*(Z53_SEN_FRECUENCIA_HZ-1145)/1145'=-0.0113727399486
+z55_sen_vpp_v: PP(V(SEN) )=0.87615981698 FROM 0.1 TO 0.12
+z56_ganancia_filtro_vv: 'Z55_SEN_VPP_V/Z47_TRI_VPP_V'=0.219408321912

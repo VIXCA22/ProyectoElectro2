@@ -1,0 +1,62 @@
+* IE0413 Electronica II - Triangular a f0/2 sin flip-flop externo
+* Usa un segundo NE555 como monoestable divisor por 2 y un integrador LF353.
+* La fuente Vtrig representa los pulsos de disparo derivados de la cuadrada.
+
+.include "NE555.sub"
+.include "lf353.mod"
+
+.param X=2
+.param Y=2
+.param Z=9
+.param f0={1k*(X+Y/10+Z/100)}
+.param T0={1/f0}
+.param Kmono=1.05
+.param Tw={Kmono*T0}
+.param Cdiv=10n
+.param Rdiv={Tw/(1.1*Cdiv)}
+.param Dmono={Tw/(2*T0)}
+.param Vhigh=1
+.param Vlow={-Dmono/(1-Dmono)*Vhigh}
+.param Kscale={(Vhigh-Vlow)/15}
+.param Vref={-Vlow}
+.param VtriPk=2
+.param Ctri=10n
+.param Rtri={Vhigh*Tw/(2*VtriPk*Ctri)}
+
+VCC Vp 0 15
+VEE Vm 0 -15
+
+* Pulso negativo equivalente al detector de flanco de la cuadrada principal.
+Vtrig trig 0 PULSE(15 0 0 100n 100n 5u {T0})
+
+* NE555 monoestable: tw = 1.1 Rdiv Cdiv. Mientras temporiza ignora el
+* siguiente pulso; por eso acepta un disparo cada dos periodos del oscilador.
+XU555DIV 0 trig div Vp ncv ncap ncap Vp NE555
+Rdiv1 Vp ncap {Rdiv}
+Cdiv1 ncap 0 {Cdiv} ic=0
+Cctrl ncv 0 10n
+
+* Cambiador de nivel equivalente: 0-15 V -> Vlow..Vhigh, con promedio cero.
+Bdrive drive 0 V={Kscale*V(div)-Vref}
+
+* Integrador inversor con LF353.
+Rint drive nint {Rtri}
+Cint tri_raw nint {Ctri} ic={VtriPk}
+Rleak tri_raw nint 100Meg
+XINT 0 nint Vp Vm tri_raw LF353/NS
+XBUF tri_raw tri Vp Vm tri LF353/NS
+
+.options plotwinsize=0 reltol=0.001 abstol=1n
+.save V(trig) V(div) V(drive) V(tri)
+.tran 0 {10/(f0/2)} 0 {1/(500*f0)} startup
+
+.meas tran T_div TRIG V(div) VAL=7.5 RISE=5 TARG V(div) VAL=7.5 RISE=6
+.meas tran f_div PARAM 1/T_div
+.meas tran T_high_div TRIG V(div) VAL=7.5 RISE=5 TARG V(div) VAL=7.5 FALL=5
+.meas tran duty_div PARAM 100*T_high_div/T_div
+.meas tran T_tri TRIG V(tri) VAL=0 RISE=5 TARG V(tri) VAL=0 RISE=6
+.meas tran f_tri PARAM 1/T_tri
+.meas tran Vtri_max MAX V(tri) FROM={6/(f0/2)} TO={8/(f0/2)}
+.meas tran Vtri_min MIN V(tri) FROM={6/(f0/2)} TO={8/(f0/2)}
+
+.end

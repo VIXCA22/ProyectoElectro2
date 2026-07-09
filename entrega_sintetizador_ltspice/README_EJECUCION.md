@@ -50,7 +50,9 @@ Resultados esperados:
 
 ```text
 |H(1145 Hz)| = -11.1189 dB
+fase H(1145 Hz) = -216.8655 deg
 |H(3435 Hz)| = -62.2899 dB
+fase H(3435 Hz) = -426.5995 deg
 Atenuacion extra = 51.1710 dB
 ```
 

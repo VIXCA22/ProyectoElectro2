@@ -108,7 +108,7 @@ def find_trace(traces: dict[str, list], name: str):
 def write_csv(path: Path, columns: list[tuple[str, list[float]]]) -> None:
     n = len(columns[0][1])
     with path.open("w", newline="", encoding="utf-8") as fh:
-        writer = csv.writer(fh)
+        writer = csv.writer(fh, lineterminator="\n")
         writer.writerow([name for name, _ in columns])
         for i in range(n):
             writer.writerow([values[i] for _, values in columns])
@@ -229,7 +229,110 @@ def svg_plot(
         out.append(f'<text x="{legend_x + 36}" y="{ly + 5}" font-family="Arial" font-size="13">{esc(name)}</text>')
 
     out.append("</svg>")
-    path.write_text("\n".join(out), encoding="utf-8")
+    with path.open("w", encoding="utf-8", newline="\n") as fh:
+        fh.write("\n".join(out))
+
+
+def unwrap_degrees(values: list[float]) -> list[float]:
+    if not values:
+        return []
+    unwrapped = []
+    offset = 0.0
+    previous = values[0]
+    for value in values:
+        adjusted = value + offset
+        while adjusted - previous > 180:
+            offset -= 360
+            adjusted = value + offset
+        while adjusted - previous < -180:
+            offset += 360
+            adjusted = value + offset
+        unwrapped.append(adjusted)
+        previous = adjusted
+    return unwrapped
+
+
+def svg_bode_plot(
+    path: Path,
+    title: str,
+    freq: list[float],
+    mag_db: list[float],
+    phase_deg: list[float],
+) -> None:
+    width, height = 980, 700
+    ml, mr, mt, mb = 92, 30, 62, 72
+    gap = 56
+    pw = width - ml - mr
+    ph = (height - mt - mb - gap) / 2
+
+    xmin = min(x for x in freq if x > 0)
+    xmax = max(freq)
+    lxmin, lxmax = math.log10(xmin), math.log10(xmax)
+
+    def sx(x: float) -> float:
+        return ml + (math.log10(x) - lxmin) / (lxmax - lxmin) * pw
+
+    def esc(text: str) -> str:
+        return (
+            str(text)
+            .replace("&", "&amp;")
+            .replace("<", "&lt;")
+            .replace(">", "&gt;")
+        )
+
+    def panel(
+        y0: float,
+        ylabel: str,
+        values: list[float],
+        color: str,
+        legend: str,
+    ) -> list[str]:
+        finite = [v for v in values if math.isfinite(v)]
+        ymin, ymax = min(finite), max(finite)
+        ypad = 0.08 * (ymax - ymin if ymax != ymin else 1)
+        ymin -= ypad
+        ymax += ypad
+
+        def sy(y: float) -> float:
+            return y0 + (ymax - y) / (ymax - ymin) * ph
+
+        lines = [
+            f'<line x1="{ml}" y1="{y0}" x2="{ml}" y2="{y0 + ph}" stroke="#111" stroke-width="1.4"/>',
+            f'<line x1="{ml}" y1="{y0 + ph}" x2="{ml + pw}" y2="{y0 + ph}" stroke="#111" stroke-width="1.4"/>',
+        ]
+        for tick in nice_ticks(ymin, ymax):
+            y = sy(tick)
+            lines.append(f'<line x1="{ml - 5}" y1="{y:.2f}" x2="{ml + pw}" y2="{y:.2f}" stroke="#e5e7eb" stroke-width="1"/>')
+            lines.append(f'<text x="{ml - 10}" y="{y + 4:.2f}" text-anchor="end" font-family="Arial" font-size="12">{tick:.3g}</text>')
+        lo = math.ceil(math.log10(xmin))
+        hi = math.floor(math.log10(xmax))
+        for tick in [10**p for p in range(lo, hi + 1)] or [xmin, xmax]:
+            x = sx(tick)
+            lines.append(f'<line x1="{x:.2f}" y1="{y0}" x2="{x:.2f}" y2="{y0 + ph + 5}" stroke="#eef2f7" stroke-width="1"/>')
+            lines.append(f'<text x="{x:.2f}" y="{y0 + ph + 22:.2f}" text-anchor="middle" font-family="Arial" font-size="12">{tick:.3g}</text>')
+        lines.append(f'<text transform="translate(27 {y0 + ph / 2}) rotate(-90)" text-anchor="middle" font-family="Arial" font-size="15">{esc(ylabel)}</text>')
+
+        dxs, dys = decimate(freq, values)
+        pts = []
+        for x, y in zip(dxs, dys):
+            if x > 0 and math.isfinite(y):
+                pts.append(f"{sx(x):.2f},{sy(y):.2f}")
+        lines.append(f'<polyline fill="none" stroke="{color}" stroke-width="2.2" points="{" ".join(pts)}"/>')
+        lines.append(f'<line x1="{ml + 18}" y1="{y0 + 22}" x2="{ml + 46}" y2="{y0 + 22}" stroke="{color}" stroke-width="3"/>')
+        lines.append(f'<text x="{ml + 54}" y="{y0 + 27}" font-family="Arial" font-size="13">{esc(legend)}</text>')
+        return lines
+
+    out = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
+        '<rect width="100%" height="100%" fill="white"/>',
+        f'<text x="{width / 2}" y="34" text-anchor="middle" font-family="Arial" font-size="22" font-weight="700">{esc(title)}</text>',
+    ]
+    out.extend(panel(mt, "Magnitud [dB]", mag_db, "#1f5fbf", "|H(jw)|"))
+    out.extend(panel(mt + ph + gap, "Fase [deg]", phase_deg, "#b45309", "fase continua"))
+    out.append(f'<text x="{ml + pw / 2}" y="{height - 24}" text-anchor="middle" font-family="Arial" font-size="15">Frecuencia [Hz]</text>')
+    out.append("</svg>")
+    with path.open("w", encoding="utf-8", newline="\n") as fh:
+        fh.write("\n".join(out))
 
 
 def normalize(values: list[float]) -> list[float]:
@@ -291,15 +394,21 @@ def main() -> None:
 
     _, ac = read_raw(BODE_RAW)
     freq = [float(v.real) for v in find_trace(ac, "frequency")]
-    mag = [20 * math.log10(abs(v)) for v in find_trace(ac, "V(out)")]
-    write_csv(DATA_DIR / "integrado_bode_filtro.csv", [("frecuencia_Hz", freq), ("magnitud_dB", mag)])
-    svg_plot(
+    vin = find_trace(ac, "V(in)")
+    vout = find_trace(ac, "V(out)")
+    h = [out / inn for inn, out in zip(vin, vout)]
+    mag = [20 * math.log10(abs(v)) for v in h]
+    phase = unwrap_degrees([math.degrees(math.atan2(v.imag, v.real)) for v in h])
+    write_csv(
+        DATA_DIR / "integrado_bode_filtro.csv",
+        [("frecuencia_Hz", freq), ("magnitud_dB", mag), ("fase_deg", phase)],
+    )
+    svg_bode_plot(
         FIG_DIR / "integrado_bode_filtro.svg",
         "Bode del filtro pasabajas de orden 5",
-        "Frecuencia [Hz]",
-        "Magnitud [dB]",
-        [("V(out)", freq, mag, "#1f5fbf")],
-        log_x=True,
+        freq,
+        mag,
+        phase,
     )
 
 

@@ -819,13 +819,13 @@ La simulacion AC del filtro entrega:
 
 \begin{table}[H]
 \centering
-\begin{tabular}{lr}
+\begin{tabular}{lrr}
 \toprule
-Punto de medicion & Magnitud LTspice \\
+Punto de medicion & Magnitud LTspice & Fase continua \\
 \midrule
-\(|H(1145~\text{Hz})|\) & \(-11.1189~\text{dB}\) \\
-\(|H(3435~\text{Hz})|\) & \(-62.2899~\text{dB}\) \\
-Atenuacion adicional de la tercera armonica & \(51.1710~\text{dB}\) \\
+\(H(1145~\text{Hz})\) & \(-11.1189~\text{dB}\) & \(-216.8655^\circ\) \\
+\(H(3435~\text{Hz})\) & \(-62.2899~\text{dB}\) & \(-426.5995^\circ\) \\
+Atenuacion adicional de la tercera armonica & \(51.1710~\text{dB}\) & -- \\
 \bottomrule
 \end{tabular}
 \caption{Resultados del Bode del filtro Chebyshev.}
@@ -837,6 +837,15 @@ Atenuacion adicional de la tercera armonica & \(51.1710~\text{dB}\) \\
 
 \[
 |H(3435~\text{Hz})|=-62.29~\text{dB}.
+\]
+
+La fase se reporta desenvuelta para mostrar el retardo acumulado del filtro de
+quinto orden:
+
+\[
+\angle H(1145~\text{Hz})=-216.87^\circ,
+\qquad
+\angle H(3435~\text{Hz})=-426.60^\circ.
 \]
 
 La diferencia es:
@@ -856,7 +865,7 @@ sintetizador completo.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.92\linewidth]{figuras/integrado_bode_filtro.pdf}
-\caption{Respuesta en frecuencia del filtro pasabajas.}
+\caption{Respuesta en frecuencia del filtro pasabajas: magnitud y fase.}
 \end{figure}
 
 \section{Graficas de LTspice por separado}

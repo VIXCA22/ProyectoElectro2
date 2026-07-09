@@ -52,11 +52,11 @@ SC_D2 = TRI = SEN = f0/2 = 1145 Hz
 
 Respuesta AC del filtro Chebyshev:
 
-| Punto | Magnitud |
-|---|---:|
-| H(1145 Hz) | -11.1189 dB |
-| H(3435 Hz) | -62.2899 dB |
-| Atenuacion extra de 3ra armonica | 51.1710 dB |
+| Punto | Magnitud | Fase continua |
+|---|---:|---:|
+| H(1145 Hz) | -11.1189 dB | -216.8655 deg |
+| H(3435 Hz) | -62.2899 dB | -426.5995 deg |
+| Atenuacion extra de 3ra armonica | 51.1710 dB | -- |
 
 Nota: para la triangular, la referencia recomendada de frecuencia es `SC_D2`,
 porque el integrador cambia la forma y el nivel, pero no el periodo impuesto
